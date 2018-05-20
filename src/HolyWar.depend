@@ -9,7 +9,7 @@
 	<stdio.h>
 	<string>
 
-1526802819 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\globals.h
+1526854206 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\globals.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -338,7 +338,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1526849082 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+1526854635 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
 	"include/Texture.h"
 	"include/Globals.h"
 

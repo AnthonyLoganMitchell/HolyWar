@@ -85,7 +85,7 @@ int WinMain( int argc, char* args[] ){
 
 				temp->renderPresent();
                 temp->renderClear();
-				SDL_Delay(185);
+				SDL_Delay(100);
 
 			}
 		}
