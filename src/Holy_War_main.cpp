@@ -1,17 +1,10 @@
 /*This source code copyrighted by Lazy Foo' Productions (2004-2015)
 and may not be redistributed without written permission.*/
-
 //Using SDL, SDL_image, standard math, and strings
 
 #include "include/Texture.h"
-#include <unistd.h>
 #include "include/Globals.h"
 
-//#include "include/Globals.h"
-
-
-//
-//Screen dimension constants
 
 
 
@@ -59,33 +52,32 @@ int WinMain( int argc, char* args[] ){
 				//Render top left sprite
 				if (Tick%4 == 0)
                 {
-				temp->render( 320,240, temp->spriteClips[0] );
-                Tick++;
-                printf("DEBUG#1\n");
+                    temp->render( 320,240, temp->spriteClips[Tick] );
+                    Tick++;
+
 				}
 				else if(Tick%4==1)
                 {
-                temp->render(320,240, temp->spriteClips[1]);
-                Tick++;
-                printf("DEBUG#2\n");
+                    temp->render(320,240, temp->spriteClips[Tick]);
+                    Tick++;
+
                 }
                 else if(Tick%4==2)
                 {
-                temp->render(320,240, temp->spriteClips[2]);
-                Tick++;
-                printf("DEBUG#3\n");
+                    temp->render(320,240, temp->spriteClips[Tick]);
+                    Tick++;
+
                 }
                 else if(Tick%4==3)
                 {
-                temp->render(320,240, temp->spriteClips[3]);
-                Tick++;
-                printf("DEBUG#4\n");
+                    temp->render(320,240, temp->spriteClips[Tick]);
+                    Tick++;
+
+                }
+                if (Tick >=4){
+                    Tick =0;
                 }
 
-                if (Tick >=20)
-                {
-                    Tick=0;
-                }
 
 
 
@@ -93,8 +85,7 @@ int WinMain( int argc, char* args[] ){
 
 				temp->renderPresent();
                 temp->renderClear();
-				Tick++;
-               // SDL_Delay(500);
+				SDL_Delay(185);
 
 			}
 		}

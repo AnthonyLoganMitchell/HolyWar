@@ -4,7 +4,7 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1526841156 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
+1526848396 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	"Globals.h"
 	<stdio.h>
 	<string>
@@ -337,4 +337,8 @@
 	"SDL_version.h"
 	"begin_code.h"
 	"close_code.h"
+
+1526849082 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+	"include/Texture.h"
+	"include/Globals.h"
 

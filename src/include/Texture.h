@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include <stdio.h>
 #include <string>
+
 class Texture
 {
 	public:
@@ -114,7 +115,7 @@ Texture::~Texture()
 
 bool Texture::loadFromFile( std::string path )
 {
-    SDL_Surface* optimizedSurface = NULL;
+    //SDL_Surface* optimizedSurface = NULL;
 	//Get rid of preexisting texture
 	free();
 
@@ -122,10 +123,10 @@ bool Texture::loadFromFile( std::string path )
 	SDL_Texture* newTexture = NULL;
 
 	//Load image at specified path
-	SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
+	//SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
+    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
 
-
-
+    //printf("DEBUG:0\n");
 	if( loadedSurface == NULL )
 	{
 		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
@@ -136,11 +137,14 @@ bool Texture::loadFromFile( std::string path )
 		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
 
 		//Create texture from surface pixels
-		optimizedSurface = SDL_ConvertSurface( loadedSurface, screenSurface->format, NULL );
-		if( optimizedSurface == NULL )
+		//printf("DEBUG:1\n");
+		//optimizedSurface = SDL_ConvertSurface( loadedSurface, screenSurface->format, NULL );
+
+		/*if( optimizedSurface == NULL )
 		{
 			printf( "Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-		}
+			printf("DEBUG:2");
+		}*/
 
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if( newTexture == NULL )
@@ -189,8 +193,8 @@ void Texture::render( int x, int y, SDL_Rect& clip )
 	//Set clip rendering dimensions
 	if( &clip != NULL )
 	{
-		renderQuad.w = clip.w*2;
-		renderQuad.h = clip.h*2;
+		renderQuad.w = clip.w*3;
+		renderQuad.h = clip.h*3;
 	}
 
 	//Render to screen
@@ -212,7 +216,7 @@ bool Texture::loadMedia()
 	bool success = true;
 
 	//Load sprite sheet texture
-	if( ! Texture::loadFromFile( "rec\Holy_War_Table_1.png" ) )
+	if( ! Texture::loadFromFile("rec/Holy_War_Table_1.png"))
 	{
 		printf( "Failed to load sprite sheet texture!\n" );
 		success = false;
@@ -220,25 +224,25 @@ bool Texture::loadMedia()
 	else
 	{
 		//Set top left sprite
-		this->spriteClips[ 0 ].x = 29;
-		this->spriteClips[ 0 ].y = 0;
-		this->spriteClips[ 0 ].w = 38;
-		this->spriteClips[ 0 ].h = 39;
+		this->spriteClips[ 0 ].x = 31;
+		this->spriteClips[ 0 ].y = 1;
+		this->spriteClips[ 0 ].w = 37;
+		this->spriteClips[ 0 ].h = 38;
 
-		this->spriteClips[1].x = 99;
-		this->spriteClips[1].y = 0;
-		this->spriteClips[1].w = 38;
-		this->spriteClips[1].h = 39;
+		this->spriteClips[1].x = 101;
+		this->spriteClips[1].y = 1;
+		this->spriteClips[1].w = 37;
+		this->spriteClips[1].h = 38;
 
-		this->spriteClips[2].x = 169;
-		this->spriteClips[2].y = 0;
-		this->spriteClips[2].w = 38;
-		this->spriteClips[2].h = 39;
+		this->spriteClips[2].x = 171;
+		this->spriteClips[2].y = 1;
+		this->spriteClips[2].w = 37;
+		this->spriteClips[2].h = 38;
 
-		this->spriteClips[3].x = 239;
-		this->spriteClips[3].y = 0;
-		this->spriteClips[3].w = 38;
-		this->spriteClips[3].h = 39;
+		this->spriteClips[3].x = 241;
+		this->spriteClips[3].y = 1;
+		this->spriteClips[3].w = 37;
+		this->spriteClips[3].h = 38;
 
 	}
 
