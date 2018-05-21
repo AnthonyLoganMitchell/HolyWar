@@ -2,9 +2,6 @@
 #include "include/Globals.h"
 #include "include/Init.h"
 
-
-
-
 int WinMain( int argc, char* args[] ){
 
     Texture *temp = new Texture();
