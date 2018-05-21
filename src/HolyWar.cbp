@@ -38,6 +38,7 @@
 		</Compiler>
 		<Unit filename="Holy_War_main.cpp" />
 		<Unit filename="include/Globals.h" />
+		<Unit filename="include/Init.h" />
 		<Unit filename="include/Texture.h" />
 		<Extensions>
 			<code_completion />
