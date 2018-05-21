@@ -77,17 +77,6 @@ bool Texture::loadFromFile( std::string path )
 	{
 		//Color key image
 		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
-
-		//Create texture from surface pixels
-		//printf("DEBUG:1\n");
-		//optimizedSurface = SDL_ConvertSurface( loadedSurface, screenSurface->format, NULL );
-
-		/*if( optimizedSurface == NULL )
-		{
-			printf( "Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-			printf("DEBUG:2");
-		}*/
-
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if( newTexture == NULL )
 		{
@@ -153,7 +142,7 @@ bool Texture::loadMedia()
 	bool success = true;
 
 	//Load sprite sheet texture
-	if( ! Texture::loadFromFile("rec/Holy_War_Table_1.png"))
+	if( ! Texture::loadFromFile("rec/Holy_War_Table.png"))
 	{
 		printf( "Failed to load sprite sheet texture!\n" );
 		success = false;
