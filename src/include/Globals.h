@@ -14,4 +14,14 @@
         SDL_Surface* screenSurface;
 
 
+
+        void renderPresent(){
+            SDL_RenderPresent(renderer);
+        }
+        void renderClear(){
+            SDL_RenderClear(renderer);
+        }
+
+
+
 #endif

@@ -1,9 +1,6 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2015)
-and may not be redistributed without written permission.*/
-//Using SDL, SDL_image, standard math, and strings
-
 #include "include/Texture.h"
 #include "include/Globals.h"
+#include "include/Init.h"
 
 
 
@@ -13,7 +10,7 @@ int WinMain( int argc, char* args[] ){
     Texture *temp = new Texture();
     int Tick=0;
 	//Start up SDL and create window
-	if( !temp->init() )
+	if( !init() )
 	{
 		printf( "Failed to initialize!\n" );
 	}
@@ -47,7 +44,7 @@ int WinMain( int argc, char* args[] ){
 
 				//Clear screen
 
-
+                renderClear();
 
 				//Render top left sprite
 				if (Tick%4 == 0)
@@ -78,14 +75,10 @@ int WinMain( int argc, char* args[] ){
                     Tick =0;
                 }
 
-
-
-
 				//Update screen320,240
 
-				temp->renderPresent();
-                temp->renderClear();
-				SDL_Delay(100);
+				renderPresent();
+                SDL_Delay(100);
 
 			}
 		}

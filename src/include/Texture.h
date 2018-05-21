@@ -7,7 +7,7 @@
 class Texture
 {
 	public:
-        SDL_Rect spriteClips[ 4 ];
+        SDL_Rect spriteClips[4];
 		//Initializes variables
 		Texture();
 		//Deallocates memory
@@ -31,70 +31,12 @@ class Texture
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();
+		int framesCount;
 
 	private:
 	   	int mWidth;
 		int mHeight;
 };
-
-
-bool Texture::init()
-{
-
-	//Initialization flag
-	bool success = true;
-
-	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
-		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
-		success = false;
-	}
-	else
-	{
-
-		//Set texture filtering to linear
-		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
-		{
-			printf( "Warning: Linear texture filtering not enabled!" );
-		}
-
-		//Create window
-            window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( window == NULL )
-		{
-			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
-			success = false;
-		}
-		else
-		{
-
-			//Create renderer for window
-			renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-			if( renderer == NULL )
-			{
-				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
-				success = false;
-			}
-			else
-			{
-
-				//Initialize renderer color
-				SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-
-				//Initialize PNG loading
-				int imgFlags = IMG_INIT_PNG;
-				if( !( IMG_Init( imgFlags ) & imgFlags ) )
-				{
-					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
-					success = false;
-				}
-			}
-		}
-	}
-
-	return success;
-}
 
 
 Texture::Texture()
@@ -154,8 +96,8 @@ bool Texture::loadFromFile( std::string path )
 		else
 		{
 			//Get image dimensions
-			mWidth = loadedSurface->w;
-			mHeight = loadedSurface->h;
+			this->mWidth = loadedSurface->w;
+			this->mHeight = loadedSurface->h;
 		}
 
 		//Get rid of old loaded surface
@@ -178,12 +120,7 @@ void Texture::free()
 		mHeight = 0;
 	}
 }
-void Texture::renderPresent(){
-    SDL_RenderPresent(renderer);
-}
-void Texture::renderClear(){
-    SDL_RenderClear(renderer);
-}
+
 
 void Texture::render( int x, int y, SDL_Rect& clip )
 {

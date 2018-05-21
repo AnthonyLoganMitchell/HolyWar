@@ -13,9 +13,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="C:/MinGW/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add option="-lSDL2Main -lSDL2" />
+					<Add option="-lSDL2Main -lSDL2 -lSDL2_image" />
+					<Add directory="C:/MinGW/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -34,7 +36,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="11_clip_rendering_and_sprite_sheets.cpp" />
+		<Unit filename="Holy_War_main.cpp" />
 		<Unit filename="include/Globals.h" />
 		<Unit filename="include/Texture.h" />
 		<Extensions>
