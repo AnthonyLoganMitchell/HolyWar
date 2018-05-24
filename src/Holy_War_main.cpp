@@ -1,3 +1,7 @@
+/* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
+   Holy war is my personal programming project and all artwork for this
+   Game are my original work.
+*/
 #include "include/Texture.h"
 #include "include/Globals.h"
 #include "include/Init.h"
