@@ -8,7 +8,7 @@
 
 int WinMain( int argc, char* args[] ){
 
-    Texture *temp = new Texture();
+    Texture *temp = new Texture(9);
     int Tick=0;
 	//Start up SDL and create window
 	if( !init() )

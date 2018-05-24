@@ -4,12 +4,12 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1527128220 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
+1527130491 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	"Globals.h"
 	<stdio.h>
 	<string>
 
-1527057814 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\globals.h
+1527129853 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\globals.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -338,7 +338,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1527128248 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+1527130391 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
 	"include/Texture.h"
 	"include/Globals.h"
 	"include/Init.h"

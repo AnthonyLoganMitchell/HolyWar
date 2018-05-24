@@ -7,9 +7,11 @@
 class Texture
 {
 	public:
-        SDL_Rect spriteClips[8];
+        SDL_Rect* spriteClips;
+        SDL_Texture* texture;
 		//Initializes variables
 		Texture();
+		Texture(int x);
 		//Deallocates memory
 		~Texture();
 		bool init();
@@ -42,13 +44,21 @@ class Texture
 Texture::Texture()
 {
 	//Initialize
-	texture    = NULL;
+	texture     = NULL;
 	mWidth      = 0;
 	mHeight     = 0;
-	window     = NULL;
-	renderer   = NULL;
+	window      = NULL;
+	renderer    = NULL;
+	spriteClips = NULL;
 }
-
+Texture::Texture(int x){
+    texture     = NULL;
+	mWidth      = 0;
+	mHeight     = 0;
+	window      = NULL;
+	renderer    = NULL;
+    spriteClips = new SDL_Rect[x];
+}
 Texture::~Texture()
 {
 	//Deallocate
@@ -94,7 +104,7 @@ bool Texture::loadFromFile( std::string path )
 	}
 
 	//Return success
-	texture = newTexture;
+	this->texture = newTexture;
 	return texture != NULL;
 }
 

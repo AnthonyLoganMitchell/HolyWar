@@ -5,7 +5,7 @@
         const int SCREEN_WIDTH = 700;
         const int SCREEN_HEIGHT = 700;
         //The actual hardware texture
-		SDL_Texture* texture;
+
 		//Image dimensions
 		SDL_Window* window;
         //The window renderer
