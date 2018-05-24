@@ -20,8 +20,6 @@ class Texture
 		//Loads image at specified path
 		bool loadFromFile( std::string path );
 
-		void close();
-
 		//Deallocates texture
 		void free();
 
@@ -34,6 +32,7 @@ class Texture
 		int framesCount;
 
 	private:
+		SDL_Texture * texture;
 	   	int mWidth;
 		int mHeight;
 };
@@ -42,11 +41,9 @@ class Texture
 Texture::Texture()
 {
 	//Initialize
-	texture    = NULL;
-	mWidth      = 0;
-	mHeight     = 0;
-	window     = NULL;
-	renderer   = NULL;
+	texture = NULL;
+	mWidth = 0;
+	mHeight = 0;
 }
 
 Texture::~Texture()
@@ -122,20 +119,20 @@ void Texture::free()
 }
 
 
-void Texture::render( int x, int y, SDL_Rect& clip )
+void Texture::render( int x, int y, SDL_Rect * clip )
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
-	if( &clip != NULL )
+	if (clip)
 	{
-		renderQuad.w = clip.w*3;
-		renderQuad.h = clip.h*3;
+		renderQuad.w = clip.w;
+		renderQuad.h = clip.h;
 	}
 
 	//Render to screen
-	SDL_RenderCopy( renderer, texture, &clip, &renderQuad );
+	SDL_RenderCopy( renderer, texture, NULL, &renderQuad );
 }
 
 int Texture::getWidth()
@@ -193,20 +190,6 @@ bool Texture::SetRenderDrawColor(){
         return true;
     }
 
-}
-void Texture::close()
-{
-	//Free loaded images
-	free();
-	//Destroy window
-	SDL_DestroyRenderer( renderer );
-	SDL_DestroyWindow( window );
-	window = NULL;
-	renderer = NULL;
-
-	//Quit SDL subsystems
-	IMG_Quit();
-	SDL_Quit();
 }
 
 #endif
