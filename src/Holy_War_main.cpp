@@ -1,13 +1,18 @@
+
+/* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
+   Holy war is my personal programming project and all artwork for this
+   Game are my original work.
+*/
 #include "include/Texture.h"
 #include "include/Globals.h"
 #include "include/Init.h"
 
 
-
-
 int WinMain( int argc, char* args[] ){
 
-    Texture *temp = new Texture();
+
+    Texture *temp = new Texture(9);
+
     int Tick=0;
 	//Start up SDL and create window
 	if( !init() )
@@ -47,37 +52,63 @@ int WinMain( int argc, char* args[] ){
                 renderClear();
 
 				//Render top left sprite
-				if (Tick%4 == 0)
+
+				if (Tick%8 == 0)
                 {
-                    temp->render( 320,240, temp->spriteClips[Tick] );
+                    temp->render( 320,240,3, temp->spriteClips[Tick] );
                     Tick++;
 
 				}
-				else if(Tick%4==1)
+				else if(Tick%8==1)
                 {
-                    temp->render(320,240, temp->spriteClips[Tick]);
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
                     Tick++;
 
                 }
-                else if(Tick%4==2)
+                else if(Tick%8==2)
                 {
-                    temp->render(320,240, temp->spriteClips[Tick]);
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
                     Tick++;
 
                 }
-                else if(Tick%4==3)
+                else if(Tick%8==3)
                 {
-                    temp->render(320,240, temp->spriteClips[Tick]);
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
                     Tick++;
 
                 }
-                if (Tick >=4){
+                 else if(Tick%8==4)
+                {
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    Tick++;
+
+                }
+                 else if(Tick%8==5)
+                {
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    Tick++;
+
+                }
+                 else if(Tick%8==6)
+                {
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    Tick++;
+
+                }
+                 else if(Tick%8==7)
+                {
+                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    Tick++;
+
+                }
+                if (Tick >=8){
                     Tick =0;
                 }
 
 				//Update screen320,240
 
 				renderPresent();
+				//printf("TICK#%d\n",Tick);
                 SDL_Delay(100);
 
 			}

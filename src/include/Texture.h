@@ -6,10 +6,14 @@
 
 class Texture
 {
+
 	public:
-        SDL_Rect spriteClips[4];
+        SDL_Rect* spriteClips;
+        SDL_Texture* texture;
 		//Initializes variables
 		Texture();
+		Texture(int x);
+
 		//Deallocates memory
 		~Texture();
 		bool init();
@@ -24,7 +28,7 @@ class Texture
 		void free();
 
 		//Renders texture at given point
-		void render( int x, int y, SDL_Rect& clip);
+		void render( int x , int y ,int size , SDL_Rect& clip);
 
 		//Gets image dimensions
 		int getWidth();
@@ -41,11 +45,23 @@ class Texture
 Texture::Texture()
 {
 	//Initialize
-	texture = NULL;
-	mWidth = 0;
-	mHeight = 0;
-}
 
+	texture     = NULL;
+	mWidth      = 0;
+	mHeight     = 0;
+	window      = NULL;
+	renderer    = NULL;
+	spriteClips = NULL;
+}
+Texture::Texture(int x){
+    texture     = NULL;
+	mWidth      = 0;
+	mHeight     = 0;
+	window      = NULL;
+	renderer    = NULL;
+  spriteClips = new SDL_Rect[x];
+
+}
 Texture::~Texture()
 {
 	//Deallocate
@@ -74,17 +90,6 @@ bool Texture::loadFromFile( std::string path )
 	{
 		//Color key image
 		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
-
-		//Create texture from surface pixels
-		//printf("DEBUG:1\n");
-		//optimizedSurface = SDL_ConvertSurface( loadedSurface, screenSurface->format, NULL );
-
-		/*if( optimizedSurface == NULL )
-		{
-			printf( "Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-			printf("DEBUG:2");
-		}*/
-
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if( newTexture == NULL )
 		{
@@ -102,7 +107,7 @@ bool Texture::loadFromFile( std::string path )
 	}
 
 	//Return success
-	texture = newTexture;
+	this->texture = newTexture;
 	return texture != NULL;
 }
 
@@ -119,7 +124,9 @@ void Texture::free()
 }
 
 
-void Texture::render( int x, int y, SDL_Rect * clip )
+
+void Texture::render( int x , int y ,int size , SDL_Rect& clip )
+
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
@@ -127,8 +134,10 @@ void Texture::render( int x, int y, SDL_Rect * clip )
 	//Set clip rendering dimensions
 	if (clip)
 	{
-		renderQuad.w = clip.w;
-		renderQuad.h = clip.h;
+
+		renderQuad.w = clip.w*size;
+		renderQuad.h = clip.h*size;
+
 	}
 
 	//Render to screen
@@ -150,7 +159,7 @@ bool Texture::loadMedia()
 	bool success = true;
 
 	//Load sprite sheet texture
-	if( ! Texture::loadFromFile("rec/Holy_War_Table_1.png"))
+	if( ! Texture::loadFromFile("rec/Holy_War_Jesus.png"))
 	{
 		printf( "Failed to load sprite sheet texture!\n" );
 		success = false;
@@ -158,25 +167,49 @@ bool Texture::loadMedia()
 	else
 	{
 		//Set top left sprite
-		this->spriteClips[ 0 ].x = 31;
-		this->spriteClips[ 0 ].y = 1;
-		this->spriteClips[ 0 ].w = 37;
-		this->spriteClips[ 0 ].h = 38;
 
-		this->spriteClips[1].x = 101;
-		this->spriteClips[1].y = 1;
-		this->spriteClips[1].w = 37;
-		this->spriteClips[1].h = 38;
+		this->spriteClips[ 0 ].x = 2;
+		this->spriteClips[ 0 ].y = 0;
+		this->spriteClips[ 0 ].w = 38;
+		this->spriteClips[ 0 ].h = 40;
 
-		this->spriteClips[2].x = 171;
-		this->spriteClips[2].y = 1;
-		this->spriteClips[2].w = 37;
-		this->spriteClips[2].h = 38;
+		this->spriteClips[1].x = 43;
+		this->spriteClips[1].y = 0;
+		this->spriteClips[1].w = 38;
+		this->spriteClips[1].h = 40;
 
-		this->spriteClips[3].x = 241;
-		this->spriteClips[3].y = 1;
-		this->spriteClips[3].w = 37;
-		this->spriteClips[3].h = 38;
+		this->spriteClips[2].x = 84;
+		this->spriteClips[2].y = 0;
+		this->spriteClips[2].w = 38;
+		this->spriteClips[2].h = 40;
+
+		this->spriteClips[3].x = 125;
+		this->spriteClips[3].y = 0;
+		this->spriteClips[3].w = 38;
+		this->spriteClips[3].h = 40;
+
+		this->spriteClips[4].x = 166;
+		this->spriteClips[4].y = 0;
+		this->spriteClips[4].w = 38;
+		this->spriteClips[4].h = 40;
+
+		this->spriteClips[5].x = 207;
+		this->spriteClips[5].y = 0;
+		this->spriteClips[5].w = 38;
+		this->spriteClips[5].h = 40;
+
+		this->spriteClips[6].x = 248;
+		this->spriteClips[6].y = 0;
+		this->spriteClips[6].w = 38;
+		this->spriteClips[6].h = 40;
+
+		this->spriteClips[7].x = 289;
+		this->spriteClips[7].y = 0;
+		this->spriteClips[7].w = 38;
+		this->spriteClips[7].h = 40;
+
+
+
 
 	}
 
