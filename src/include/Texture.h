@@ -6,12 +6,14 @@
 
 class Texture
 {
+
 	public:
         SDL_Rect* spriteClips;
         SDL_Texture* texture;
 		//Initializes variables
 		Texture();
 		Texture(int x);
+
 		//Deallocates memory
 		~Texture();
 		bool init();
@@ -21,8 +23,6 @@ class Texture
         void renderClear();
 		//Loads image at specified path
 		bool loadFromFile( std::string path );
-
-		void close();
 
 		//Deallocates texture
 		void free();
@@ -36,6 +36,7 @@ class Texture
 		int framesCount;
 
 	private:
+		SDL_Texture * texture;
 	   	int mWidth;
 		int mHeight;
 };
@@ -44,6 +45,7 @@ class Texture
 Texture::Texture()
 {
 	//Initialize
+
 	texture     = NULL;
 	mWidth      = 0;
 	mHeight     = 0;
@@ -57,7 +59,8 @@ Texture::Texture(int x){
 	mHeight     = 0;
 	window      = NULL;
 	renderer    = NULL;
-    spriteClips = new SDL_Rect[x];
+  spriteClips = new SDL_Rect[x];
+
 }
 Texture::~Texture()
 {
@@ -121,20 +124,24 @@ void Texture::free()
 }
 
 
+
 void Texture::render( int x , int y ,int size , SDL_Rect& clip )
+
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
-	if( &clip != NULL )
+	if (clip)
 	{
+
 		renderQuad.w = clip.w*size;
 		renderQuad.h = clip.h*size;
+
 	}
 
 	//Render to screen
-	SDL_RenderCopy( renderer, texture, &clip, &renderQuad );
+	SDL_RenderCopy( renderer, texture, NULL, &renderQuad );
 }
 
 int Texture::getWidth()
@@ -160,6 +167,7 @@ bool Texture::loadMedia()
 	else
 	{
 		//Set top left sprite
+
 		this->spriteClips[ 0 ].x = 2;
 		this->spriteClips[ 0 ].y = 0;
 		this->spriteClips[ 0 ].w = 38;
@@ -202,6 +210,7 @@ bool Texture::loadMedia()
 
 
 
+
 	}
 
 	return success;
@@ -214,20 +223,6 @@ bool Texture::SetRenderDrawColor(){
         return true;
     }
 
-}
-void Texture::close()
-{
-	//Free loaded images
-	free();
-	//Destroy window
-	SDL_DestroyRenderer( renderer );
-	SDL_DestroyWindow( window );
-	window = NULL;
-	renderer = NULL;
-
-	//Quit SDL subsystems
-	IMG_Quit();
-	SDL_Quit();
 }
 
 #endif

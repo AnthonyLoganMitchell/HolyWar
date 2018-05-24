@@ -1,3 +1,4 @@
+
 /* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
    Holy war is my personal programming project and all artwork for this
    Game are my original work.
@@ -6,9 +7,12 @@
 #include "include/Globals.h"
 #include "include/Init.h"
 
+
 int WinMain( int argc, char* args[] ){
 
+
     Texture *temp = new Texture(9);
+
     int Tick=0;
 	//Start up SDL and create window
 	if( !init() )
@@ -48,6 +52,7 @@ int WinMain( int argc, char* args[] ){
                 renderClear();
 
 				//Render top left sprite
+
 				if (Tick%8 == 0)
                 {
                     temp->render( 320,240,3, temp->spriteClips[Tick] );
