@@ -13,8 +13,6 @@ using namespace std;
         //Scene sprites
         SDL_Surface* screenSurface;
 
-
-
         void renderPresent(){
             SDL_RenderPresent(renderer);
         }
