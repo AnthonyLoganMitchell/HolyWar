@@ -55,49 +55,49 @@ int WinMain( int argc, char* args[] ){
 
 				if (Tick%8 == 0)
                 {
-                    render( jesus,320,240,3, jesus->spriteClips[Tick] );
+                    render( jesus,320,240,2, jesus->spriteClips[Tick] );
                     Tick++;
 
 				}
 				else if(Tick%8==1)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                 else if(Tick%8==2)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                 else if(Tick%8==3)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==4)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==5)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==6)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==7)
                 {
-                    render(jesus,320,240,3, jesus->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
