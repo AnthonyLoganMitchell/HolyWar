@@ -22,7 +22,7 @@ bool init()
 		}
 
 		//Create window
-            window = SDL_CreateWindow( "HolyWar", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+            window = SDL_CreateWindow( "HolyWar", 10, 20, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -184,10 +184,13 @@ void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
 
 void Close_Globals()
 {
+    window        = NULL;
+	renderer      = NULL;
+	screenSurface = NULL;
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
-	window = NULL;
-	renderer = NULL;
+	SDL_FreeSurface(screenSurface);
+
 	IMG_Quit();
 	SDL_Quit();
 

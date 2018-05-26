@@ -4,7 +4,7 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1527311036 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
+1527312695 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	"Globals.h"
 	<stdio.h>
 	<string>
@@ -343,5 +343,5 @@
 	"include/Globals.h"
 	"include/Init.h"
 
-1527311554 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
+1527312964 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
 

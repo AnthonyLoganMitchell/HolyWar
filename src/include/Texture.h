@@ -10,13 +10,8 @@ class Texture
         SDL_Texture* texture;
         SDL_Rect* spriteClips;
         string name;
-		//Initializes variables
 		Texture();
 		Texture(int x,string);
-		//Deallocates memory
-		bool SetRenderDrawColor();
-        void renderPresent();
-        void renderClear();
 		//Loads image at specified path
 		bool loadFromFile( string path );
 		//Gets image dimensions
@@ -24,7 +19,6 @@ class Texture
 		int getHeight();
 		void SetWidth(int x);
 		void SetHeight(int x);
-		int framesCount;
 		private:
 	   	int Width;
 		int Height;
@@ -40,6 +34,7 @@ Texture::Texture()
 	window      = NULL;
 	renderer    = NULL;
 	string name = NULL;
+	spriteClips = NULL;
 }
 Texture::Texture(int x,string n)
 {
@@ -70,15 +65,7 @@ int Texture::getHeight()
 	return Height;
 }
 
-bool Texture::SetRenderDrawColor(){
-    if(!SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF )){
-        printf("RenderDrawColor failed:SDL_ERROR:%s\n",SDL_GetError());
-        return false;
-    }else{
-        return true;
-    }
 
-}
 
 
 #endif
