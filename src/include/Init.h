@@ -163,11 +163,7 @@ bool loadMedia(Texture *t)
 		t->spriteClips[7].y = 0;
 		t->spriteClips[7].w = 38;
 		t->spriteClips[7].h = 40;
-
-
-
 	}
-
 	return success;
 }
 void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
