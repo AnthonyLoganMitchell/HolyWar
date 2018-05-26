@@ -11,7 +11,7 @@
 int WinMain( int argc, char* args[] ){
 
 
-    Texture *temp = new Texture(9);
+    Texture *temp = new Texture(9,"jesus");
 
     int Tick=0;
 	//Start up SDL and create window
@@ -22,7 +22,7 @@ int WinMain( int argc, char* args[] ){
 	else
 	{
 		//Load media
-		if( !temp->loadMedia() )
+		if( !loadMedia(temp) )
 		{
 			printf( "Failed to load media!\n" );
 		}
@@ -116,7 +116,7 @@ int WinMain( int argc, char* args[] ){
 	}
 
 	//Free resources and close SDL
-	temp->close();
+	close(temp);
 
 	return 0;
 }

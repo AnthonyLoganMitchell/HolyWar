@@ -22,7 +22,7 @@ bool init()
 		}
 
 		//Create window
-            window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+            window = SDL_CreateWindow( "HolyWar", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -57,4 +57,118 @@ bool init()
 
 	return success;
 }
+void free(Texture *t)
+{
+	//Free texture if it exists
+	if( t != NULL )
+	{
+		t->texture = NULL;
+		SDL_DestroyTexture( t->texture );
+
+
+	}
+}
+bool loadFromFile( std::string path, Texture* t )
+{
+    //SDL_Surface* optimizedSurface = NULL;
+	//Get rid of preexisting texture
+
+
+	//The final texture
+	SDL_Texture* newTexture = NULL;
+
+	//Load image at specified path
+	//SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
+    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+
+    //printf("DEBUG:0\n");
+	if( loadedSurface == NULL )
+	{
+		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+	}
+	else
+	{
+		//Color key image
+		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
+        newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+		if( newTexture == NULL )
+		{
+			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		}
+		else
+		{
+			//Get image dimensions
+			t->mWidth = loadedSurface->w;
+			t->mHeight = loadedSurface->h;
+		}
+
+		//Get rid of old loaded surface
+		SDL_FreeSurface( loadedSurface );
+	}
+
+	//Return success
+	t->texture = newTexture;
+	return t->texture != NULL;
+}
+bool loadMedia(Texture *t)
+{
+	//Loading success flag
+	bool success = true;
+
+	//Load sprite sheet texture
+	if(!loadFromFile("rec/Holy_War_Jesus.png",t) &&t->name == "jesus" )
+	{
+		printf( "Failed to load sprite sheet texture!\n" );
+		success = false;
+	}
+	else
+	{
+		//Set top left sprite
+		t->spriteClips[ 0 ].x = 2;
+		t->spriteClips[ 0 ].y = 0;
+		t->spriteClips[ 0 ].w = 38;
+		t->spriteClips[ 0 ].h = 40;
+
+		t->spriteClips[1].x = 43;
+		t->spriteClips[1].y = 0;
+		t->spriteClips[1].w = 38;
+		t->spriteClips[1].h = 40;
+
+		t->spriteClips[2].x = 84;
+		t->spriteClips[2].y = 0;
+		t->spriteClips[2].w = 38;
+		t->spriteClips[2].h = 40;
+
+		t->spriteClips[3].x = 125;
+		t->spriteClips[3].y = 0;
+		t->spriteClips[3].w = 38;
+		t->spriteClips[3].h = 40;
+
+		t->spriteClips[4].x = 166;
+		t->spriteClips[4].y = 0;
+		t->spriteClips[4].w = 38;
+		t->spriteClips[4].h = 40;
+
+		t->spriteClips[5].x = 207;
+		t->spriteClips[5].y = 0;
+		t->spriteClips[5].w = 38;
+		t->spriteClips[5].h = 40;
+
+		t->spriteClips[6].x = 248;
+		t->spriteClips[6].y = 0;
+		t->spriteClips[6].w = 38;
+		t->spriteClips[6].h = 40;
+
+		t->spriteClips[7].x = 289;
+		t->spriteClips[7].y = 0;
+		t->spriteClips[7].w = 38;
+		t->spriteClips[7].h = 40;
+
+
+
+	}
+
+	return success;
+}
+
 #endif // INIT_H
