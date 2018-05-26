@@ -9,21 +9,16 @@ class Texture
 	public:
         SDL_Texture* texture;
         SDL_Rect* spriteClips;
-        std::string name;
+        string name;
 		//Initializes variables
 		Texture();
-		Texture(int x,std::string);
+		Texture(int x,string);
 		//Deallocates memory
-		~Texture();
-		bool init();
-
-        bool SetRenderDrawColor();
+		bool SetRenderDrawColor();
         void renderPresent();
         void renderClear();
 		//Loads image at specified path
-		bool loadFromFile( std::string path );
-
-		void close();
+		bool loadFromFile( string path );
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();
@@ -39,18 +34,18 @@ class Texture
 Texture::Texture()
 {
 	//Initialize
-	texture    = NULL;
-	Width     = 0;
-	Height    = 0;
-	window     = NULL;
-	renderer   = NULL;
-	std::string name       = NULL;
+	texture     = NULL;
+	Width       = 0;
+	Height      = 0;
+	window      = NULL;
+	renderer    = NULL;
+	string name = NULL;
 }
-Texture::Texture(int x,std::string n)
+Texture::Texture(int x,string n)
 {
     texture     = NULL;
-	Width      = 0;
-	Height     = 0;
+	Width       = 0;
+	Height      = 0;
 	window      = NULL;
 	renderer    = NULL;
 	name        = n;
