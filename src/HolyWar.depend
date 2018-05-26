@@ -4,7 +4,7 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1527308392 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
+1527310465 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	"Globals.h"
 	<stdio.h>
 	<string>
@@ -338,10 +338,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1527308404 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+1527310243 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
 	"include/Texture.h"
 	"include/Globals.h"
 	"include/Init.h"
 
-1527308224 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
+1527310528 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
 

@@ -57,7 +57,7 @@ bool init()
 
 	return success;
 }
-void free(Texture *t)
+void Free_Texture(Texture *t)
 {
 	//Free texture if it exists
 	if( t != NULL )
@@ -98,8 +98,8 @@ bool loadFromFile( std::string path, Texture* t )
 		else
 		{
 			//Get image dimensions
-			t->mWidth = loadedSurface->w;
-			t->mHeight = loadedSurface->h;
+			t->SetWidth(loadedSurface->w);
+			t->SetHeight(loadedSurface->h);
 		}
 
 		//Get rid of old loaded surface
@@ -169,6 +169,32 @@ bool loadMedia(Texture *t)
 	}
 
 	return success;
+}
+void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
+{
+	//Set rendering space and render to screen
+	SDL_Rect renderQuad = { x, y, t->getWidth(), t->getHeight() };
+
+	//Set clip rendering dimensions
+	if( &clip != NULL )
+	{
+		renderQuad.w = clip.w*size;
+		renderQuad.h = clip.h*size;
+	}
+
+	//Render to screen
+	SDL_RenderCopy( renderer, t->texture, &clip, &renderQuad );
+}
+
+void Close_Globals()
+{
+    SDL_DestroyRenderer( renderer );
+	SDL_DestroyWindow( window );
+	window = NULL;
+	renderer = NULL;
+	IMG_Quit();
+	SDL_Quit();
+
 }
 
 #endif // INIT_H
