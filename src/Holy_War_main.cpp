@@ -11,7 +11,7 @@
 int WinMain( int argc, char* args[] ){
 
 
-    Texture *temp = new Texture(9);
+    Texture *jesus = new Texture(9,"jesus");
 
     int Tick=0;
 	//Start up SDL and create window
@@ -22,7 +22,7 @@ int WinMain( int argc, char* args[] ){
 	else
 	{
 		//Load media
-		if( !temp->loadMedia() )
+		if( !loadMedia(jesus) )
 		{
 			printf( "Failed to load media!\n" );
 		}
@@ -55,49 +55,49 @@ int WinMain( int argc, char* args[] ){
 
 				if (Tick%8 == 0)
                 {
-                    temp->render( 320,240,3, temp->spriteClips[Tick] );
+                    render( jesus,320,240,2, jesus->spriteClips[Tick] );
                     Tick++;
 
 				}
 				else if(Tick%8==1)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                 else if(Tick%8==2)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                 else if(Tick%8==3)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==4)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==5)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==6)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
                  else if(Tick%8==7)
                 {
-                    temp->render(320,240,3, temp->spriteClips[Tick]);
+                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
                     Tick++;
 
                 }
@@ -116,7 +116,8 @@ int WinMain( int argc, char* args[] ){
 	}
 
 	//Free resources and close SDL
-	temp->close();
+	Free_Texture(jesus);
+	Close_Globals();
 
 	return 0;
 }

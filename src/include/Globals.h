@@ -2,10 +2,10 @@
 #define GLOBAL_H_
 #include <SDL.h>
 #include <SDL_image.h>
+using namespace std;
         const int SCREEN_WIDTH = 700;
         const int SCREEN_HEIGHT = 700;
         //The actual hardware texture
-		SDL_Texture* texture;
 		//Image dimensions
 		SDL_Window* window;
         //The window renderer
