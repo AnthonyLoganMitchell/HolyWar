@@ -42,7 +42,7 @@ bool init()
 			{
 
 				//Initialize renderer color
-				SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+				SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
