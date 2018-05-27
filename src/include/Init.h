@@ -42,7 +42,7 @@ bool init()
 			{
 
 				//Initialize renderer color
-				SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
@@ -89,7 +89,7 @@ bool loadFromFile( std::string path, Texture* t )
 	else
 	{
 		//Color key image
-		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
+		//SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0x00, 0x00, 0x00 ) );
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if( newTexture == NULL )
 		{
@@ -190,7 +190,6 @@ void Close_Globals()
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	SDL_FreeSurface(screenSurface);
-
 	IMG_Quit();
 	SDL_Quit();
 
