@@ -17,13 +17,18 @@ class Texture
 		//Gets image dimensions
 		int GetWidth();
 		int GetHeight();
+		int GetSpriteCount();
 		void SetWidth(int x);
 		void SetHeight(int x);
+		void SetFrameCount(int x);
+		void TickFrameCount();
+		int GetFrameCount();
 		void Free_Texture();
 		private:
 	   	int width;
 		int height;
 		int frameCount;
+		int spriteCount;
 };
 
 
@@ -37,6 +42,8 @@ Texture::Texture()
 	renderer    = NULL;
 	string name = NULL;
 	spriteClips = NULL;
+	spriteCount = 0;
+	frameCount  = 0;
 }
 Texture::Texture(int x,string n)
 {
@@ -46,8 +53,27 @@ Texture::Texture(int x,string n)
 	window      = NULL;
 	renderer    = NULL;
 	name        = n;
+	frameCount  = 0;
+	spriteCount =x-1;
 	spriteClips = new SDL_Rect[x];
 
+}
+void Texture::TickFrameCount()
+{
+    frameCount++;
+
+}
+int Texture::GetSpriteCount()
+{
+    return spriteCount;
+}
+void Texture::SetFrameCount(int x)
+{
+    frameCount = x;
+}
+int Texture::GetFrameCount()
+{
+    return frameCount;
 }
 void Texture::SetWidth(int x)
 {

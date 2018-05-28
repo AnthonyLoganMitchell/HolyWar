@@ -11,11 +11,7 @@
 
 int WinMain( int argc, char* args[] ){
     vector<Texture*> mainTextureSheet;
-    vector<Texture*> *TempSheet = &mainTextureSheet;
-    bool temp1 =init_Game_Textures(TempSheet);
-    bool temp2 =deleteMainTextureSheet(TempSheet);
-    Texture *jesus = new Texture(9,"jesus");
-
+    bool temp1 =init_Game_Textures(&mainTextureSheet);
 
 	//Start up SDL and create window
 	if( !init_SDL_Globals() )
@@ -24,103 +20,71 @@ int WinMain( int argc, char* args[] ){
 	}
 	else
 	{
+
 		//Load media
-		if( !loadMedia(jesus) )
-		{
-			printf( "Failed to load media!\n" );
-		}
-		else
-		{
-			//Main loop flag
-			bool quit = false;
+		for (int i=0; i< mainTextureSheet.size();i++) //for
+        {
+            ;
+            if( !loadMedia(mainTextureSheet[i]) )
+            {
+                printf( "Failed to load media!\n" );
+                exit(1);
+            }
 
-			//Event handler
-			SDL_Event e;
+        } //for
 
-			//While application is running
-			while( !quit )
-			{
-				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
-				{
-					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
-						quit = true;
-					}
-				}
 
-				//Clear screen
 
-                renderClear();
+                //Main loop flag
+                bool quit = false;
 
-				//Render top left sprite
+                //Event handler
+                SDL_Event e;
 
-				if (Tick%8 == 0)
+                //While application is running
+                while( !quit )
                 {
-                    render( jesus,320,240,2, jesus->spriteClips[Tick] );
-                    Tick++;
+                    //Handle events on queue
+                    while( SDL_PollEvent( &e ) != 0 )
+                    {
+                        //User requests quit
+                        if( e.type == SDL_QUIT )
+                        {
+                            quit = true;
+                        }
+                    }
 
-				}
-				else if(Tick%8==1)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    //Clear screen
 
-                }
-                else if(Tick%8==2)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    renderClear();
 
-                }
-                else if(Tick%8==3)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    //Render top left sprite
 
-                }
-                 else if(Tick%8==4)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    render( mainTextureSheet[0],320,240,2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
+                    mainTextureSheet[0]->TickFrameCount();
 
-                }
-                 else if(Tick%8==5)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
 
-                }
-                 else if(Tick%8==6)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    if(mainTextureSheet[0]->GetFrameCount() == mainTextureSheet[0]->GetSpriteCount())
+                    {
+                        //cout<<mainTextureSheet[0]->GetFrameCount()<<": "<<mainTextureSheet[0]->GetSpriteCount()<<endl;
+                        mainTextureSheet[0]->SetFrameCount(0);
+                    }
 
-                }
-                 else if(Tick%8==7)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
+                    renderPresent();
+                    //printf("TICK#%d\n",Tick);
+                    SDL_Delay(100);
 
-                }
-                if (Tick >=8){
-                    Tick =0;
                 }
 
 
 
-				renderPresent();
-				//printf("TICK#%d\n",Tick);
-                SDL_Delay(100);
 
-			}
-		}
 	}
 
 	//Free resources and close SDL
-	jesus->Free_Texture();
+	//jesus->Free_Texture();
 	Close_Globals();
-
+    bool temp2 =deleteMainTextureSheet(&mainTextureSheet);         ////<<<<problem
 	return 0;
 }
+

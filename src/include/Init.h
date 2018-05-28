@@ -59,20 +59,9 @@ bool init_SDL_Globals()
 }
 bool init_Game_Textures(vector<Texture*> *v)
 {
-   printf("debug");
-   Texture *temp;
-   printf("debug#2");
-   temp = new Texture(9,"jesus");
-   printf("debug#3");
+   Texture *temp = new Texture(9,"jesus");
    v->push_back(temp);
-   printf("debug#4");
    temp = NULL;
-   printf("debug#5");
-   for (int i=0; i< v->size(); i++)
-   {
-       printf("crap%d",int(v->size()));
-
-   }
    return true;
 
 }
@@ -129,15 +118,17 @@ bool loadMedia(Texture *t)
 {
 	//Loading success flag
 	bool success = true;
-
-	//Load sprite sheet texture
+   	//Load sprite sheet texture
 	if(t->name == "jesus" && !loadFromFile("rec/Holy_War_Jesus.png",t) )
 	{
+
 		printf( "Failed to load sprite sheet texture!\n" );
 		success = false;
 	}
 	else
 	{
+
+
 		//Set top left sprite
 		t->spriteClips[ 0 ].x = 2;
 		t->spriteClips[ 0 ].y = 0;
@@ -181,7 +172,7 @@ bool loadMedia(Texture *t)
 	}
 	return success;
 }
-void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
+void render(Texture *t, int x , int y ,int size , SDL_Rect* clip )
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
@@ -189,12 +180,12 @@ void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
 	//Set clip rendering dimensions
 	if( &clip != NULL )
 	{
-		renderQuad.w = clip.w*size;
-		renderQuad.h = clip.h*size;
+		renderQuad.w = clip->w*size;
+		renderQuad.h = clip->h*size;
 	}
 
 	//Render to screen
-	SDL_RenderCopy( renderer, t->texture, &clip, &renderQuad );
+	SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
 }
 
 void Close_Globals()
