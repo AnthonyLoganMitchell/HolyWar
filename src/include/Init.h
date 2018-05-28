@@ -1,6 +1,6 @@
 #ifndef INIT_H
 #define INIT_H
-bool init()
+bool init_SDL_Globals()
 {
 
 	//Initialization flag
@@ -57,17 +57,32 @@ bool init()
 
 	return success;
 }
-void Free_Texture(Texture *t)
+bool init_Game_Textures(vector<Texture*> *v)
 {
-	//Free texture if it exists
-	if( t != NULL )
-	{
-		t->texture = NULL;
-		SDL_DestroyTexture( t->texture );
+   printf("debug");
+   Texture *temp;
+   printf("debug#2");
+   temp = new Texture(9,"jesus");
+   printf("debug#3");
+   v->push_back(temp);
+   printf("debug#4");
+   temp = NULL;
+   printf("debug#5");
+   for (int i=0; i< v->size(); i++)
+   {
+       printf("crap%d",int(v->size()));
 
+   }
+   return true;
 
-	}
 }
+bool deleteMainTextureSheet(vector<Texture*> *v)
+{
+      delete v;
+      return true;
+
+}
+
 bool loadFromFile( std::string path, Texture* t )
 {
     //SDL_Surface* optimizedSurface = NULL;
@@ -89,7 +104,7 @@ bool loadFromFile( std::string path, Texture* t )
 	else
 	{
 		//Color key image
-		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0xFF, 0xFF, 0xFF ) );
+		//SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0x00, 0x00, 0x00 ) );
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if( newTexture == NULL )
 		{
@@ -116,7 +131,7 @@ bool loadMedia(Texture *t)
 	bool success = true;
 
 	//Load sprite sheet texture
-	if(!loadFromFile("rec/Holy_War_Jesus.png",t) &&t->name == "jesus" )
+	if(t->name == "jesus" && !loadFromFile("rec/Holy_War_Jesus.png",t) )
 	{
 		printf( "Failed to load sprite sheet texture!\n" );
 		success = false;
@@ -169,7 +184,7 @@ bool loadMedia(Texture *t)
 void render(Texture *t, int x , int y ,int size , SDL_Rect& clip )
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, t->getWidth(), t->getHeight() };
+	SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
 
 	//Set clip rendering dimensions
 	if( &clip != NULL )
@@ -190,7 +205,6 @@ void Close_Globals()
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	SDL_FreeSurface(screenSurface);
-
 	IMG_Quit();
 	SDL_Quit();
 

@@ -15,13 +15,15 @@ class Texture
 		//Loads image at specified path
 		bool loadFromFile( string path );
 		//Gets image dimensions
-		int getWidth();
-		int getHeight();
+		int GetWidth();
+		int GetHeight();
 		void SetWidth(int x);
 		void SetHeight(int x);
+		void Free_Texture();
 		private:
-	   	int Width;
-		int Height;
+	   	int width;
+		int height;
+		int frameCount;
 };
 
 
@@ -29,8 +31,8 @@ Texture::Texture()
 {
 	//Initialize
 	texture     = NULL;
-	Width       = 0;
-	Height      = 0;
+	width       = 0;
+	height      = 0;
 	window      = NULL;
 	renderer    = NULL;
 	string name = NULL;
@@ -39,8 +41,8 @@ Texture::Texture()
 Texture::Texture(int x,string n)
 {
     texture     = NULL;
-	Width       = 0;
-	Height      = 0;
+	width       = 0;
+	height      = 0;
 	window      = NULL;
 	renderer    = NULL;
 	name        = n;
@@ -49,23 +51,33 @@ Texture::Texture(int x,string n)
 }
 void Texture::SetWidth(int x)
 {
-    Width = x;
+    width = x;
 }
 void Texture::SetHeight(int x)
 {
-    Height = x;
+    height = x;
 }
-int Texture::getWidth()
+int Texture::GetWidth()
 {
-	return Width;
+	return width;
 }
 
-int Texture::getHeight()
+int Texture::GetHeight()
 {
-	return Height;
+	return height;
 }
 
+void Texture::Free_Texture()
+{
+	//Free texture if it exists
+	if( this != NULL )
+	{
+		this->texture = NULL;
+		SDL_DestroyTexture( this->texture );
 
+
+	}
+}
 
 
 #endif
