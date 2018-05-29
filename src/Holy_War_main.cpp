@@ -12,7 +12,8 @@
 int WinMain( int argc, char* args[] ){
     vector<Texture*> mainTextureSheet;
     bool temp1 =init_Game_Textures(&mainTextureSheet);
-
+    int xPos =0;
+    int yPos =0;
 	//Start up SDL and create window
 	if( !init_SDL_Globals() )
 	{
@@ -36,21 +37,28 @@ int WinMain( int argc, char* args[] ){
 
 
                 //Main loop flag
-                bool quit = false;
+
 
                 //Event handler
                 SDL_Event e;
+                int count=0;
 
                 //While application is running
-                while( !quit )
+                while( !quit_program )
                 {
                     //Handle events on queue
-                    while( SDL_PollEvent( &e ) != 0 )
+                    while( SDL_PollEvent( &e ))
                     {
-                        //User requests quit
+                       //User requests quit
                         if( e.type == SDL_QUIT )
                         {
-                            quit = true;
+                            quit_program = true;
+                        }
+                        else if(e.type == SDL_CONTROLLERBUTTONDOWN)
+                        {
+                           count++;
+                           cout<<"button pushed# "<<count<<endl;
+
                         }
                     }
 
@@ -58,9 +66,8 @@ int WinMain( int argc, char* args[] ){
 
                     renderClear();
 
-                    //Render top left sprite
 
-                    render( mainTextureSheet[0],320,240,2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
+                    render( mainTextureSheet[0],320,240,6, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
                     mainTextureSheet[0]->TickFrameCount();
 
 
@@ -71,8 +78,10 @@ int WinMain( int argc, char* args[] ){
                     }
 
                     renderPresent();
+                    //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
                     //printf("TICK#%d\n",Tick);
                     SDL_Delay(100);
+
 
                 }
 

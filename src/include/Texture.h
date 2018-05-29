@@ -29,21 +29,23 @@ class Texture
 		int height;
 		int frameCount;
 		int spriteCount;
+		bool isInitialized;
 };
 
 
 Texture::Texture()
 {
 	//Initialize
-	texture     = NULL;
-	width       = 0;
-	height      = 0;
-	window      = NULL;
-	renderer    = NULL;
-	string name = NULL;
-	spriteClips = NULL;
-	spriteCount = 0;
-	frameCount  = 0;
+	texture         = NULL;
+	width           = 0;
+	height          = 0;
+	window          = NULL;
+	renderer        = NULL;
+	string name     = NULL;
+	spriteClips     = NULL;
+	spriteCount     = 0;
+	frameCount      = 0;
+	isInitialized   =true;
 }
 Texture::Texture(int x,string n)
 {
@@ -56,6 +58,7 @@ Texture::Texture(int x,string n)
 	frameCount  = 0;
 	spriteCount =x-1;
 	spriteClips = new SDL_Rect[x];
+
 
 }
 void Texture::TickFrameCount()

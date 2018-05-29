@@ -7,6 +7,9 @@
 using namespace std;
         const int SCREEN_WIDTH = 700;
         const int SCREEN_HEIGHT = 700;
+        bool quit_program = false;
+        int xPos =0;
+        int yPos =0;
         int Tick=0;
         //The actual hardware texture
 		//Image dimensions
@@ -15,6 +18,8 @@ using namespace std;
         SDL_Renderer* renderer;
         //Scene sprites
         SDL_Surface* screenSurface;
+
+        SDL_GameController* gameController;
 
         void renderPresent(){
             SDL_RenderPresent(renderer);

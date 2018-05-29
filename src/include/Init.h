@@ -1,5 +1,5 @@
-#ifndef INIT_H
-#define INIT_H
+#ifndef INIT_H_
+#define INIT_H_
 bool init_SDL_Globals()
 {
 
@@ -7,13 +7,30 @@ bool init_SDL_Globals()
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK|SDL_INIT_GAMECONTROLLER) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
 	}
 	else
 	{
+
+	      if( SDL_NumJoysticks() < 1 )
+        {
+            printf( "Warning: No joysticks connected!\n" );
+        }
+        else
+        {
+            //Load joystick
+           gameController = SDL_GameControllerOpen( 0 );
+            if( gameController == NULL )
+            {
+                printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+            }
+        }
+
+
+
 
 		//Set texture filtering to linear
 		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
@@ -193,6 +210,8 @@ void Close_Globals()
     window        = NULL;
 	renderer      = NULL;
 	screenSurface = NULL;
+	gameController= NULL;
+	SDL_GameControllerClose(gameController);
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	SDL_FreeSurface(screenSurface);
