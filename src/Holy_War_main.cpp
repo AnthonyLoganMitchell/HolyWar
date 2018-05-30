@@ -6,15 +6,15 @@
 #include "include/Texture.h"
 #include "include/Globals.h"
 #include "include/Init.h"
+#include "include/Event.h"
+vector<Texture*> mainTextureSheet;
 
 
 
 int WinMain( int argc, char* args[] ){
-    vector<Texture*> mainTextureSheet;
-    bool temp1 =init_Game_Textures(&mainTextureSheet);
-    int xPos =0;
-    int yPos =0;
 
+    bool temp1 =init_Game_Textures(&mainTextureSheet);
+    SDL_Event e;
 	//Start up SDL and create window
 	if( !init_SDL_Globals() )
 	{
@@ -36,82 +36,18 @@ int WinMain( int argc, char* args[] ){
         } //for
 
 
-
-                //Main loop flag
-
-
-                //Event handler
-                SDL_Event e;
-
-
                 //While application is running
                 while( !quit_program )
                 {
                     //Handle events on queue
-                    while( SDL_PollEvent( &e ))
-                    {
-                       //User requests quit
-                        if( e.type == SDL_QUIT )
-                        {
-                            quit_program = true;
-                        }
-                        else if(e.type == SDL_CONTROLLERBUTTONDOWN)
-                        {
 
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==1 )
-                            {
-                                yPos=-3;
-                            }
-
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==1)
-                            {
-                                yPos=3;
-                            }
-
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==1)
-                            {
-                                xPos=-3;
-                            }
-
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==1)
-                            {
-                                xPos=3;
-                            }
-
-
-
-                        }// BUTTONDOWN
-                        else if(e.type == SDL_CONTROLLERBUTTONUP)
-                        {
-
-
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==0 )
-                            {
-                                yPos=0;
-                            }
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==0)
-                            {
-                                yPos=0;
-                            }
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==0)
-                            {
-                                xPos=0;
-                            }
-                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==0)
-                            {
-                                xPos=0;
-                            }
-
-                        }
-
-                    }
-
+                    EventHandler(e);
                     //Clear screen
 
                     renderClear();
 
 
-                    render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),3, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
+                    render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
                     mainTextureSheet[0]->TickFrameCount();
 
 
@@ -135,9 +71,8 @@ int WinMain( int argc, char* args[] ){
 	}
 
 	//Free resources and close SDL
-	//jesus->Free_Texture();
 	Close_Globals();
-    bool temp2 =deleteMainTextureSheet(&mainTextureSheet);         ////<<<<problem
+    bool temp2 =deleteMainTextureSheet(&mainTextureSheet);
 	return 0;
 }
 

@@ -8,9 +8,10 @@ using namespace std;
         const int SCREEN_WIDTH = 700;
         const int SCREEN_HEIGHT = 700;
         bool quit_program = false;
-        int xPos =0;
-        int yPos =0;
+        int xPos =0;                    //<<-----
+        int yPos =0;                    //<<-----
         int Tick=0;
+
         //The actual hardware texture
 		//Image dimensions
 		SDL_Window* window;
