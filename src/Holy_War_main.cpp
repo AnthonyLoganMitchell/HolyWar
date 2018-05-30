@@ -1,7 +1,8 @@
 
 /* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
-   Holy war is my personal programming project and all artwork for this
-   Game are my original works.
+   Holy war is my personal programming project and all artwork
+   and high level programming outside of SDL2 framework, openGL,
+   and c++ POSIX api standard. Are my original work in progress.
 */
 #include "include/Texture.h"
 #include "include/Globals.h"
@@ -12,7 +13,8 @@ vector<Texture*> mainTextureSheet;
 
 
 int WinMain( int argc, char* args[] ){
-
+    uint64_t timer1;
+    uint64_t timer2;
     bool temp1 =init_Game_Textures(&mainTextureSheet);
     SDL_Event e;
 	//Start up SDL and create window
@@ -58,9 +60,11 @@ int WinMain( int argc, char* args[] ){
                     }
 
                     renderPresent();
-                    cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
-
+                    //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
+                    timer1 = SDL_GetPerformanceCounter();
                     SDL_Delay(80);
+                    timer2 = SDL_GetPerformanceCounter();
+                    cout<<(timer2-timer1)/(double )SDL_GetPerformanceFrequency()<<endl;
 
 
                 }

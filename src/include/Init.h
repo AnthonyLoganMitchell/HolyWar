@@ -209,12 +209,10 @@ void Close_Globals()
 {
     window        = NULL;
 	renderer      = NULL;
-	screenSurface = NULL;
 	gameController= NULL;
 	SDL_GameControllerClose(gameController);
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
-	SDL_FreeSurface(screenSurface);
 	IMG_Quit();
 	SDL_Quit();
 

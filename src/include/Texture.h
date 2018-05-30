@@ -12,13 +12,10 @@ class Texture
         string name;
 		Texture();
 		Texture(int x,string,int xPos,int yPos);
-		//Loads image at specified path
-		bool loadFromFile( string path );
-		//Gets image dimensions
+		void InitTexture();
 		int GetWidth();
 		int GetHeight();
 		int GetSpriteCount();
-
 		void SetWidth(int x);
 		void SetHeight(int x);
 		void SetFrameCount(int x);
@@ -27,6 +24,7 @@ class Texture
 		void Free_Texture();
 		int xposition;
         int yposition;
+
 		private:
        	int width;
 		int height;
@@ -50,22 +48,23 @@ Texture::Texture()
 	yposition       = 0;
 	spriteCount     = 0;
 	frameCount      = 0;
-	isInitialized   =true;
+	isInitialized   =false;
 
 }
-Texture::Texture(int x,string n,int xPos , int yPos)
+Texture::Texture(int totalClips, string n, int xPos, int yPos)
 {
-    texture     = NULL;
-	width       = 0;
-	height      = 0;
-	window      = NULL;
-	renderer    = NULL;
-	name        = n;
-	frameCount  = 0;
-    xposition   = xPos;
-    yposition   = yPos;
-	spriteCount = x-1;
-	spriteClips = new SDL_Rect[x];
+    texture       = NULL;
+	width         = 0;
+	height        = 0;
+	window        = NULL;
+	renderer      = NULL;
+	name          = n;
+	frameCount    = 0;
+    xposition     = xPos;
+    yposition     = yPos;
+	spriteCount   = totalClips-1;
+	spriteClips   = new SDL_Rect[totalClips];
+	isInitialized = false;
 
 
 }
@@ -121,5 +120,10 @@ void Texture::Free_Texture()
 	}
 }
 
+void Texture::InitTexture()
+{
+
+    this->isInitialized = true;
+}
 
 #endif
