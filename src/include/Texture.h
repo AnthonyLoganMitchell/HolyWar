@@ -11,21 +11,24 @@ class Texture
         SDL_Rect* spriteClips;
         string name;
 		Texture();
-		Texture(int x,string);
+		Texture(int x,string,int xPos,int yPos);
 		//Loads image at specified path
 		bool loadFromFile( string path );
 		//Gets image dimensions
 		int GetWidth();
 		int GetHeight();
 		int GetSpriteCount();
+
 		void SetWidth(int x);
 		void SetHeight(int x);
 		void SetFrameCount(int x);
 		void TickFrameCount();
 		int GetFrameCount();
 		void Free_Texture();
+		int xposition;
+        int yposition;
 		private:
-	   	int width;
+       	int width;
 		int height;
 		int frameCount;
 		int spriteCount;
@@ -43,11 +46,14 @@ Texture::Texture()
 	renderer        = NULL;
 	string name     = NULL;
 	spriteClips     = NULL;
+	xposition       = 0;
+	yposition       = 0;
 	spriteCount     = 0;
 	frameCount      = 0;
 	isInitialized   =true;
+
 }
-Texture::Texture(int x,string n)
+Texture::Texture(int x,string n,int xPos , int yPos)
 {
     texture     = NULL;
 	width       = 0;
@@ -56,11 +62,18 @@ Texture::Texture(int x,string n)
 	renderer    = NULL;
 	name        = n;
 	frameCount  = 0;
-	spriteCount =x-1;
+    xposition   = xPos;
+    yposition   = yPos;
+	spriteCount = x-1;
 	spriteClips = new SDL_Rect[x];
 
 
 }
+
+
+
+
+
 void Texture::TickFrameCount()
 {
     frameCount++;

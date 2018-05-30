@@ -39,7 +39,7 @@ bool init_SDL_Globals()
 		}
 
 		//Create window
-            window = SDL_CreateWindow( "HolyWar", 10, 20, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+            window = SDL_CreateWindow( "HolyWar", 500, 20, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -76,7 +76,7 @@ bool init_SDL_Globals()
 }
 bool init_Game_Textures(vector<Texture*> *v)
 {
-   Texture *temp = new Texture(9,"jesus");
+   Texture *temp = new Texture(9,"jesus",320,240);
    v->push_back(temp);
    temp = NULL;
    return true;

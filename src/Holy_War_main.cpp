@@ -1,7 +1,7 @@
 
 /* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
    Holy war is my personal programming project and all artwork for this
-   Game are my original work.
+   Game are my original works.
 */
 #include "include/Texture.h"
 #include "include/Globals.h"
@@ -14,6 +14,7 @@ int WinMain( int argc, char* args[] ){
     bool temp1 =init_Game_Textures(&mainTextureSheet);
     int xPos =0;
     int yPos =0;
+
 	//Start up SDL and create window
 	if( !init_SDL_Globals() )
 	{
@@ -41,7 +42,7 @@ int WinMain( int argc, char* args[] ){
 
                 //Event handler
                 SDL_Event e;
-                int count=0;
+
 
                 //While application is running
                 while( !quit_program )
@@ -56,10 +57,53 @@ int WinMain( int argc, char* args[] ){
                         }
                         else if(e.type == SDL_CONTROLLERBUTTONDOWN)
                         {
-                           count++;
-                           cout<<"button pushed# "<<count<<endl;
+
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==1 )
+                            {
+                                yPos=-3;
+                            }
+
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==1)
+                            {
+                                yPos=3;
+                            }
+
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==1)
+                            {
+                                xPos=-3;
+                            }
+
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==1)
+                            {
+                                xPos=3;
+                            }
+
+
+
+                        }// BUTTONDOWN
+                        else if(e.type == SDL_CONTROLLERBUTTONUP)
+                        {
+
+
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==0 )
+                            {
+                                yPos=0;
+                            }
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==0)
+                            {
+                                yPos=0;
+                            }
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==0)
+                            {
+                                xPos=0;
+                            }
+                            if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==0)
+                            {
+                                xPos=0;
+                            }
 
                         }
+
                     }
 
                     //Clear screen
@@ -67,20 +111,20 @@ int WinMain( int argc, char* args[] ){
                     renderClear();
 
 
-                    render( mainTextureSheet[0],320,240,6, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
+                    render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),3, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
                     mainTextureSheet[0]->TickFrameCount();
 
 
                     if(mainTextureSheet[0]->GetFrameCount() == mainTextureSheet[0]->GetSpriteCount())
                     {
-                        //cout<<mainTextureSheet[0]->GetFrameCount()<<": "<<mainTextureSheet[0]->GetSpriteCount()<<endl;
+
                         mainTextureSheet[0]->SetFrameCount(0);
                     }
 
                     renderPresent();
-                    //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
-                    //printf("TICK#%d\n",Tick);
-                    SDL_Delay(100);
+                    cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
+
+                    SDL_Delay(80);
 
 
                 }
