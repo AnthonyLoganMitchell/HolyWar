@@ -37,8 +37,12 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Holy_War_main.cpp" />
+		<Unit filename="include/Char.h" />
+		<Unit filename="include/Event.h" />
 		<Unit filename="include/Globals.h" />
 		<Unit filename="include/Init.h" />
+		<Unit filename="include/Level.h" />
+		<Unit filename="include/Match.h" />
 		<Unit filename="include/Texture.h" />
 		<Extensions>
 			<code_completion />
