@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "CharacterTexture.h"
 
 CharacterTexture::CharacterTexture(int totalClips, std::string n, int xPos, int yPos)
 {
@@ -144,7 +144,7 @@ int CharacterTexture::GetHeight()
 void CharacterTexture::Free_Texture()
 {
     //Free texture if it exists
-    if( this != NULL )
+    if( this->texture != NULL )
     {
         this->texture = NULL;
         SDL_DestroyTexture( this->texture );

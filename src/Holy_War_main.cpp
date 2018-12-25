@@ -4,15 +4,13 @@
    and high level programming outside of SDL2 framework, openGL,
    and c++ POSIX api standard. Are my original work in progress.
 */
-#include "Texture.cpp"
-#include "Core.cpp"
+#include "Core.h"
 
 int WinMain( int argc, char* args[] )
 {
     Core *CoreGame = new Core();
     uint64_t timer1;
     uint64_t timer2;
-    //bool temp1 =init_Game_Textures(&mainTextureSheet);
     SDL_Event e;
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
@@ -21,16 +19,27 @@ int WinMain( int argc, char* args[] )
     }
     else
     {
+        CoreGame->OnMainMenu = true;
         //While application is running
         while( !CoreGame->quit_program )
         {
-
+            if ( CoreGame->OnMainMenu == true)
+            {
+                //Initiate Main bootup sequence for main menu.
+            }
+            else if (CoreGame->onLevelSelction == true)
+            {
+                //Intiate Level selection screen
+            }
+            else if (CoreGame->onRunningMatch == true)
+            {
+                //Initiate running match with previously loaded level.
+            }
         }
-
     }
     //Free resources and close SDL
     CoreGame->CoreShutdown();
-    //bool temp2 =deleteMainTextureSheet(&mainTextureSheet);
+
     return 0;
 }
 

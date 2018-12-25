@@ -4,23 +4,23 @@
 #include <SDL_image.h>
 #include <vector>
 #include <iostream>
+#include "CharacterTexture.h"
 //
 class Core
 {
 public:
     Core();
+    bool CoreInit();
     void CoreShutdown();
+    void CoreMainMenuRun();
     void renderPresent();
     void renderClear();
-    bool CoreInit();
     void EventHandler(SDL_Event);
 
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_GameController* gameController;
     bool quit_program;
-    int xPos;
-    int yPos;
     int Tick;
     bool OnMainMenu;
     bool onLevelSelction;

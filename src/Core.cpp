@@ -1,7 +1,15 @@
 #include "Core.h"
 Core::Core()
 {
-
+    this->window = NULL;
+    this->renderer = NULL;
+    this->gameController = NULL;
+    this->quit_program =NULL;
+    this->Tick = 0;
+    this->OnMainMenu = false;
+    this->onLevelSelction = false;
+    this->onCharacterSelection = false;
+    this->onRunningMatch = false;
 }
 void Core::renderPresent()
 {
@@ -32,8 +40,8 @@ bool Core::CoreInit()
         else
         {
             //Load joystick
-            gameController = SDL_GameControllerOpen( 0 );
-            if( gameController == NULL )
+            this->gameController = SDL_GameControllerOpen( 0 );
+            if( this->gameController == NULL )
             {
                 printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
             }
@@ -54,8 +62,8 @@ bool Core::CoreInit()
         {
 
             //Create renderer for window
-            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-            if( renderer == NULL )
+            this->renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+            if( this->renderer == NULL )
             {
                 printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
                 success = false;
@@ -81,9 +89,9 @@ bool Core::CoreInit()
 
 void Core::CoreShutdown()
 {
-    window        = NULL;
-    renderer      = NULL;
-    gameController= NULL;
+    this->window        = NULL;
+    this->renderer      = NULL;
+    this->gameController= NULL;
     SDL_GameControllerClose(gameController);
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
@@ -93,6 +101,8 @@ void Core::CoreShutdown()
 
 void Core::EventHandler(SDL_Event e)
 {
+
+//TODO: Start here and make new class for background textures and level textures(possible use for inheritance).
     while( SDL_PollEvent( &e ))
     {
         //User requests quit
@@ -104,41 +114,46 @@ void Core::EventHandler(SDL_Event e)
         {
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==1 )
             {
-                yPos=-5;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==1)
             {
-                yPos=5;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==1)
             {
-                xPos=-5;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==1)
             {
-                xPos=5;
+
             }
         }// BUTTONDOWN
         else if(e.type == SDL_CONTROLLERBUTTONUP)
         {
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==0 )
             {
-                yPos=0;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==0)
             {
-                yPos=0;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==0)
             {
-                xPos=0;
+
             }
             if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==0)
             {
-                xPos=0;
+
             }
 
         }
 
     }
+}
+void  Core::CoreMainMenuRun()
+{
+//Initialize and load textures for background and menu options
+//Design the main menu loop.
 }

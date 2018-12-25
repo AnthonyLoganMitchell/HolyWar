@@ -1,5 +1,5 @@
-#ifndef   TEXTURE_H_
-#define   TEXTURE_H_
+#ifndef   CHARACTERTEXTURE_H_
+#define   CHARACTERTEXTURE_H_
 #include <stdio.h>
 #include <string>
 #include <SDL.h>
