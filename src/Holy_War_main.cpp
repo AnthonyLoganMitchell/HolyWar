@@ -1,126 +1,93 @@
 
 /* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
-   Holy war is my personal programming project and all artwork for this
-   Game are my original work.
+   Holy war is my personal programming project and all artwork
+   and high level programming outside of SDL2 framework, openGL,
+   and c++ POSIX api standard. Are my original work in progress.
 */
-#include "include/Texture.h"
-#include "include/Globals.h"
-#include "include/Init.h"
+#include "Core.h"
 
+int WinMain( int argc, char* args[] )
+{
+    Core *CoreGame = new Core();
+    //Start up SDL and create window
+    if( !CoreGame->CoreInit())
+    {
+        printf( "Failed to initialize!\n" );
+    }
+    else
+    {
+        CoreGame->OnMainMenu = true;
+        //While application is running
+        while( !CoreGame->quit_program )
+        {
+            if ( CoreGame->OnMainMenu == true)
+            {
+                //Initiate Main bootup sequence for main menu.
+            }
+            else if (CoreGame->onLevelSelction == true)
+            {
+                //Intiate Level selection screen
+            }
+            else if (CoreGame->onRunningMatch == true)
+            {
+                //Initiate running match with previously loaded level.
+            }
+        }
+    }
+    //Free resources and close SDL
+    CoreGame->CoreShutdown();
 
-
-int WinMain( int argc, char* args[] ){
-    vector<Texture*> mainTextureSheet;
-    vector<Texture*> *TempSheet = &mainTextureSheet;
-    bool temp1 =init_Game_Textures(TempSheet);
-    bool temp2 =deleteMainTextureSheet(TempSheet);
-    Texture *jesus = new Texture(9,"jesus");
-
-
-	//Start up SDL and create window
-	if( !init_SDL_Globals() )
-	{
-		printf( "Failed to initialize!\n" );
-	}
-	else
-	{
-		//Load media
-		if( !loadMedia(jesus) )
-		{
-			printf( "Failed to load media!\n" );
-		}
-		else
-		{
-			//Main loop flag
-			bool quit = false;
-
-			//Event handler
-			SDL_Event e;
-
-			//While application is running
-			while( !quit )
-			{
-				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
-				{
-					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
-						quit = true;
-					}
-				}
-
-				//Clear screen
-
-                renderClear();
-
-				//Render top left sprite
-
-				if (Tick%8 == 0)
-                {
-                    render( jesus,320,240,2, jesus->spriteClips[Tick] );
-                    Tick++;
-
-				}
-				else if(Tick%8==1)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                else if(Tick%8==2)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                else if(Tick%8==3)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                 else if(Tick%8==4)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                 else if(Tick%8==5)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                 else if(Tick%8==6)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                 else if(Tick%8==7)
-                {
-                    render(jesus,320,240,2, jesus->spriteClips[Tick]);
-                    Tick++;
-
-                }
-                if (Tick >=8){
-                    Tick =0;
-                }
-
-
-
-				renderPresent();
-				//printf("TICK#%d\n",Tick);
-                SDL_Delay(100);
-
-			}
-		}
-	}
-
-	//Free resources and close SDL
-	jesus->Free_Texture();
-	Close_Globals();
-
-	return 0;
+    return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  //Handle events on queue
+             uint64_t timer1; // These originally werent in this block
+             uint64_t timer2; // These originally werent in this block
+             EventHandler(e);
+             //Clear screen
+             renderClear();
+             render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
+             mainTextureSheet[0]->TickFrameCount();
+
+
+                if(mainTextureSheet[0]->GetFrameCount() == mainTextureSheet[0]->GetSpriteCount()){
+
+                    mainTextureSheet[0]->SetFrameCount(0);
+                }
+
+                renderPresent();
+                //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
+                timer1 = SDL_GetPerformanceCounter();
+                SDL_Delay(70);
+                timer2 = SDL_GetPerformanceCounter();
+                cout<<(timer2-timer1)/(double )SDL_GetPerformanceFrequency()<<endl;*/
+

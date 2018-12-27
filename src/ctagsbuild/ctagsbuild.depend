@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1247175988 source:c:\users\smokumsdebudicus\desktop\ctags-5.8\ant.c
+	"general.h"
+	<string.h>
+	"parse.h"
+
+1178166068 c:\users\smokumsdebudicus\desktop\ctags-5.8\general.h
+	<config.h>
+	"e_amiga.h"
+	"e_djgpp.h"
+	"e_mac.h"
+	"e_msoft.h"
+	"e_os2.h"
+	"e_qdos.h"
+	"e_riscos.h"
+	"e_vms.h"
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_amiga.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_djgpp.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_mac.h
+	<time.h>
+	<errno.h>
+	<stdlib.h>
+	<fcntl.h>
+	<stdio.h>
+	<Files.h>
+	<console.h>
+	<stat.mac.h>
+
+1183221017 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_msoft.h
+	<_mingw.h>
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_os2.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_qdos.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_riscos.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\e_vms.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\parse.h
+	"general.h"
+	"parsers.h"
+	"strlist.h"
+
+1246941651 c:\users\smokumsdebudicus\desktop\ctags-5.8\parsers.h
+
+1160627200 c:\users\smokumsdebudicus\desktop\ctags-5.8\strlist.h
+	"general.h"
+	"vstring.h"
+
+1246942020 c:\users\smokumsdebudicus\desktop\ctags-5.8\vstring.h
+	"general.h"
+	<stdlib.h>
+
