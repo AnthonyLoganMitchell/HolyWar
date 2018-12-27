@@ -43,14 +43,11 @@
 			<Add option="-lSDL2 -lSDL2_image" />
 			<Add directory="C:/SDL2/SDL/lib" />
 		</Linker>
+		<Unit filename="CharacterTexture.cpp" />
+		<Unit filename="Core.cpp" />
 		<Unit filename="Holy_War_main.cpp" />
-		<Unit filename="include/Char.h" />
-		<Unit filename="include/Event.h" />
-		<Unit filename="include/Globals.h" />
-		<Unit filename="include/Init.h" />
-		<Unit filename="include/Level.h" />
-		<Unit filename="include/Match.h" />
-		<Unit filename="include/Texture.h" />
+		<Unit filename="include/CharacterTexture.h" />
+		<Unit filename="include/Core.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

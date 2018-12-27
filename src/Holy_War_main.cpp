@@ -9,9 +9,6 @@
 int WinMain( int argc, char* args[] )
 {
     Core *CoreGame = new Core();
-    uint64_t timer1;
-    uint64_t timer2;
-    SDL_Event e;
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
     {
@@ -73,6 +70,8 @@ int WinMain( int argc, char* args[] )
 
 
 /*  //Handle events on queue
+             uint64_t timer1; // These originally werent in this block
+             uint64_t timer2; // These originally werent in this block
              EventHandler(e);
              //Clear screen
              renderClear();

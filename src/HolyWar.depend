@@ -4,9 +4,7 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1545712596 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
-	<stdio.h>
-	<string>
+1545880037 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -341,7 +339,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1545718739 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+1545875366 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
 	"Core.h"
 
 1545710071 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
@@ -738,7 +736,7 @@
 1545635069 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\gamestate.cpp
 	"GameState.h"
 
-1545712354 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\texture.cpp
+1545876286 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\texture.cpp
 	"Texture.h"
 
 1545712354 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\texture.cpp
@@ -747,25 +745,36 @@
 1545701976 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\globals.cpp
 	"Globals.h"
 
-1545718811 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
+1545861948 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
 
-1545718918 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
+1545874324 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
 	<iostream>
-	"CharacterTexture.h"
+	"Texture.h"
 
 1545712307 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
 
-1545718160 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
+1545882524 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
 	"CharacterTexture.h"
 
-1545718007 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
+1545882763 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
 	<stdio.h>
 	<string>
 	<SDL.h>
 	<SDL_image.h>
+	"Texture.h"
+
+1545881503 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\menutexture.cpp
+	"MenuTexture.h"
+
+1545881596 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
+	<stdio.h>
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+	"Texture.h"
 

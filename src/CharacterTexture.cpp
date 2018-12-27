@@ -1,6 +1,6 @@
 #include "CharacterTexture.h"
 
-CharacterTexture::CharacterTexture(int totalClips, std::string n, int xPos, int yPos)
+CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, int totalFallingClips, int totalMovementClips, int totalRegularAttackClips, int totalStrongAttackClips, std::string n, int xPos, int yPos) : Texture()
 {
     texture       = NULL;
     width         = 0;
@@ -9,12 +9,27 @@ CharacterTexture::CharacterTexture(int totalClips, std::string n, int xPos, int 
     frameCount    = 0;
     xposition     = xPos;
     yposition     = yPos;
-    spriteCount   = totalClips-1;
-    idleClips   = new SDL_Rect[totalClips];
-    isInitialized = false;
+
+    idleClipCount   = totalIdleClips-1;
+    idleClips   = new SDL_Rect[totalIdleClips];
+
+    jumpingClipCount = totalJumpingClips-1;
+    jumpingClips = new SDL_Rect[totalJumpingClips];
+
+    fallingClipCount = totalFallingClips-1;
+    fallingClips = new SDL_Rect[totalFallingClips];
+
+    movementClipCount = totalMovementClips-1;
+    movementClips = new SDL_Rect[totalMovementClips];
+
+    attackRegularClipCount = totalRegularAttackClips-1;
+    attackRegularClips = new SDL_Rect[totalRegularAttackClips];
+
+    strongAttackClipCount = totalStrongAttackClips-1;
+    strongAttackClips = new SDL_Rect[totalStrongAttackClips];
 
 }
-bool CharacterTexture::loadFromFile( std::string path, CharacterTexture* t, SDL_Renderer* renderer)
+bool CharacterTexture::loadCharacterFromFile( std::string path, CharacterTexture* t, SDL_Renderer* renderer)
 {
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -48,7 +63,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
     //Loading success flag
     bool success = true;
     //Load sprite sheet texture
-    if(t->name == "jesus" && !this->loadFromFile("rec/Holy_War_Jesus-Sheet-strip.png",t,renderer))
+    if(t->name == "jesus" && !this->loadCharacterFromFile("rec/Holy_War_Jesus-Sheet-strip.png", t, renderer))
     {
 
         printf( "Failed to load sprite sheet texture!\n" );
@@ -100,25 +115,24 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
     return success;
 }
 
-void CharacterTexture::TickFrameCount()
+int CharacterTexture::GetIdleClipCount()
 {
-    frameCount++;
-
-}
-
-int CharacterTexture::GetSpriteCount()
-{
-    return spriteCount;
+    return idleClipCount;
 }
 
 void CharacterTexture::SetFrameCount(int x)
 {
-    frameCount = x;
+    this->frameCount = x;
 }
 
 int CharacterTexture::GetFrameCount()
 {
-    return frameCount;
+    return this->frameCount;
+}
+
+void CharacterTexture::TickFrameCount()
+{
+    frameCount++;
 }
 
 void CharacterTexture::SetWidth(int x)
@@ -151,23 +165,6 @@ void CharacterTexture::Free_Texture()
     }
 }
 
-void CharacterTexture::InitTexture()
-{
-    this->isInitialized = true;
-}
-
-CharacterTexture *CharacterTexture::initCharacterTexture(std::string name)
-{
-    CharacterTexture *temp = new CharacterTexture(9,name,320,240);
-    return temp;
-}
-
-bool CharacterTexture::deleteTexture(CharacterTexture *v)
-{
-    delete v;
-    return true;
-}
-
 void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
@@ -180,4 +177,24 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
     }
     //Render to screen
     SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
+}
+
+int CharacterTexture::GetXPos()
+{
+    return this->xposition;
+}
+
+int CharacterTexture::GetYPos()
+{
+    return this->yposition;
+}
+
+void CharacterTexture::SetXPos(int x)
+{
+    this->xposition = x;
+}
+
+void CharacterTexture::SetYPos(int y)
+{
+    this->yposition = y;
 }

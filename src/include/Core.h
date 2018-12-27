@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 #include <vector>
 #include <iostream>
-#include "CharacterTexture.h"
+#include "Texture.h"
 //
 class Core
 {
@@ -28,8 +28,8 @@ public:
     bool onRunningMatch;
 
 private:
-    const int SCREEN_WIDTH = 700;
-    const int SCREEN_HEIGHT = 700;
+    int SCREEN_WIDTH;
+    int SCREEN_HEIGHT;
 };
 
 

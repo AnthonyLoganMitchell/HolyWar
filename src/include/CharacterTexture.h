@@ -4,29 +4,36 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
-
-
-class CharacterTexture
+#include "Texture.h"
+class CharacterTexture : public Texture
 {
 public:
-    std::string name;
-    CharacterTexture();
-    CharacterTexture(int,std::string,int,int);
-    CharacterTexture *initCharacterTexture(std::string);
-    bool loadFromFile( std::string, CharacterTexture*, SDL_Renderer*);
+    //Constructors
+    //totalIdleClips, totalJumpingClips, totalFallingClips, totalMovementClips, totalRegularAttackClips, totalStrongAttackClips
+    //^^^The six int's at beginning of CharacterTexture();^^^
+    CharacterTexture(int, int, int, int, int, int, std::string, int, int);
+    //////////////////////////////////////////
+
+    //These functions are not derived
+    bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*);
     bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);
-    void InitTexture();
     void render(CharacterTexture *, SDL_Renderer*, int, int, int, SDL_Rect*);
+    int  GetIdleClipCount();
+
+    //These functions are generic and abstract in base class//
     int  GetWidth();
     int  GetHeight();
-    int  GetSpriteCount();
     void SetWidth(int);
     void SetHeight(int);
+    int  GetXPos();
+    int  GetYPos();
+    void SetXPos(int);
+    void SetYPos(int);
     void SetFrameCount(int);
     void TickFrameCount();
     int  GetFrameCount();
     void Free_Texture();
-    bool deleteTexture(CharacterTexture *);
+    ///////////////////////////////////////////////////////////
 
     SDL_Texture* texture;
     SDL_Rect*    idleClips;
@@ -35,16 +42,25 @@ public:
     SDL_Rect*    movementClips;
     SDL_Rect*    attackRegularClips;
     SDL_Rect*    strongAttackClips;
-    int  xposition;
-    int  yposition;
-
 
 private:
+    //Common Across all derived
+    std::string name;
     int width;
     int height;
+    int xposition;
+    int yposition;
     int frameCount;
-    int spriteCount;
-    bool isInitialized;
+    ////////////////////////////
+
+    //Specific to character Textures
+    int idleClipCount;
+    int jumpingClipCount;
+    int fallingClipCount;
+    int movementClipCount;
+    int attackRegularClipCount;
+    int strongAttackClipCount;
+    ////////////////////////////////
 };
 
 #endif

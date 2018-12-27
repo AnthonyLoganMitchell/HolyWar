@@ -52,7 +52,13 @@ bool Core::CoreInit()
             printf( "Warning: Linear texture filtering not enabled!" );
         }
         //Create window
-        window = SDL_CreateWindow( "HolyWar", 500, 20, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        SDL_DisplayMode DM;
+        SDL_GetCurrentDisplayMode(0, &DM);
+        auto Width = DM.w;
+        auto Height = DM.h;
+        SCREEN_WIDTH = Width;
+        SCREEN_HEIGHT= Height;
+        window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
         if( window == NULL )
         {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
