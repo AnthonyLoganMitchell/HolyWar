@@ -1,4 +1,5 @@
 #include "MenuTexture.h"
+#include <string>
 //Fix this constructor.
 MenuTexture::MenuTexture(int totalClips, std::string texName, int xpos, int ypos)
 {
@@ -11,7 +12,20 @@ MenuTexture::MenuTexture(int totalClips, std::string texName, int xpos, int ypos
 }
 
 //TODO: Next thing on list is to create the render function here for menuTextures. See CharacterTexture.cpp
-
+void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
+{
+    //Set rendering space and render to screen
+    std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
+    SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
+    //Set clip rendering dimensions
+    if( &clip != NULL )
+    {
+        renderQuad.w = clip->w*size;
+        renderQuad.h = clip->h*size;
+    }
+    //Render to screen
+    SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
+}
 bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL_Renderer* renderer)
 {
     SDL_Texture* newTexture = NULL;
@@ -64,6 +78,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     if(t->name == "MainMenuTorch" && !this->loadMenuTextureFromFile("rec/Menu_Torch.png",t,renderer))
     {
         printf("Failed to load sprite sheet texture: Menu_Torch.png\n");
+        success = false;
     }
     else
     {
@@ -108,7 +123,7 @@ int MenuTexture::GetWidth()
 
 int MenuTexture::GetHeight()
 {
-   return this->height;
+    return this->height;
 }
 
 void MenuTexture::SetWidth(int x)

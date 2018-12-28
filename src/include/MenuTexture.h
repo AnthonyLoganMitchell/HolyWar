@@ -1,6 +1,7 @@
 #ifndef   MENUTEXTURE_H_
 #define   MENUTEXTURE_H_
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -35,6 +36,8 @@ public:
     ///////////////////////////////////////////////////////////
     SDL_Texture* texture;
     SDL_Rect* animation;
+    int xposition;
+    int yposition;
 
 private:
    //Common Across all derived
@@ -42,8 +45,6 @@ private:
     int textureClipCount;
     int width;
     int height;
-    int xposition;
-    int yposition;
     int frameCount;
     ////////////////
 

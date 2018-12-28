@@ -25,7 +25,8 @@ int WinMain( int argc, char* args[] )
         {
             if ( CoreGame->OnMainMenu == true)
             {
-
+                CoreGame->CoreMainMenuRun();
+                CoreGame->OnMainMenu = false;
                 //Initiate Main bootup sequence for main menu.
             }
             else if (CoreGame->onLevelSelction == true)

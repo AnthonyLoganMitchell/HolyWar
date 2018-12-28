@@ -160,10 +160,16 @@ void Core::EventHandler(SDL_Event e)
 }
 void  Core::CoreMainMenuRun()
 {
-    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (1/4 * this->SCREEN_HEIGHT), (1/4 * this->SCREEN_WIDTH));
-    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_HEIGHT), (1/4 * this->SCREEN_WIDTH));
-    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_HEIGHT), (3/4 * this->SCREEN_WIDTH));
+    //std::cout << "\n" <<this->SCREEN_HEIGHT/4 << std::endl;
+    this->renderClear();
+    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (this->SCREEN_WIDTH/4), (this->SCREEN_HEIGHT/4));
+    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_WIDTH), (1/4 * this->SCREEN_WIDTH));
+    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_WIDTH), (3/4 * this->SCREEN_WIDTH));
     mainMenu->loadMenuMedia(mainMenu,this->renderer);
+    torch_1->loadMenuMedia(torch_1,this->renderer);
+    torch_2->loadMenuMedia(torch_2,this->renderer);
+    mainMenu->render(mainMenu,this->renderer,mainMenu->xposition,mainMenu->yposition,3,mainMenu->animation);
+    this->renderPresent();
 //Initialize and load textures for background and menu options
 //Design the main menu loop.
 
