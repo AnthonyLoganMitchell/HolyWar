@@ -1,11 +1,18 @@
 #include "MenuTexture.h"
 //Fix this constructor.
-/*MenuTexture::MenuTexture()
+MenuTexture::MenuTexture(int totalClips, std::string texName, int xpos, int ypos)
 {
+    this->textureClipCount = totalClips -1;
+    this->name = texName;
+    this->xposition = xpos;
+    this->yposition = ypos;
+    this->animation = new SDL_Rect[totalClips];
 
-}*/
+}
 
-bool MenuTexture::loadMenuFromFile( std::string path, MenuTexture* t, SDL_Renderer* renderer)
+//TODO: Next thing on list is to create the render function here for menuTextures. See CharacterTexture.cpp
+
+bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL_Renderer* renderer)
 {
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -40,14 +47,55 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     //Loading success flag
     bool success = true;
     //Load sprite sheet texture for menus here
-    if(t->name == "<Insert Menu Texture here>" && !this->loadMenuFromFile("<Insert menu file path here>",t,renderer))
+    if(t->name == "MainMenuLogo" && !this->loadMenuTextureFromFile("rec/Holy_War_Menu_Strip.png",t,renderer))
     {
-        printf( "Failed to load sprite sheet texture!\n" );
+        printf( "Failed to load sprite sheet texture: Holy_War_Menu_Strip.png\n" );
         success = false;
     }
     else
     {
+        t->animation[0].x =0;
+        t->animation[0].y =0;
+        t->animation[0].h =39;
+        t->animation[0].w =266;
 
+    }
+
+    if(t->name == "MainMenuTorch" && !this->loadMenuTextureFromFile("rec/Menu_Torch.png",t,renderer))
+    {
+        printf("Failed to load sprite sheet texture: Menu_Torch.png\n");
+    }
+    else
+    {
+        t->animation[0].x = 0;
+        t->animation[0].y = 0;
+        t->animation[0].h = 39;
+        t->animation[0].w = 38;
+
+        t->animation[1].x = 39;
+        t->animation[1].y = 0;
+        t->animation[1].h = 39;
+        t->animation[1].w = 38;
+
+        t->animation[2].x = 77;
+        t->animation[2].y = 0;
+        t->animation[2].h = 39;
+        t->animation[2].w = 38;
+
+        t->animation[3].x = 115;
+        t->animation[3].y = 0;
+        t->animation[3].h = 39;
+        t->animation[3].w = 38;
+
+        t->animation[4].x = 153;
+        t->animation[4].y = 0;
+        t->animation[4].h = 39;
+        t->animation[4].w = 38;
+
+        t->animation[5].x = 191;
+        t->animation[5].y = 0;
+        t->animation[5].h = 39;
+        t->animation[5].w = 38;
 
     }
     return success;
@@ -71,6 +119,24 @@ void MenuTexture::SetWidth(int x)
 void MenuTexture::SetHeight(int x)
 {
     this->height = x;
+}
+void MenuTexture::SetXPos(int x)
+{
+    this->xposition = x;
+}
+
+void MenuTexture::SetYPos(int y)
+{
+    this->yposition = y;
+}
+
+int MenuTexture::GetXPos()
+{
+    return this->xposition;
+}
+int MenuTexture::GetYPos()
+{
+    return this->yposition;
 }
 
 void MenuTexture::SetFrameCount(int x)

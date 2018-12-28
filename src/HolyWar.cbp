@@ -46,8 +46,12 @@
 		<Unit filename="CharacterTexture.cpp" />
 		<Unit filename="Core.cpp" />
 		<Unit filename="Holy_War_main.cpp" />
+		<Unit filename="MenuTexture.cpp" />
+		<Unit filename="Texture.cpp" />
 		<Unit filename="include/CharacterTexture.h" />
 		<Unit filename="include/Core.h" />
+		<Unit filename="include/MenuTexture.h" />
+		<Unit filename="include/Texture.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

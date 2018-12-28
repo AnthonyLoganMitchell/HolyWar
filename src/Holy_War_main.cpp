@@ -18,10 +18,14 @@ int WinMain( int argc, char* args[] )
     {
         CoreGame->OnMainMenu = true;
         //While application is running
+        SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
+        CoreGame->renderClear();
+        CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
             if ( CoreGame->OnMainMenu == true)
             {
+
                 //Initiate Main bootup sequence for main menu.
             }
             else if (CoreGame->onLevelSelction == true)

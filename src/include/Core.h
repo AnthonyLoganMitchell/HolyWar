@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "Texture.h"
+#include "MenuTexture.h"
 //
 class Core
 {
@@ -12,10 +13,11 @@ public:
     Core();
     bool CoreInit();
     void CoreShutdown();
-    void CoreMainMenuRun();
     void renderPresent();
     void renderClear();
     void EventHandler(SDL_Event);
+    void CoreMainMenuRun();
+
 
     SDL_Window* window;
     SDL_Renderer* renderer;
