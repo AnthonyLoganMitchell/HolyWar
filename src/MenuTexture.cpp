@@ -16,9 +16,9 @@ void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int
 {
     //Set rendering space and render to screen
     std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
-    SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
+    SDL_Rect renderQuad = { x, y, t->GetWidth()*size, t->GetHeight()*size };
     //Set clip rendering dimensions
-    if( &clip != NULL )
+    if( clip != NULL )
     {
         renderQuad.w = clip->w*size;
         renderQuad.h = clip->h*size;
@@ -82,7 +82,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     else
     {
-        t->animation[0].x = 0;
+        t->animation[0].x = 1;
         t->animation[0].y = 0;
         t->animation[0].h = 39;
         t->animation[0].w = 38;
@@ -162,6 +162,12 @@ void MenuTexture::SetFrameCount(int x)
 int MenuTexture::GetFrameCount()
 {
     return this->frameCount;
+}
+
+void MenuTexture::TickFrameCount()
+{
+    this->frameCount++;
+
 }
 
 void MenuTexture::Free_Texture()

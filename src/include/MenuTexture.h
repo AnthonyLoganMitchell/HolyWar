@@ -38,11 +38,11 @@ public:
     SDL_Rect* animation;
     int xposition;
     int yposition;
+    int textureClipCount;
 
 private:
    //Common Across all derived
     std::string name;
-    int textureClipCount;
     int width;
     int height;
     int frameCount;

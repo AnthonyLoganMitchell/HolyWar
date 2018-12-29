@@ -162,14 +162,33 @@ void  Core::CoreMainMenuRun()
 {
     //std::cout << "\n" <<this->SCREEN_HEIGHT/4 << std::endl;
     this->renderClear();
-    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (this->SCREEN_WIDTH/4), (this->SCREEN_HEIGHT/4));
-    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_WIDTH), (1/4 * this->SCREEN_WIDTH));
-    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch",(1/2 * this->SCREEN_WIDTH), (3/4 * this->SCREEN_WIDTH));
+    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (this->SCREEN_WIDTH/4)+50, (this->SCREEN_HEIGHT/4));
+    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH/4)+50, (this->SCREEN_HEIGHT/2));
+    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch", ((this->SCREEN_WIDTH/4)*3), (this->SCREEN_HEIGHT/2));
     mainMenu->loadMenuMedia(mainMenu,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
-    mainMenu->render(mainMenu,this->renderer,mainMenu->xposition,mainMenu->yposition,3,mainMenu->animation);
-    this->renderPresent();
+    while (!this->quit_program)
+    {
+
+            mainMenu->render(mainMenu,this->renderer,mainMenu->xposition,mainMenu->yposition,3,NULL);
+            torch_1->render(torch_1,this->renderer,torch_1->xposition,torch_1->yposition,4,&torch_1->animation[torch_1->GetFrameCount()]);
+            torch_2->render(torch_2,this->renderer,torch_2->xposition,torch_2->yposition,4,&torch_2->animation[torch_1->GetFrameCount()]);
+            torch_1->TickFrameCount();
+            torch_2->TickFrameCount();
+            this->renderPresent();
+
+            if (torch_1->GetFrameCount()== torch_1->textureClipCount)
+            {
+                torch_1->SetFrameCount(0);
+            }
+            if (torch_2->GetFrameCount()== torch_2->textureClipCount)
+            {
+                torch_2->SetFrameCount(0);
+            }
+            SDL_Delay(100);
+    }
+
 //Initialize and load textures for background and menu options
 //Design the main menu loop.
 
