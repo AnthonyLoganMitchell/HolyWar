@@ -31,6 +31,7 @@ public:
     void SetYPos(int);
     void SetFrameCount(int);
     void TickFrameCount();
+    void ResetFrameCount();
     int  GetFrameCount();
     void Free_Texture();
     ///////////////////////////////////////////////////////////

@@ -158,19 +158,26 @@ void Core::EventHandler(SDL_Event e)
 
     }
 }
-void  Core::CoreMainMenuRun()
+void  Core::CoreMainMenuRun(SDL_Event *e)
 {
+
+    //TODO: Now that experimental placement is done, do correct screen width justification of Main Logo Texture
+    //and split the logo into two parts
     //std::cout << "\n" <<this->SCREEN_HEIGHT/4 << std::endl;
+    int tmp = 0;
+    tmp = this->SCREEN_WIDTH / 2;
+
     this->renderClear();
     MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (this->SCREEN_WIDTH/4)+50, (this->SCREEN_HEIGHT/4));
-    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH/4)+50, (this->SCREEN_HEIGHT/2));
-    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch", ((this->SCREEN_WIDTH/4)*3), (this->SCREEN_HEIGHT/2));
+    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH/4), (this->SCREEN_HEIGHT/2));
+    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH* 3/4)-200, (this->SCREEN_HEIGHT/2));
     mainMenu->loadMenuMedia(mainMenu,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
-    while (!this->quit_program)
+    torch_2->SetFrameCount(5);
+    while (this->OnMainMenu)
     {
-
+            this->renderClear();
             mainMenu->render(mainMenu,this->renderer,mainMenu->xposition,mainMenu->yposition,3,NULL);
             torch_1->render(torch_1,this->renderer,torch_1->xposition,torch_1->yposition,4,&torch_1->animation[torch_1->GetFrameCount()]);
             torch_2->render(torch_2,this->renderer,torch_2->xposition,torch_2->yposition,4,&torch_2->animation[torch_1->GetFrameCount()]);
@@ -194,3 +201,63 @@ void  Core::CoreMainMenuRun()
 
 
 }
+
+/*
+#ifndef EVENT_H_
+#define EVENT_H_
+#include "Globals.h"
+
+void EventHandler(SDL_Event e)
+{
+    while( SDL_PollEvent( &e ))
+        {
+            //User requests quit
+            if( e.type == SDL_QUIT )
+              {
+                quit_program = true;
+              }
+            else if(e.type == SDL_CONTROLLERBUTTONDOWN)
+              {
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==1 )
+                  {
+                     yPos=-5;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==1)
+                  {
+                     yPos=5;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==1)
+                  {
+                     xPos=-5;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==1)
+                  {
+                     xPos=5;
+                  }
+              }// BUTTONDOWN
+            else if(e.type == SDL_CONTROLLERBUTTONUP)
+              {
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==0 )
+                  {
+                     yPos=0;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==0)
+                  {
+                     yPos=0;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==0)
+                  {
+                     xPos=0;
+                  }
+                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==0)
+                  {
+                     xPos=0;
+                  }
+
+              }
+
+        }
+}
+#endif // EVENT_H_
+*/
+

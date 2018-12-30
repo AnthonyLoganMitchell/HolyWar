@@ -6,6 +6,7 @@ class Texture
 {
 public:
     Texture();
+    virtual ~Texture(){};
     virtual void Free_Texture()=0;
     virtual int  GetWidth()=0;
     virtual int  GetHeight()=0;

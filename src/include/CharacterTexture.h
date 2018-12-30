@@ -13,7 +13,7 @@ public:
     //^^^The six int's at beginning of CharacterTexture();^^^
     CharacterTexture(int, int, int, int, int, int, std::string, int, int);
     //////////////////////////////////////////
-
+    ~CharacterTexture();
     //These functions are not derived
     bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*);
     bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);

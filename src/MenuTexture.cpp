@@ -170,6 +170,11 @@ void MenuTexture::TickFrameCount()
 
 }
 
+void MenuTexture::ResetFrameCount()
+{
+    this->frameCount =0;
+}
+
 void MenuTexture::Free_Texture()
 {
     //Free texture if it exists

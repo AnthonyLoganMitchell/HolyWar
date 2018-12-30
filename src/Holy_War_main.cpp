@@ -9,6 +9,7 @@
 int WinMain( int argc, char* args[] )
 {
     Core *CoreGame = new Core();
+    SDL_Event* e;
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
     {
@@ -25,7 +26,7 @@ int WinMain( int argc, char* args[] )
         {
             if ( CoreGame->OnMainMenu == true)
             {
-                CoreGame->CoreMainMenuRun();
+                CoreGame->CoreMainMenuRun(e);
                 CoreGame->OnMainMenu = false;
                 //Initiate Main bootup sequence for main menu.
             }
@@ -44,55 +45,3 @@ int WinMain( int argc, char* args[] )
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  //Handle events on queue
-             uint64_t timer1; // These originally werent in this block
-             uint64_t timer2; // These originally werent in this block
-             EventHandler(e);
-             //Clear screen
-             renderClear();
-             render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
-             mainTextureSheet[0]->TickFrameCount();
-
-
-                if(mainTextureSheet[0]->GetFrameCount() == mainTextureSheet[0]->GetSpriteCount()){
-
-                    mainTextureSheet[0]->SetFrameCount(0);
-                }
-
-                renderPresent();
-                //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
-                timer1 = SDL_GetPerformanceCounter();
-                SDL_Delay(70);
-                timer2 = SDL_GetPerformanceCounter();
-                cout<<(timer2-timer1)/(double )SDL_GetPerformanceFrequency()<<endl;*/
-

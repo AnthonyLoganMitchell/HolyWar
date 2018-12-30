@@ -29,6 +29,11 @@ CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, in
     strongAttackClips = new SDL_Rect[totalStrongAttackClips];
 
 }
+CharacterTexture::~CharacterTexture()
+{
+
+}
+
 bool CharacterTexture::loadCharacterFromFile( std::string path, CharacterTexture* t, SDL_Renderer* renderer)
 {
     SDL_Texture* newTexture = NULL;
@@ -170,7 +175,7 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
     //Set rendering space and render to screen
     SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
     //Set clip rendering dimensions
-    if( &clip != NULL )
+    if( clip != NULL )
     {
         renderQuad.w = clip->w*size;
         renderQuad.h = clip->h*size;

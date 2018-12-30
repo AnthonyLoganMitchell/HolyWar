@@ -4,7 +4,7 @@
 	<unistd.h>
 	"include/Globals.h"
 
-1545887042 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
+1546184968 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\texture.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -339,7 +339,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1546023677 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
+1546110559 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\holy_war_main.cpp
 	"Core.h"
 
 1545710071 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\init.h
@@ -745,10 +745,11 @@
 1545701976 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\globals.cpp
 	"Globals.h"
 
-1546036491 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
+1546183819 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
+	"Globals.h"
 
-1545969357 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
+1546110551 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -759,21 +760,21 @@
 1545712307 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
 
-1545887042 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
+1546184633 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
 	"CharacterTexture.h"
 
-1545887042 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
+1546184809 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
 	<stdio.h>
 	<string>
 	<SDL.h>
 	<SDL_image.h>
 	"Texture.h"
 
-1546036548 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\menutexture.cpp
+1546096701 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\menutexture.cpp
 	"MenuTexture.h"
 	<string>
 
-1546035404 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
+1546096705 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
 	<stdio.h>
 	<iostream>
 	<string>

@@ -16,7 +16,7 @@ public:
     void renderPresent();
     void renderClear();
     void EventHandler(SDL_Event);
-    void CoreMainMenuRun();
+    void CoreMainMenuRun(SDL_Event*);
 
 
     SDL_Window* window;
