@@ -745,7 +745,7 @@
 1545701976 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\globals.cpp
 	"Globals.h"
 
-1546183819 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
+1546232368 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
 	"Globals.h"
 
@@ -770,11 +770,11 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1546096701 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\menutexture.cpp
+1546232270 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\menutexture.cpp
 	"MenuTexture.h"
 	<string>
 
-1546096705 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
+1546227553 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
 	<stdio.h>
 	<iostream>
 	<string>

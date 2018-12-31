@@ -11,7 +11,7 @@ class MenuTexture : public Texture
 public:
     //Constructors
     //total clips/name/xpos/ypos
-    MenuTexture(int,std::string,int,int); // Going to fix CharacterTexture class first
+    MenuTexture(int,std::string); // Going to fix CharacterTexture class first
     //////////////////////////////////////////
 
     //These functions are not derived

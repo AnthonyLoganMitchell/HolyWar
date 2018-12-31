@@ -1,12 +1,10 @@
 #include "MenuTexture.h"
 #include <string>
 //Fix this constructor.
-MenuTexture::MenuTexture(int totalClips, std::string texName, int xpos, int ypos)
+MenuTexture::MenuTexture(int totalClips, std::string texName)
 {
     this->textureClipCount = totalClips -1;
     this->name = texName;
-    this->xposition = xpos;
-    this->yposition = ypos;
     this->animation = new SDL_Rect[totalClips];
 
 }
@@ -15,7 +13,7 @@ MenuTexture::MenuTexture(int totalClips, std::string texName, int xpos, int ypos
 void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
-    std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
+    //std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
     SDL_Rect renderQuad = { x, y, t->GetWidth()*size, t->GetHeight()*size };
     //Set clip rendering dimensions
     if( clip != NULL )
@@ -70,8 +68,8 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     {
         t->animation[0].x =0;
         t->animation[0].y =0;
-        t->animation[0].h =39;
-        t->animation[0].w =266;
+        t->animation[0].h =62;
+        t->animation[0].w =142;
 
     }
 

@@ -163,37 +163,50 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
 
     //TODO: Now that experimental placement is done, do correct screen width justification of Main Logo Texture
     //and split the logo into two parts
-    //std::cout << "\n" <<this->SCREEN_HEIGHT/4 << std::endl;
-    int tmp = 0;
-    tmp = this->SCREEN_WIDTH / 2;
 
     this->renderClear();
-    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo", (this->SCREEN_WIDTH/4)+50, (this->SCREEN_HEIGHT/4));
-    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH/4), (this->SCREEN_HEIGHT/2));
-    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch", (this->SCREEN_WIDTH* 3/4)-200, (this->SCREEN_HEIGHT/2));
+    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo");
+    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch");
+    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch");
     mainMenu->loadMenuMedia(mainMenu,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
     torch_2->SetFrameCount(5);
+
+    int logoXPos = 0;
+
+
+    int scale = 0;
+    if (this->SCREEN_WIDTH > 1366)
+    {
+        scale = 3;
+        logoXPos = ((this->SCREEN_WIDTH/2 - mainMenu->GetWidth())- mainMenu->GetWidth()/2);
+    }
+    else
+    {
+        logoXPos = ((this->SCREEN_WIDTH/2 - mainMenu->GetWidth())- mainMenu->GetWidth()/2); // << this will be changed.
+        scale = 2;
+    }
+
     while (this->OnMainMenu)
     {
-            this->renderClear();
-            mainMenu->render(mainMenu,this->renderer,mainMenu->xposition,mainMenu->yposition,3,NULL);
-            torch_1->render(torch_1,this->renderer,torch_1->xposition,torch_1->yposition,4,&torch_1->animation[torch_1->GetFrameCount()]);
-            torch_2->render(torch_2,this->renderer,torch_2->xposition,torch_2->yposition,4,&torch_2->animation[torch_1->GetFrameCount()]);
-            torch_1->TickFrameCount();
-            torch_2->TickFrameCount();
-            this->renderPresent();
+        this->renderClear();
+        mainMenu->render(mainMenu,this->renderer,logoXPos,this->SCREEN_HEIGHT/4,scale,NULL);
+        torch_1->render(torch_1,this->renderer,logoXPos-torch_1->GetWidth()/4,this->SCREEN_HEIGHT/4+100,scale,&torch_1->animation[torch_1->GetFrameCount()]);
+        torch_2->render(torch_2,this->renderer,logoXPos+mainMenu->GetWidth()+torch_2->GetWidth()-30,this->SCREEN_HEIGHT/4+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
+        torch_1->TickFrameCount();
+        torch_2->TickFrameCount();
+        this->renderPresent();
 
-            if (torch_1->GetFrameCount()== torch_1->textureClipCount)
-            {
-                torch_1->SetFrameCount(0);
-            }
-            if (torch_2->GetFrameCount()== torch_2->textureClipCount)
-            {
-                torch_2->SetFrameCount(0);
-            }
-            SDL_Delay(100);
+        if (torch_1->GetFrameCount()== torch_1->textureClipCount)
+        {
+            torch_1->SetFrameCount(0);
+        }
+        if (torch_2->GetFrameCount()== torch_2->textureClipCount)
+        {
+            torch_2->SetFrameCount(0);
+        }
+        SDL_Delay(100);
     }
 
 //Initialize and load textures for background and menu options
