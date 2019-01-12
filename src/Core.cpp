@@ -172,9 +172,7 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
     torch_2->SetFrameCount(5);
-
     int logoXPos = 0;
-
 
     int scale = 0;
     if (this->SCREEN_WIDTH > 1366)

@@ -2,90 +2,58 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="CharacterTexture.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="Core.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2278" topLine="6" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="32" />
-			<Collapse line="118" />
-			<Collapse line="123" />
-			<Collapse line="128" />
-			<Collapse line="133" />
-			<Collapse line="138" />
-			<Collapse line="143" />
-			<Collapse line="148" />
-			<Collapse line="153" />
-			<Collapse line="158" />
-			<Collapse line="168" />
-			<Collapse line="182" />
-			<Collapse line="187" />
-			<Collapse line="192" />
-			<Collapse line="197" />
-		</Folding>
-	</File>
-	<File name="Core.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="817" topLine="3" />
+			<Cursor1 position="4978" topLine="16" />
 		</Cursor>
 		<Folding>
 			<Collapse line="2" />
 			<Collapse line="14" />
 			<Collapse line="18" />
-			<Collapse line="96" />
-			<Collapse line="108" />
-			<Collapse line="161" />
+			<Collapse line="23" />
 		</Folding>
-	</File>
-	<File name="include\MenuTexture.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="990" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="include\Texture.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="374" topLine="0" />
-		</Cursor>
 	</File>
 	<File name="Holy_War_main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="914" topLine="8" />
+			<Cursor1 position="1011" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="MenuTexture.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+	<File name="MenuTexture.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4386" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="4" />
-			<Collapse line="15" />
-			<Collapse line="29" />
-			<Collapse line="119" />
-			<Collapse line="124" />
-			<Collapse line="129" />
-			<Collapse line="134" />
-			<Collapse line="138" />
-			<Collapse line="143" />
-			<Collapse line="148" />
-			<Collapse line="152" />
-			<Collapse line="157" />
-			<Collapse line="178" />
-		</Folding>
-	</File>
-	<File name="include\CharacterTexture.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1283" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="include\Core.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="379" topLine="6" />
+			<Cursor1 position="284" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Texture.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="24" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\CharacterTexture.h" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1650" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Texture.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="147" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="CharacterTexture.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="33" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="37" />
+		</Folding>
+	</File>
+	<File name="include\Core.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="439" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="include\MenuTexture.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="309" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

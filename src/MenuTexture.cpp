@@ -6,6 +6,7 @@ MenuTexture::MenuTexture(int totalClips, std::string texName)
     this->textureClipCount = totalClips -1;
     this->name = texName;
     this->animation = new SDL_Rect[totalClips];
+    this->frameCount = 0;
 
 }
 
@@ -55,7 +56,6 @@ bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL
 
 bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 {
-
     //Loading success flag
     bool success = true;
     //Load sprite sheet texture for menus here
@@ -109,6 +109,11 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
         t->animation[5].y = 0;
         t->animation[5].h = 39;
         t->animation[5].w = 38;
+
+        t->animation[6].x = 228;
+        t->animation[6].y = 0;
+        t->animation[6].h = 39;
+        t->animation[6].w = 38;
 
     }
     return success;

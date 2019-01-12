@@ -28,6 +28,7 @@ int WinMain( int argc, char* args[] )
             {
                 CoreGame->CoreMainMenuRun(e);
                 CoreGame->OnMainMenu = false;
+                CoreGame->quit_program = true;
                 //Initiate Main bootup sequence for main menu.
             }
             else if (CoreGame->onLevelSelction == true)
