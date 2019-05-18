@@ -40,6 +40,7 @@ bool Core::CoreInit()
         else
         {
             //Load joystick
+            //TODO: Add small while loop or for to collect all controllers and
             this->gameController = SDL_GameControllerOpen( 0 );
             if( this->gameController == NULL )
             {
@@ -168,9 +169,12 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo");
     MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch");
     MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch");
+    MenuTexture *menuBackground = new MenuTexture(1, "MainMenuBackground");
+    menuBackground->loadMenuMedia(menuBackground,this->renderer);
     mainMenu->loadMenuMedia(mainMenu,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
+
     torch_2->SetFrameCount(5);
     int logoXPos = 0;
 
@@ -189,6 +193,7 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     while (this->OnMainMenu)
     {
         this->renderClear();
+        //menuBackground->render(menuBackground,this->renderer,0,0,2,NULL);
         mainMenu->render(mainMenu,this->renderer,logoXPos,this->SCREEN_HEIGHT/4,scale,NULL);
         torch_1->render(torch_1,this->renderer,logoXPos-torch_1->GetWidth()/4,this->SCREEN_HEIGHT/4+100,scale,&torch_1->animation[torch_1->GetFrameCount()]);
         torch_2->render(torch_2,this->renderer,logoXPos+mainMenu->GetWidth()+torch_2->GetWidth()-30,this->SCREEN_HEIGHT/4+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
@@ -206,69 +211,4 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
         }
         SDL_Delay(100);
     }
-
-//Initialize and load textures for background and menu options
-//Design the main menu loop.
-
-
 }
-
-/*
-#ifndef EVENT_H_
-#define EVENT_H_
-#include "Globals.h"
-
-void EventHandler(SDL_Event e)
-{
-    while( SDL_PollEvent( &e ))
-        {
-            //User requests quit
-            if( e.type == SDL_QUIT )
-              {
-                quit_program = true;
-              }
-            else if(e.type == SDL_CONTROLLERBUTTONDOWN)
-              {
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==1 )
-                  {
-                     yPos=-5;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==1)
-                  {
-                     yPos=5;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==1)
-                  {
-                     xPos=-5;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==1)
-                  {
-                     xPos=5;
-                  }
-              }// BUTTONDOWN
-            else if(e.type == SDL_CONTROLLERBUTTONUP)
-              {
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_DOWN) ==0 )
-                  {
-                     yPos=0;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_UP) ==0)
-                  {
-                     yPos=0;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_LEFT) ==0)
-                  {
-                     xPos=0;
-                  }
-                if(SDL_GameControllerGetButton(gameController,SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ==0)
-                  {
-                     xPos=0;
-                  }
-
-              }
-
-        }
-}
-#endif // EVENT_H_
-*/
-

@@ -116,6 +116,19 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
         t->animation[6].w = 38;
 
     }
+    if(t->name == "MainMenuBackground" && !this->loadMenuTextureFromFile("rec/main_menu_background.png",t,renderer))
+    {
+        printf("Failed to load sprite sheet texture: main_menu_background\n");
+        success = false;
+    }
+    else
+    {
+        t->animation[0].x = 0;
+        t->animation[0].y = 0;
+        t->animation[0].h = 540;
+        t->animation[0].w = 960;
+        return success;
+    }
     return success;
 }
 
