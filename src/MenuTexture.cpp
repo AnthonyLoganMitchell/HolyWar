@@ -57,79 +57,87 @@ bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL
 bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 {
     //Loading success flag
-    bool success = true;
-    //Load sprite sheet texture for menus here
-    if(t->name == "MainMenuLogo" && !this->loadMenuTextureFromFile("rec/Holy_War_Menu_Strip.png",t,renderer))
+    if (t->name == "MainMenuLogo")
     {
-        printf( "Failed to load sprite sheet texture: Holy_War_Menu_Strip.png\n" );
-        success = false;
+        if (!this->loadMenuTextureFromFile("rec/main_menu_logo.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_logo.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x =1;
+            t->animation[0].y =1;
+            t->animation[0].h =61;
+            t->animation[0].w =122;
+            return true;
+        }
     }
-    else
+
+    if (t->name == "MainMenuTorch")
     {
-        t->animation[0].x =0;
-        t->animation[0].y =0;
-        t->animation[0].h =62;
-        t->animation[0].w =142;
+        if (!this->loadMenuTextureFromFile("rec/main_menu_torch.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: main_menu_torch.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].h = 39;
+            t->animation[0].w = 38;
 
+            t->animation[1].x = 39;
+            t->animation[1].y = 1;
+            t->animation[1].h = 39;
+            t->animation[1].w = 38;
+
+            t->animation[2].x = 77;
+            t->animation[2].y = 1;
+            t->animation[2].h = 39;
+            t->animation[2].w = 38;
+
+            t->animation[3].x = 115;
+            t->animation[3].y = 1;
+            t->animation[3].h = 39;
+            t->animation[3].w = 38;
+
+            t->animation[4].x = 153;
+            t->animation[4].y = 1;
+            t->animation[4].h = 39;
+            t->animation[4].w = 38;
+
+            t->animation[5].x = 191;
+            t->animation[5].y = 1;
+            t->animation[5].h = 39;
+            t->animation[5].w = 38;
+
+            t->animation[6].x = 228;
+            t->animation[6].y = 1;
+            t->animation[6].h = 39;
+            t->animation[6].w = 38;
+            return true;
+        }
     }
 
-    if(t->name == "MainMenuTorch" && !this->loadMenuTextureFromFile("rec/Menu_Torch.png",t,renderer))
+
+    if (t->name == "MainMenuBackground")
     {
-        printf("Failed to load sprite sheet texture: Menu_Torch.png\n");
-        success = false;
+        if (!this->loadMenuTextureFromFile("rec/main_menu_background.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: main_menu_background\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].h = 540;
+            t->animation[0].w = 960;
+        }
     }
-    else
-    {
-        t->animation[0].x = 1;
-        t->animation[0].y = 0;
-        t->animation[0].h = 39;
-        t->animation[0].w = 38;
-
-        t->animation[1].x = 39;
-        t->animation[1].y = 0;
-        t->animation[1].h = 39;
-        t->animation[1].w = 38;
-
-        t->animation[2].x = 77;
-        t->animation[2].y = 0;
-        t->animation[2].h = 39;
-        t->animation[2].w = 38;
-
-        t->animation[3].x = 115;
-        t->animation[3].y = 0;
-        t->animation[3].h = 39;
-        t->animation[3].w = 38;
-
-        t->animation[4].x = 153;
-        t->animation[4].y = 0;
-        t->animation[4].h = 39;
-        t->animation[4].w = 38;
-
-        t->animation[5].x = 191;
-        t->animation[5].y = 0;
-        t->animation[5].h = 39;
-        t->animation[5].w = 38;
-
-        t->animation[6].x = 228;
-        t->animation[6].y = 0;
-        t->animation[6].h = 39;
-        t->animation[6].w = 38;
-
-    }
-    if(t->name == "MainMenuBackground" && !this->loadMenuTextureFromFile("rec/main_menu_background.png",t,renderer))
-    {
-        printf("Failed to load sprite sheet texture: main_menu_background\n");
-        success = false;
-    }
-    else
-    {
-        t->animation[0].x = 0;
-        t->animation[0].y = 0;
-        t->animation[0].h = 540;
-        t->animation[0].w = 960;
-        return success;
-    }
-    return success;
+    return false;
 }
 
 int MenuTexture::GetWidth()

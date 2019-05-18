@@ -166,12 +166,12 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     //and split the logo into two parts
 
     this->renderClear();
-    MenuTexture *mainMenu = new MenuTexture(1,"MainMenuLogo");
+    MenuTexture *menuLogo = new MenuTexture(1,"MainMenuLogo");
     MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch");
     MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch");
     MenuTexture *menuBackground = new MenuTexture(1, "MainMenuBackground");
     menuBackground->loadMenuMedia(menuBackground,this->renderer);
-    mainMenu->loadMenuMedia(mainMenu,this->renderer);
+    menuLogo->loadMenuMedia(menuLogo,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
 
@@ -182,21 +182,21 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     if (this->SCREEN_WIDTH > 1366)
     {
         scale = 3;
-        logoXPos = ((this->SCREEN_WIDTH/2 - mainMenu->GetWidth())- mainMenu->GetWidth()/2);
+        logoXPos = ((this->SCREEN_WIDTH/2 - menuLogo->GetWidth())- menuLogo->GetWidth()/2);
     }
     else
     {
-        logoXPos = ((this->SCREEN_WIDTH/2 - mainMenu->GetWidth())- mainMenu->GetWidth()/2); // << this will be changed.
+        logoXPos = ((this->SCREEN_WIDTH/2 - menuLogo->GetWidth())- menuLogo->GetWidth()/2); // << this will be changed.
         scale = 2;
     }
 
     while (this->OnMainMenu)
     {
         this->renderClear();
-        //menuBackground->render(menuBackground,this->renderer,0,0,2,NULL);
-        mainMenu->render(mainMenu,this->renderer,logoXPos,this->SCREEN_HEIGHT/4,scale,NULL);
+        menuBackground->render(menuBackground,this->renderer,0,0,2,NULL);
+        menuLogo->render(menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4,scale,NULL);
         torch_1->render(torch_1,this->renderer,logoXPos-torch_1->GetWidth()/4,this->SCREEN_HEIGHT/4+100,scale,&torch_1->animation[torch_1->GetFrameCount()]);
-        torch_2->render(torch_2,this->renderer,logoXPos+mainMenu->GetWidth()+torch_2->GetWidth()-30,this->SCREEN_HEIGHT/4+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
+        torch_2->render(torch_2,this->renderer,logoXPos+menuLogo->GetWidth()+torch_2->GetWidth()-30,this->SCREEN_HEIGHT/4+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
         torch_1->TickFrameCount();
         torch_2->TickFrameCount();
         this->renderPresent();
