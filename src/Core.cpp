@@ -1,4 +1,5 @@
 #include "Core.h"
+#include <vector>
 Core::Core()
 {
     this->window = NULL;
@@ -161,21 +162,30 @@ void Core::EventHandler(SDL_Event e)
 }
 void  Core::CoreMainMenuRun(SDL_Event *e)
 {
+    bool alphaFlag=true;
 
-    //TODO: Now that experimental placement is done, do correct screen width justification of Main Logo Texture
-    //and split the logo into two parts
-
-    this->renderClear();
+    MenuTexture *menuBackground = new MenuTexture(1, "FullMoonBlankSky");
+    MenuTexture *PineTree = new MenuTexture(9,"PineTree");
     MenuTexture *menuLogo = new MenuTexture(1,"MainMenuLogo");
-    MenuTexture *torch_1 = new MenuTexture(7,"MainMenuTorch");
-    MenuTexture *torch_2 = new MenuTexture(7,"MainMenuTorch");
-    MenuTexture *menuBackground = new MenuTexture(1, "MainMenuBackground");
+    MenuTexture *torch_1 = new MenuTexture(7,"WoodTorch");
+    MenuTexture *torch_2 = new MenuTexture(7,"WoodTorch");
+    MenuTexture *midGroundBush = new MenuTexture(1,"MidGroundBush");
+    MenuTexture *midGroundForest = new MenuTexture(1,"MidGroundForest_1");
+
+
+
+
+
+
     menuBackground->loadMenuMedia(menuBackground,this->renderer);
     menuLogo->loadMenuMedia(menuLogo,this->renderer);
+    PineTree->loadMenuMedia(PineTree,this->renderer);
     torch_1->loadMenuMedia(torch_1,this->renderer);
     torch_2->loadMenuMedia(torch_2,this->renderer);
-
+    midGroundBush->loadMenuMedia(midGroundBush,this->renderer);
+    midGroundForest->loadMenuMedia(midGroundForest, this->renderer);
     torch_2->SetFrameCount(5);
+
     int logoXPos = 0;
 
     int scale = 0;
@@ -189,18 +199,68 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
         logoXPos = ((this->SCREEN_WIDTH/2 - menuLogo->GetWidth())- menuLogo->GetWidth()/2); // << this will be changed.
         scale = 2;
     }
-
+    int mainTick = 0;
+    int midground_tick = SCREEN_WIDTH;
+    int midgroundOneXpos = 0;
+    int midgroundTwoXpos = SCREEN_WIDTH;
     while (this->OnMainMenu)
     {
-        this->renderClear();
-        menuBackground->render(menuBackground,this->renderer,0,0,2,NULL);
-        menuLogo->render(menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4,scale,NULL);
-        torch_1->render(torch_1,this->renderer,logoXPos-torch_1->GetWidth()/4,this->SCREEN_HEIGHT/4+100,scale,&torch_1->animation[torch_1->GetFrameCount()]);
-        torch_2->render(torch_2,this->renderer,logoXPos+menuLogo->GetWidth()+torch_2->GetWidth()-30,this->SCREEN_HEIGHT/4+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
-        torch_1->TickFrameCount();
-        torch_2->TickFrameCount();
-        this->renderPresent();
+        if (alphaFlag)
+        {
+            for (int i = 0; i<256; i++)
+            {
+                int treePos = 0;
+                this->renderClear();
+                menuBackground->setAlpha(i);
+                menuBackground->render(menuBackground,this->renderer,0,0,2,NULL);
+                PineTree->setAlpha(i);
+                for (int i =0; i<13; i++)
+                {
+                    PineTree->render(PineTree,this->renderer,treePos,SCREEN_HEIGHT-(PineTree->GetHeight()*3),3,&PineTree->animation[PineTree->GetFrameCount()]);
+                    treePos+=243;
+                }
+                midGroundBush->setAlpha(i);
+                midGroundBush->render(midGroundBush,this->renderer,0,SCREEN_HEIGHT-midGroundBush->GetHeight(),2,NULL);
+                midGroundForest->setAlpha(i);
+                midGroundForest->render(midGroundForest,this->renderer,0,SCREEN_HEIGHT-(midGroundForest->GetHeight()*2),2,NULL);
+                this->renderPresent();
+                if (i%5 ==0)
+                {
+                    PineTree->TickFrameCount();
+                }
+                if (PineTree->GetFrameCount() == PineTree->textureClipCount)
+                {
+                    PineTree->SetFrameCount(0);
+                }
+                treePos =0;
+                SDL_Delay(20);
 
+            }
+            alphaFlag= false;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////After alpha.
+        int treePos = 0;
+        this->renderClear();
+        menuBackground->render(menuBackground, this->renderer,0,0,2,NULL);
+        menuBackground->render(menuBackground, this->renderer,0,0,2,NULL);
+        for (int i =0; i<13; i++)
+        {
+            PineTree->render(PineTree,this->renderer,treePos,SCREEN_HEIGHT-(PineTree->GetHeight()*3),3,&PineTree->animation[PineTree->GetFrameCount()]);
+            treePos+=243;
+        }
+        midGroundBush->render(midGroundBush,this->renderer,0,SCREEN_HEIGHT-midGroundBush->GetHeight(),2,NULL);
+        midGroundForest->render(midGroundForest,this->renderer,midgroundOneXpos, SCREEN_HEIGHT-(midGroundForest->GetHeight()*2),2,NULL);
+        midGroundForest->render(midGroundForest,this->renderer,midgroundTwoXpos, SCREEN_HEIGHT-(midGroundForest->GetHeight()*2),2,NULL);
+        menuLogo->render(menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4+(menuLogo->GetHeight()*2),scale,NULL);
+        torch_1->render(torch_1,this->renderer,logoXPos-torch_1->GetWidth()/4+10,this->SCREEN_HEIGHT/4+(torch_1->GetHeight()*2)+100,scale,&torch_1->animation[torch_1->GetFrameCount()]);
+        torch_2->render(torch_2,this->renderer,logoXPos+menuLogo->GetWidth()+torch_2->GetWidth()-100,this->SCREEN_HEIGHT/4+(torch_2->GetHeight()*2)+100,scale,&torch_2->animation[torch_1->GetFrameCount()]);
+        this->renderPresent();
+        if (mainTick % 3 == 0)
+        {
+            torch_1->TickFrameCount();
+            torch_2->TickFrameCount();
+        }
         if (torch_1->GetFrameCount()== torch_1->textureClipCount)
         {
             torch_1->SetFrameCount(0);
@@ -209,6 +269,32 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
         {
             torch_2->SetFrameCount(0);
         }
-        SDL_Delay(100);
+        if (mainTick%4==0)
+        {
+            PineTree->TickFrameCount();
+        }
+        if (PineTree->GetFrameCount() == PineTree->textureClipCount)
+        {
+            PineTree->SetFrameCount(0);
+        }
+        if (midground_tick > 0)
+        {
+            midgroundOneXpos--;
+            midgroundTwoXpos--;
+            midground_tick--;
+        }
+        else if (midground_tick <= 0)
+        {
+            midground_tick = SCREEN_WIDTH;
+            midgroundOneXpos = 0;
+            midgroundTwoXpos = SCREEN_WIDTH;
+        }
+        mainTick++;
+        SDL_Delay(30);
+        if (mainTick == 1000)
+        {
+            mainTick = 0;
+        }
+        treePos =0;
     }
 }
