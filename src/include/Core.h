@@ -33,8 +33,4 @@ private:
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
 };
-
-
-
-
 #endif

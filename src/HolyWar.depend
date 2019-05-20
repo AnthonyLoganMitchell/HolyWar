@@ -749,7 +749,7 @@
 	"Core.h"
 	<vector>
 
-1546114151 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
+1558330049 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -760,10 +760,10 @@
 1545712307 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\core.cpp
 	"Core.h"
 
-1546188233 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
+1558330103 source:c:\users\smokumsdebudicus\sdl2workspace\holywar\src\charactertexture.cpp
 	"CharacterTexture.h"
 
-1546188409 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
+1558330089 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\charactertexture.h
 	<stdio.h>
 	<string>
 	<SDL.h>
@@ -774,7 +774,7 @@
 	"MenuTexture.h"
 	<string>
 
-1558237663 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
+1558330073 c:\users\smokumsdebudicus\sdl2workspace\holywar\src\include\menutexture.h
 	<stdio.h>
 	<iostream>
 	<string>

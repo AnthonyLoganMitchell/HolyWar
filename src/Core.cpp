@@ -162,8 +162,9 @@ void Core::EventHandler(SDL_Event e)
 }
 void  Core::CoreMainMenuRun(SDL_Event *e)
 {
+    //Object Texture initialization.
+    /////////////////////////////////////////////////////////////////////////
     bool alphaFlag=true;
-
     MenuTexture *menuBackground = new MenuTexture(1, "FullMoonBlankSky");
     MenuTexture *PineTree = new MenuTexture(9,"PineTree");
     MenuTexture *menuLogo = new MenuTexture(1,"MainMenuLogo");
@@ -171,12 +172,10 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     MenuTexture *torch_2 = new MenuTexture(7,"WoodTorch");
     MenuTexture *midGroundBush = new MenuTexture(1,"MidGroundBush");
     MenuTexture *midGroundForest = new MenuTexture(1,"MidGroundForest_1");
+    //////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
+    //Load media for each texture into memory.
+    //////////////////////////////////////////////////////////////////////////
     menuBackground->loadMenuMedia(menuBackground,this->renderer);
     menuLogo->loadMenuMedia(menuLogo,this->renderer);
     PineTree->loadMenuMedia(PineTree,this->renderer);
@@ -185,10 +184,11 @@ void  Core::CoreMainMenuRun(SDL_Event *e)
     midGroundBush->loadMenuMedia(midGroundBush,this->renderer);
     midGroundForest->loadMenuMedia(midGroundForest, this->renderer);
     torch_2->SetFrameCount(5);
+    //////////////////////////////////////////////////////////////////////////
 
     int logoXPos = 0;
-
     int scale = 0;
+
     if (this->SCREEN_WIDTH > 1366)
     {
         scale = 3;

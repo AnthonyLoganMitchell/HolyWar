@@ -62,5 +62,4 @@ private:
     int strongAttackClipCount;
     ////////////////////////////////
 };
-
 #endif
