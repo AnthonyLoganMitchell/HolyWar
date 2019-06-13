@@ -68,8 +68,8 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
         {
             t->animation[0].x =1;
             t->animation[0].y =1;
-            t->animation[0].h =61;
-            t->animation[0].w =122;
+            t->animation[0].h =385;
+            t->animation[0].w =790;
             return true;
         }
     }
@@ -268,6 +268,23 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
             t->animation[0].h = 540;
             return true;
         }
+    }
+
+    if (t->name == "SplashBackground")
+    {
+        if (!this->loadMenuTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
+            {
+                  printf( "Failed to load sprite sheet texture: splash_background.png\n" );
+                  return false;
+            }
+            else
+            {
+                t->animation[0].x = 1;
+                t->animation[0].y = 1;
+                t->animation[0].w = 1920;
+                t->animation[0].y = 1080;
+
+            }
     }
     return false;
 }

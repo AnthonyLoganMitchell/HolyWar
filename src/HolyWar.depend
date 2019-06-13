@@ -782,3 +782,56 @@
 	<SDL_image.h>
 	"Texture.h"
 
+1558915811 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\charactertexture.cpp
+	"CharacterTexture.h"
+
+1558915811 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\charactertexture.h
+	<stdio.h>
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+	"Texture.h"
+
+1558915811 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\texture.h
+	<SDL.h>
+	<SDL_image.h>
+
+1560398096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+	"Core.h"
+	<vector>
+
+1558998665 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	<iostream>
+	"Texture.h"
+	"MenuTexture.h"
+
+1558915811 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\menutexture.h
+	<stdio.h>
+	<iostream>
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+	"Texture.h"
+
+1560404091 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
+	"Core.h"
+	<SDL_thread.h>
+	"Interaction.h"
+	<vector>
+
+1558984649 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\menutexture.cpp
+	"MenuTexture.h"
+	<string>
+
+1558915797 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\texture.cpp
+	"Texture.h"
+
+1560403843 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\interaction.cpp
+	"Interaction.h"
+
+1560403841 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\interaction.h
+	<SDL.h>
+

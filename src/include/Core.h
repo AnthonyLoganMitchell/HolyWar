@@ -11,17 +11,15 @@ class Core
 {
 public:
     Core();
-    bool CoreInit();
+    bool CoreInit(SDL_GameController* controllers[]);
     void CoreShutdown();
     void renderPresent();
     void renderClear();
-    void EventHandler(SDL_Event);
-    void CoreMainMenuRun(SDL_Event*);
+    void CoreMainMenuRun();
 
 
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_GameController* gameController;
     bool quit_program;
     int Tick;
     bool OnMainMenu;
