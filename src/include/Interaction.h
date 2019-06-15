@@ -8,10 +8,8 @@ class Interaction
     public:
         Interaction();
         ~Interaction();
-        SDL_Event *event;
-
-    protected:
-
+        int controller_id;
+        uint8_t button_event;
     private:
 };
 

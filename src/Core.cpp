@@ -62,7 +62,7 @@ bool Core::CoreInit(SDL_GameController* gameControllers[])
         SCREEN_WIDTH = Width;
         SCREEN_HEIGHT= Height;
         //TODO: Change screen width and height back.
-        window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SDL_WINDOW_SHOWN );
+        window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
         if( window == NULL )
         {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -147,4 +147,42 @@ void  Core::CoreMainMenuRun()
         this->renderPresent();
         SDL_Delay(30);
     }
+}
+
+ int Core::ParseEvents(void* data)
+{
+
+
+}
+
+ int Core::EventHandler(void* data)
+{
+    SDL_Event event;
+    bool quit = false;
+    while (!quit)
+    {
+        while( SDL_PollEvent(&event) != 0)
+        {
+            Interaction *inter = new Interaction();
+
+            if( event.type == SDL_QUIT )
+            {
+                return 0;
+            }
+            else if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
+            {
+                std::cout << event.cbutton.which << std::endl;
+                inter->button_event = event.cbutton.button;
+                inter->controller_id = event.cbutton.which;
+
+
+            }// BUTTONDOWN
+            else
+            {
+                break;
+            }
+
+        }
+    }
+    return 0;
 }

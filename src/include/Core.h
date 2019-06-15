@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Texture.h"
 #include "MenuTexture.h"
+#include "Interaction.h"
 //
 class Core
 {
@@ -16,8 +17,8 @@ public:
     void renderPresent();
     void renderClear();
     void CoreMainMenuRun();
-
-
+    static int ParseEvents(void*);
+    static int EventHandler(void*);
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool quit_program;
@@ -28,6 +29,7 @@ public:
     bool onRunningMatch;
 
 private:
+    std::vector<Interaction*> gl_interact;
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
 };

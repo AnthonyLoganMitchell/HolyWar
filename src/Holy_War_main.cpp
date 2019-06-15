@@ -6,46 +6,9 @@
 */
 #include "Core.h"
 #include <SDL_thread.h>
-#include "Interaction.h"
 #include <vector>
 SDL_GameController* gameControllers[4];
-std::vector<Interaction> gl_interact;
-
-static int EventHandler(void* data)
-{
-    SDL_Event event;
-    bool quit = false;
-    while (!quit)
-    {
-        while( SDL_PollEvent(&event) != 0)
-        {
-
-            if( event.type == SDL_QUIT )
-            {
-                return 0;
-            }
-            else if(event.type == SDL_CONTROLLERBUTTONDOWN)
-            {
-
-                std::cout << "controller_id_down: " << event.cbutton.which << std::endl;
-
-            }// BUTTONDOWN
-            else if(event.type == SDL_CONTROLLERBUTTONUP)
-            {
-                std::cout << "controller_id_up: " << event.cbutton.which << std::endl;
-
-            }
-            else
-            {
-                break;
-            }
-
-        }
-    }
-    return 0;
-}
-
-
+SDL_mutex* parse_mutex;
 
 int WinMain( int argc, char* args[] )
 {
@@ -59,7 +22,8 @@ int WinMain( int argc, char* args[] )
 
     else
     {
-        SDL_Thread* EventThread = SDL_CreateThread(EventHandler, "EventThread", (void*)bug);
+        SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)bug);
+        SDL_Thread* ParseThread = SDL_CreateThread(CoreGame->ParseEvents, "ParseEvents", (void*)bug);
         CoreGame->OnMainMenu = true;
         //While application is running
         SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
