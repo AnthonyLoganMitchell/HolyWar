@@ -10,6 +10,9 @@ Core::Core()
     this->onLevelSelction = false;
     this->onCharacterSelection = false;
     this->onRunningMatch = false;
+    this->data= new(ThreadData);
+    this->data->parse_mutex = SDL_CreateMutex();
+    this->data->interact = new(std::vector<Interaction*>);
 }
 void Core::renderPresent()
 {
@@ -62,7 +65,7 @@ bool Core::CoreInit(SDL_GameController* gameControllers[])
         SCREEN_WIDTH = Width;
         SCREEN_HEIGHT= Height;
         //TODO: Change screen width and height back.
-        window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SDL_WINDOW_SHOWN );
         if( window == NULL )
         {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -130,6 +133,7 @@ void  Core::CoreMainMenuRun()
         {
             for (int i=0; i<256; i++)
             {
+                this->ParseEvents(this->data,"");
                 this->renderClear();
                 menuBackground->render(menuBackground, this->renderer,0,0,2,NULL);
                 menuBackground->setAlpha(i);
@@ -140,6 +144,7 @@ void  Core::CoreMainMenuRun()
 
             }
         }
+        this->ParseEvents(this->data,"");
         alphaFlag = false;
         this->renderClear();
         menuBackground->render(menuBackground, this->renderer,0,0,2,NULL);
@@ -148,16 +153,35 @@ void  Core::CoreMainMenuRun()
         SDL_Delay(30);
     }
 }
-
- int Core::ParseEvents(void* data)
+template<class T>
+void Core::ParseEvents(ThreadData* data,T* Modify)
 {
+    if (this->OnMainMenu)
+    {
+        if (SDL_TryLockMutex(data->parse_mutex) == 0 && data->interact->size() > 0)
+        {
+            for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
+            {
+                std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+            }
+            data->interact->clear();
+        }
+    }
+    else if (this->onLevelSelction)
+    {
 
+    }
+    else if (this->onRunningMatch)
+    {
 
+    }
+    SDL_UnlockMutex(data->parse_mutex);
 }
 
- int Core::EventHandler(void* data)
+int Core::EventHandler(void* data)
 {
     SDL_Event event;
+    ThreadData *channel = (ThreadData*)data;
     bool quit = false;
     while (!quit)
     {
@@ -167,15 +191,19 @@ void  Core::CoreMainMenuRun()
 
             if( event.type == SDL_QUIT )
             {
-                return 0;
+                quit=true;
             }
             else if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
             {
-                std::cout << event.cbutton.which << std::endl;
-                inter->button_event = event.cbutton.button;
-                inter->controller_id = event.cbutton.which;
-
-
+                if (SDL_TryLockMutex(channel->parse_mutex) == 0)
+                {
+                    inter->button_event = event.cbutton.button;
+                    inter->controller_id = event.cbutton.which;
+                    channel->interact->push_back(inter);
+                    SDL_UnlockMutex(channel->parse_mutex);
+                }else {
+                    std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
+                }
             }// BUTTONDOWN
             else
             {

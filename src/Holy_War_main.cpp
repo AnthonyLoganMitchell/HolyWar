@@ -7,8 +7,9 @@
 #include "Core.h"
 #include <SDL_thread.h>
 #include <vector>
+
+
 SDL_GameController* gameControllers[4];
-SDL_mutex* parse_mutex;
 
 int WinMain( int argc, char* args[] )
 {
@@ -22,8 +23,7 @@ int WinMain( int argc, char* args[] )
 
     else
     {
-        SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)bug);
-        SDL_Thread* ParseThread = SDL_CreateThread(CoreGame->ParseEvents, "ParseEvents", (void*)bug);
+        SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)CoreGame->data);
         CoreGame->OnMainMenu = true;
         //While application is running
         SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
@@ -47,7 +47,7 @@ int WinMain( int argc, char* args[] )
                 //Initiate running match with previously loaded level.
             }
         }
-        SDL_WaitThread(EventThread, NULL );
+        //SDL_WaitThread(EventThread, NULL );
     }
     //Free resources and close SDL
     CoreGame->CoreShutdown();

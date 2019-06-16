@@ -7,6 +7,8 @@
 #include "Texture.h"
 #include "MenuTexture.h"
 #include "Interaction.h"
+#include "ThreadData.h"
+
 //
 class Core
 {
@@ -17,7 +19,8 @@ public:
     void renderPresent();
     void renderClear();
     void CoreMainMenuRun();
-    static int ParseEvents(void*);
+    template<class T>
+    void ParseEvents(ThreadData* data,T* Modify);
     static int EventHandler(void*);
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -27,9 +30,10 @@ public:
     bool onLevelSelction;
     bool onCharacterSelection;
     bool onRunningMatch;
+    ThreadData *data;
+    SDL_mutex* parse_mutex;
 
 private:
-    std::vector<Interaction*> gl_interact;
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
 };

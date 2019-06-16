@@ -54,6 +54,7 @@
 		<Unit filename="include/Interaction.h" />
 		<Unit filename="include/MenuTexture.h" />
 		<Unit filename="include/Texture.h" />
+		<Unit filename="include/ThreadData.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
