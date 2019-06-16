@@ -116,12 +116,14 @@ void  Core::CoreMainMenuRun()
     /////////////////////////////////////////////////////////////////////////
     MenuTexture *menuBackground = new MenuTexture(1, "SplashBackground");
     MenuTexture *menuLogo = new MenuTexture(1,"MainMenuLogo");
+    MenuButton  *menuStart = new MenuButton(1,"MenuStartButton",this->renderer);
     //////////////////////////////////////////////////////////////////////////
 
     //Load media for each texture into memory.
     //////////////////////////////////////////////////////////////////////////
     menuBackground->loadMenuMedia(menuBackground,this->renderer);
     menuLogo->loadMenuMedia(menuLogo,this->renderer);
+
     //////////////////////////////////////////////////////////////////////////
 
     int logoXPos = 0;
@@ -129,7 +131,7 @@ void  Core::CoreMainMenuRun()
     bool alphaFlag = true;
     while (this->OnMainMenu)
     {
-        if (alphaFlag)
+        if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
             for (int i=0; i<256; i++)
             {
@@ -156,25 +158,32 @@ void  Core::CoreMainMenuRun()
 template<class T>
 void Core::ParseEvents(ThreadData* data,T* Modify)
 {
-    if (this->OnMainMenu)
+    if (SDL_TryLockMutex(data->parse_mutex) == 0 && data->interact->size() > 0)
     {
-        if (SDL_TryLockMutex(data->parse_mutex) == 0 && data->interact->size() > 0)
+        if (this->OnMainMenu)
         {
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
             {
-                std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+                //std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
             }
-            data->interact->clear();
+
+        }
+        else if (this->onLevelSelction)
+        {
+            for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
+            {
+                //std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+            }
+        }
+        else if (this->onRunningMatch)
+        {
+            for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
+            {
+                //std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+            }
         }
     }
-    else if (this->onLevelSelction)
-    {
-
-    }
-    else if (this->onRunningMatch)
-    {
-
-    }
+    data->interact->clear();
     SDL_UnlockMutex(data->parse_mutex);
 }
 
@@ -201,7 +210,9 @@ int Core::EventHandler(void* data)
                     inter->controller_id = event.cbutton.which;
                     channel->interact->push_back(inter);
                     SDL_UnlockMutex(channel->parse_mutex);
-                }else {
+                }
+                else
+                {
                     std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
                 }
             }// BUTTONDOWN

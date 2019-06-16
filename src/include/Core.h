@@ -1,5 +1,5 @@
-#ifndef GLOBAL_H_
-#define GLOBAL_H_
+#ifndef CORE_H
+#define CORE_H
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
@@ -8,6 +8,7 @@
 #include "MenuTexture.h"
 #include "Interaction.h"
 #include "ThreadData.h"
+#include "MenuButton.h"
 
 //
 class Core
