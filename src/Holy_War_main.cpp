@@ -14,35 +14,33 @@ SDL_GameController* gameControllers[4];
 int WinMain( int argc, char* args[] )
 {
     Core *CoreGame = new Core();
-    int bug = 0;
     //Start up SDL and create window
     if( !CoreGame->CoreInit(gameControllers))
     {
-        printf( "Failed to initialize!\n" );
+        std::cout<<"Failed to initialize!"<<std::endl;
     }
 
     else
     {
         SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)CoreGame->data);
-        CoreGame->OnMainMenu = true;
         //While application is running
         SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
         CoreGame->renderClear();
         CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
-            if ( CoreGame->OnMainMenu == true)
+            if ( CoreGame->state->onMainMenuStart == true)
             {
                 CoreGame->CoreMainMenuRun();
-                CoreGame->OnMainMenu = false;
+                CoreGame->state->onMainMenuStart = false;
                 CoreGame->quit_program = true;
                 //Initiate Main bootup sequence for main menu.
             }
-            else if (CoreGame->onLevelSelction == true)
+            else if (CoreGame->state->onLevelSelction == true)
             {
                 //Intiate Level selection screen
             }
-            else if (CoreGame->onRunningMatch == true)
+            else if (CoreGame->state->onRunningMatch == true)
             {
                 //Initiate running match with previously loaded level.
             }

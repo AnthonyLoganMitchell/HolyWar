@@ -9,6 +9,7 @@
 #include "Interaction.h"
 #include "ThreadData.h"
 #include "MenuButton.h"
+#include "State.h"
 
 //
 class Core
@@ -23,16 +24,18 @@ public:
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify);
     static int EventHandler(void*);
+
+
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool quit_program;
-    int Tick;
-    bool OnMainMenu;
-    bool onLevelSelction;
-    bool onCharacterSelection;
-    bool onRunningMatch;
+    int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;
+    //Game State
+    //////////////
+    State* state;//
+    //////////////
 
 private:
     int SCREEN_WIDTH;

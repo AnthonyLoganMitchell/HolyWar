@@ -47,12 +47,18 @@
 		<Unit filename="Core.cpp" />
 		<Unit filename="Holy_War_main.cpp" />
 		<Unit filename="Interaction.cpp" />
+		<Unit filename="MainMenuOptions.cpp" />
+		<Unit filename="MenuButton.cpp" />
 		<Unit filename="MenuTexture.cpp" />
+		<Unit filename="State.cpp" />
 		<Unit filename="Texture.cpp" />
 		<Unit filename="include/CharacterTexture.h" />
 		<Unit filename="include/Core.h" />
 		<Unit filename="include/Interaction.h" />
+		<Unit filename="include/MainMenuOptions.h" />
+		<Unit filename="include/MenuButton.h" />
 		<Unit filename="include/MenuTexture.h" />
+		<Unit filename="include/State.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/ThreadData.h" />
 		<Extensions>
