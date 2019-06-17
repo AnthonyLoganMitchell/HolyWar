@@ -116,6 +116,8 @@ void  Core::CoreMainMenuRun()
 {
     this->state->MM_OPS = new MainMenuOptions(this->renderer);
     this->state->MM_OPS->menuStart->is_option = true;
+    this->state->MM_OPS->menuBattle->is_option = true;
+    this->state->MM_OPS->menuOptions->is_option = false;
 
 
     int logoXPos = 0;
@@ -143,21 +145,28 @@ void  Core::CoreMainMenuRun()
         this->renderClear();
         this->state->MM_OPS->menuBackground->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
         this->state->MM_OPS->menuLogo->render(this->state->MM_OPS->menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
-        if(this->state->onMainMenuStart && !this->state->onOptionSelection)
+        if(this->state->onMainMenuStart)
         {
             this->state->MM_OPS->menuStart->texture->render(this->state->MM_OPS->menuStart->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-        } else if (!this->state->onMainMenuStart && this->state->onOptionSelection)
+        }
+        if (this->state->onOptionSelection)
         {
+
             if(this->state->MM_OPS->menuBattle->is_option)
             {
-              this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
-              this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-            } else {
-              this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-              this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
+
+                this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
+                this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+            }
+            if (this->state->MM_OPS->menuOptions->is_option)
+            {
+                this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
             }
 
-        }
+        }/*else {
+            std::cout<<"DEBUG#2"<<"State_battle: "<< this->state->onMainMenuStart<<" state_option: "<< this->state->onOptionSelection<<std::endl;
+        }*/
         this->renderPresent();
         SDL_Delay(30);
     }
@@ -175,13 +184,12 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
                 {
                     this->state->onMainMenuStart =false;
                     this->state->onOptionSelection = true;
-                    this->state->MM_OPS->menuStart->is_option = false;
                     this->state->MM_OPS->menuBattle->is_option = true;
                 }
             }
 
         }
-        else if (this->state->onOptionSelection)
+        if (this->state->onOptionSelection)
         {
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
             {
@@ -190,11 +198,16 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
                     this->state->onMainMenuStart = true;
                     this->state->onOptionSelection = false;
                     this->state->MM_OPS->menuStart->is_option = true;
-                }else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN &&this->state->MM_OPS->menuBattle->is_option)
+                    this->state->MM_OPS->menuBattle->is_option = false;
+                    this->state->MM_OPS->menuOptions->is_option = false;
+
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN &&this->state->MM_OPS->menuBattle->is_option)
                 {
                     this->state->MM_OPS->menuBattle->is_option = false;
                     this->state->MM_OPS->menuOptions->is_option= true;
-                }else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && this->state->MM_OPS->menuOptions->is_option)
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && this->state->MM_OPS->menuOptions->is_option)
                 {
                     this->state->MM_OPS->menuBattle->is_option = true;
                     this->state->MM_OPS->menuOptions->is_option= false;
