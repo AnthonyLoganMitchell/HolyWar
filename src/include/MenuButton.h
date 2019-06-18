@@ -12,7 +12,6 @@ class MenuButton
         MenuTexture* texture;
         template<class T>
         static T (*func)();
-        bool is_option;
         bool is_highlighted;
 };
 

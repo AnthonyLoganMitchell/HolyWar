@@ -10,6 +10,7 @@ class Interaction
         ~Interaction();
         int controller_id;
         uint8_t button_event;
+        uint8_t pressed;
     private:
 };
 

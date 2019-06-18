@@ -20,7 +20,8 @@ public:
     void CoreShutdown();
     void renderPresent();
     void renderClear();
-    void CoreMainMenuRun();
+    void MainMenuRun();
+    void CharacterSelectRun();
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify);
     static int EventHandler(void*);

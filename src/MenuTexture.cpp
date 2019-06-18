@@ -339,6 +339,20 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
             }
     }
 
+    if (t->name == "MenuQuitButton")
+    {
+        if(!this->loadMenuTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: main_menu_quit_button.png\n");
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 32;
+            t->animation[0].y = 9;
+        }
+    }
     //TODO: Load media for main menu quit button.
     return false;
 }

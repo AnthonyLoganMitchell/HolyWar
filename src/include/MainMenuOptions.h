@@ -14,6 +14,7 @@ class MainMenuOptions
         MenuButton  *menuStart;
         MenuButton  *menuBattle;
         MenuButton  *menuOptions;
+        MenuButton  *menuQuit;
 };
 
 #endif // MAINMENUOPTIONS_H

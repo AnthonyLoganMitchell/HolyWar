@@ -13,6 +13,7 @@ public:
     bool onLevelSelction;
     bool onCharacterSelection;
     bool onRunningMatch;
+    bool transition;
     MainMenuOptions* MM_OPS;
 
 private:

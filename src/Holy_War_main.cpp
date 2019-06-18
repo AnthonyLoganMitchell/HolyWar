@@ -31,16 +31,19 @@ int WinMain( int argc, char* args[] )
         {
             if ( CoreGame->state->onMainMenuStart == true)
             {
-                CoreGame->CoreMainMenuRun();
-                CoreGame->state->onMainMenuStart = false;
-                CoreGame->quit_program = true;
+                CoreGame->MainMenuRun();
                 //Initiate Main bootup sequence for main menu.
             }
-            else if (CoreGame->state->onLevelSelction == true)
+            else if (CoreGame->state->onCharacterSelection)
+            {
+                CoreGame->CharacterSelectRun();
+                CoreGame->quit_program = true;
+            }
+            else if (CoreGame->state->onLevelSelction)
             {
                 //Intiate Level selection screen
             }
-            else if (CoreGame->state->onRunningMatch == true)
+            else if (CoreGame->state->onRunningMatch)
             {
                 //Initiate running match with previously loaded level.
             }
