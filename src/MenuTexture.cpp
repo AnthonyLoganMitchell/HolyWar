@@ -11,7 +11,6 @@ MenuTexture::MenuTexture(int totalClips, std::string texName,SDL_Renderer* rend)
 
 }
 
-//TODO: Next thing on list is to create the render function here for menuTextures. See CharacterTexture.cpp
 void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
@@ -274,69 +273,69 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     if (t->name == "SplashBackground")
     {
         if (!this->loadMenuTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
-            {
-                  printf( "Failed to load sprite sheet texture: splash_background.png\n" );
-                  return false;
-            }
-            else
-            {
-                t->animation[0].x = 1;
-                t->animation[0].y = 1;
-                t->animation[0].w = 1920;
-                t->animation[0].y = 1080;
+        {
+            printf( "Failed to load sprite sheet texture: splash_background.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 1920;
+            t->animation[0].y = 1080;
 
-            }
+        }
     }
 
     if (t->name == "MenuStartButton")
     {
         if (!this->loadMenuTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
-            {
-                  printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
-                  return false;
-            }
-            else
-            {
-                t->animation[0].x = 1;
-                t->animation[0].y = 1;
-                t->animation[0].w = 49;
-                t->animation[0].y = 10;
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 49;
+            t->animation[0].y = 10;
 
-            }
+        }
     }
 
     if (t->name == "MenuBattleButton")
     {
         if (!this->loadMenuTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
-            {
-                  printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
-                  return false;
-            }
-            else
-            {
-                t->animation[0].x = 1;
-                t->animation[0].y = 1;
-                t->animation[0].w = 45;
-                t->animation[0].y = 10;
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 45;
+            t->animation[0].y = 10;
 
-            }
+        }
     }
 
     if (t->name == "MenuOptionsButton")
     {
         if (!this->loadMenuTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
-            {
-                  printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
-                  return false;
-            }
-            else
-            {
-                t->animation[0].x = 1;
-                t->animation[0].y = 1;
-                t->animation[0].w = 55;
-                t->animation[0].y = 10;
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 55;
+            t->animation[0].y = 10;
 
-            }
+        }
     }
 
     if (t->name == "MenuQuitButton")
@@ -353,7 +352,6 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
             t->animation[0].y = 9;
         }
     }
-    //TODO: Load media for main menu quit button.
     return false;
 }
 
