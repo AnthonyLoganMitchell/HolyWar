@@ -6,7 +6,6 @@ Core::Core()
     this->window = NULL;
     this->renderer = NULL;
     this->quit_program =NULL;
-    this->tick = 0;
     this->state->onMainMenuStart = true;
     this->state->onOptionSelection = false;
     this->state->onLevelSelction = false;
@@ -15,6 +14,8 @@ Core::Core()
     this->data= new(ThreadData);
     this->data->parse_mutex = SDL_CreateMutex();
     this->data->interact = new(std::vector<Interaction*>);
+    this->players = new(std::vector<PlayerObject*>);
+
 }
 void Core::renderPresent()
 {
@@ -25,7 +26,7 @@ void Core::renderClear()
     SDL_RenderClear(renderer);
 }
 
-bool Core::CoreInit(SDL_GameController* gameControllers[])
+bool Core::CoreInit()
 {
     //Initialization flag
     bool success = true;
@@ -44,13 +45,16 @@ bool Core::CoreInit(SDL_GameController* gameControllers[])
         }
         else
         {
-            //Load joystick
-            //TODO: Add small while SDL_NumJoysticks()loop or for to collect all controllers and
+            //Load new players and joystick pointers to each player.
+            //TODO:
             for(int i = 0; i <SDL_NumJoysticks(); i++)
             {
+                //this->players.push_back()
+                PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2);
                 if (SDL_IsGameController(i))
                 {
-                    gameControllers[i] = SDL_GameControllerOpen(i);
+                    newPlayer->controller = SDL_GameControllerOpen(i);
+                    this->players->push_back(newPlayer);
                 }
             }
         }
@@ -124,7 +128,7 @@ void  Core::MainMenuRun()
     int logoXPos = 0;
     logoXPos = this->SCREEN_WIDTH/2-430;
     bool alphaFlag = true;
-    while (this->state->onMainMenuStart || this->state->onOptionSelection && !this->quit_program)
+    while ((this->state->onMainMenuStart || this->state->onOptionSelection) && !this->quit_program)
     {
         if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
@@ -138,7 +142,6 @@ void  Core::MainMenuRun()
                 this->state->MM_OPS->menuLogo->setAlpha(i);
                 this->renderPresent();
                 SDL_Delay(20);
-
             }
         }
         this->ParseEvents(this->data,"");
@@ -152,10 +155,8 @@ void  Core::MainMenuRun()
         }
         if (this->state->onOptionSelection)
         {
-
             if(this->state->MM_OPS->menuBattle->is_highlighted)
             {
-
                 this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
                 this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
                 this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
@@ -181,8 +182,6 @@ void  Core::MainMenuRun()
         {
             for(int i = 255; i>=0; i--)
             {
-
-
                 this->ParseEvents(this->data,"");
                 alphaFlag = false;
                 this->renderClear();
@@ -196,10 +195,8 @@ void  Core::MainMenuRun()
                 }
                 if (this->state->onOptionSelection)
                 {
-
                     if(this->state->MM_OPS->menuBattle->is_highlighted)
                     {
-
                         this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
                         this->state->MM_OPS->menuBattle->texture->setAlpha(i);
                         this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
@@ -239,6 +236,10 @@ void  Core::MainMenuRun()
 
 void Core::CharacterSelectRun()
 {
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
+    {
+        //TODO: START HERE. INITIALIZE PLAYER CURSORS FOR CHARACTER SELECTION HERE.
+    }
     while(this->state->onCharacterSelection)
     {
 

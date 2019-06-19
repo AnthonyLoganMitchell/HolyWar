@@ -8,14 +8,11 @@
 #include <SDL_thread.h>
 #include <vector>
 
-
-SDL_GameController* gameControllers[4];
-
 int WinMain( int argc, char* args[] )
 {
     Core *CoreGame = new Core();
     //Start up SDL and create window
-    if( !CoreGame->CoreInit(gameControllers))
+    if( !CoreGame->CoreInit())
     {
         std::cout<<"Failed to initialize!"<<std::endl;
     }
@@ -29,21 +26,21 @@ int WinMain( int argc, char* args[] )
         CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
-            if ( CoreGame->state->onMainMenuStart == true)
+            if ( CoreGame->state->onMainMenuStart == true && !CoreGame->quit_program)
             {
                 CoreGame->MainMenuRun();
                 //Initiate Main bootup sequence for main menu.
             }
-            else if (CoreGame->state->onCharacterSelection)
+            else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
-                CoreGame->CharacterSelectRun();
+                //CoreGame->CharacterSelectRun();
                 CoreGame->quit_program = true;
             }
-            else if (CoreGame->state->onLevelSelction)
+            else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
             }
-            else if (CoreGame->state->onRunningMatch)
+            else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
                 //Initiate running match with previously loaded level.
             }

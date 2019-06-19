@@ -796,12 +796,12 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1560832161 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1560921079 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	<vector>
 	"MainMenuOptions.h"
 
-1560832161 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
+1560921919 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -812,6 +812,7 @@
 	"ThreadData.h"
 	"MenuButton.h"
 	"State.h"
+	"PlayerObject.h"
 
 1560752030 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\menutexture.h
 	<stdio.h>
@@ -821,7 +822,7 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1560835440 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
+1560919330 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
 	"Core.h"
 	<SDL_thread.h>
 	<vector>
@@ -836,7 +837,7 @@
 1560479335 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\interaction.cpp
 	"Interaction.h"
 
-1560807166 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\interaction.h
+1560917671 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\interaction.h
 	<SDL.h>
 
 1560648919 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\threaddata.h
@@ -862,4 +863,18 @@
 1560805444 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\mainmenuoptions.h
 	"MenuTexture.h"
 	"MenuButton.h"
+
+1560920835 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\playercursor.cpp
+	"PlayerCursor.h"
+
+1560920620 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\playercursor.h
+	"MenuTexture.h"
+
+1560920491 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\playerobject.cpp
+	"PlayerObject.h"
+	"PlayerCursor.h"
+
+1560921079 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\playerobject.h
+	"PlayerCursor.h"
+	"SDL.h"
 

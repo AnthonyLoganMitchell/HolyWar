@@ -10,13 +10,14 @@
 #include "ThreadData.h"
 #include "MenuButton.h"
 #include "State.h"
+#include "PlayerObject.h"
 
 //
 class Core
 {
 public:
     Core();
-    bool CoreInit(SDL_GameController* controllers[]);
+    bool CoreInit();
     void CoreShutdown();
     void renderPresent();
     void renderClear();
@@ -33,6 +34,7 @@ public:
     int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;
+    std::vector<PlayerObject*>* players;
     //Game State
     //////////////
     State* state;//
