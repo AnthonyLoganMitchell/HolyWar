@@ -45,7 +45,8 @@ int WinMain( int argc, char* args[] )
                 //Initiate running match with previously loaded level.
             }
         }
-        //SDL_WaitThread(EventThread, NULL );
+        SDL_DetachThread(EventThread);
+        SDL_WaitThread(EventThread, NULL );
     }
     //Free resources and close SDL
     CoreGame->CoreShutdown();

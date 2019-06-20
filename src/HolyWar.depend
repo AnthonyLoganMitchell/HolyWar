@@ -796,7 +796,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1561003096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1561004485 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	<vector>
 	"MainMenuOptions.h"
@@ -822,7 +822,7 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
+1561004672 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
 	"Core.h"
 	<SDL_thread.h>
 	<vector>
@@ -840,7 +840,7 @@
 1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\interaction.h
 	<SDL.h>
 
-1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\threaddata.h
+1561004361 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\threaddata.h
 
 1560719068 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\src\menubutton.cpp
 	"MenuButton.h"
