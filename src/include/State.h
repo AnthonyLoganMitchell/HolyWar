@@ -14,7 +14,7 @@ public:
     bool onCharacterSelection;
     bool onRunningMatch;
     bool transition;
-    MainMenuOptions* MM_OPS;
+    MainMenuOptions* mainMenuOps;
 
 private:
 };

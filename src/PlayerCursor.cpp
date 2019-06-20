@@ -1,9 +1,11 @@
 #include "PlayerCursor.h"
 
-PlayerCursor::PlayerCursor(int x,int y)
+
+PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer)
 {
     this->PosX = x;
     this->PosY = y;
+    this->Texture = new GeneralTexture(1,"Pentagram",renderer);
 }
 
 PlayerCursor::~PlayerCursor()

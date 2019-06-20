@@ -352,6 +352,21 @@ bool GeneralTexture::loadMenuMedia(GeneralTexture *t, SDL_Renderer* renderer)
             t->animation[0].y = 9;
         }
     }
+
+    if (t->name == "Pentagram")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: pentagram.png\n");
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 159;
+            t->animation[0].y = 159;
+        }
+    }
     return false;
 }
 

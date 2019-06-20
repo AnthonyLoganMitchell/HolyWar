@@ -4,10 +4,11 @@
 #include "SDL.h"
 
 
+
 class PlayerObject
 {
     public:
-        PlayerObject(int,int);
+        PlayerObject(int,int,SDL_Renderer*);
         virtual ~PlayerObject();
         PlayerCursor* cursor;
         SDL_GameController* controller;

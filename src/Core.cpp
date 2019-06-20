@@ -38,26 +38,6 @@ bool Core::CoreInit()
     }
     else
     {
-
-        if( SDL_NumJoysticks() < 1 )
-        {
-            printf( "Warning: No joysticks connected!\n" );
-        }
-        else
-        {
-            //Load new players and joystick pointers to each player.
-            //TODO:
-            for(int i = 0; i <SDL_NumJoysticks(); i++)
-            {
-                //this->players.push_back()
-                PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2);
-                if (SDL_IsGameController(i))
-                {
-                    newPlayer->controller = SDL_GameControllerOpen(i);
-                    this->players->push_back(newPlayer);
-                }
-            }
-        }
         //Set texture filtering to linear
         if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ))
         {
@@ -101,6 +81,25 @@ bool Core::CoreInit()
                     success = false;
                 }
             }
+            if( SDL_NumJoysticks() < 1 )
+            {
+                printf( "Warning: No joysticks connected!\n" );
+            }
+            else
+            {
+                //Load new players and joystick pointers to each player.
+                //TODO:
+                for(int i = 0; i <SDL_NumJoysticks(); i++)
+                {
+                    //this->players.push_back()
+                    PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2,this->renderer);
+                    if (SDL_IsGameController(i))
+                    {
+                        newPlayer->controller = SDL_GameControllerOpen(i);
+                        this->players->push_back(newPlayer);
+                    }
+                }
+            }
         }
     }
     return success;
@@ -121,19 +120,19 @@ void  Core::MainMenuRun()
     this->state->transition = false;
     this->state->onMainMenuStart = true;
     this->state->onOptionSelection= false;
-    this->state->MM_OPS = new MainMenuOptions(this->renderer);
+    this->state->mainMenuOps = new MainMenuOptions(this->renderer);
     //Textures
-    GeneralTexture* logo       = this->state->MM_OPS->menuLogo;
-    GeneralTexture* background = this->state->MM_OPS->menuBackground;
+    GeneralTexture* logo       = this->state->mainMenuOps->menuLogo;
+    GeneralTexture* background = this->state->mainMenuOps->menuBackground;
 
 
     //Buttons
-    MenuButton* StartButton = this->state->MM_OPS->menuStart;
-    MenuButton* BattleButton = this->state->MM_OPS->menuBattle;
+    MenuButton* StartButton = this->state->mainMenuOps->menuStart;
+    MenuButton* BattleButton = this->state->mainMenuOps->menuBattle;
     BattleButton->is_highlighted = true;
-    MenuButton* OptionsButton = this->state->MM_OPS->menuOptions;
+    MenuButton* OptionsButton = this->state->mainMenuOps->menuOptions;
     OptionsButton->is_highlighted = false;
-    MenuButton* QuitButton = this->state->MM_OPS->menuQuit;
+    MenuButton* QuitButton = this->state->mainMenuOps->menuQuit;
     QuitButton->is_highlighted=false;
 
 
@@ -198,7 +197,7 @@ void  Core::MainMenuRun()
                 alphaFlag = false;
                 this->renderClear();
                 background->setAlpha(i);
-                background->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
+                background->render(this->state->mainMenuOps->menuBackground, this->renderer,0,0,2,NULL);
                 logo->setAlpha(i);
                 logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
                 if (this->state->onOptionSelection)
@@ -247,6 +246,7 @@ void Core::CharacterSelectRun()
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
     {
         //TODO: START HERE. INITIALIZE PLAYER CURSORS FOR CHARACTER SELECTION HERE.
+        //(*i)->
     }
     while(this->state->onCharacterSelection)
     {
@@ -270,8 +270,8 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
                 {
                     this->state->onMainMenuStart =false;
                     this->state->onOptionSelection = true;
-                    this->state->MM_OPS->menuBattle->is_highlighted = true;
-                    this->state->MM_OPS->menuOptions->is_highlighted = false;
+                    this->state->mainMenuOps->menuBattle->is_highlighted = true;
+                    this->state->mainMenuOps->menuOptions->is_highlighted = false;
                 }
             }
 
@@ -284,77 +284,77 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
                 {
                     this->state->onMainMenuStart = true;
                     this->state->onOptionSelection = false;
-                    this->state->MM_OPS->menuStart->is_highlighted = true;
-                    this->state->MM_OPS->menuBattle->is_highlighted = false;
-                    this->state->MM_OPS->menuOptions->is_highlighted = false;
-                    this->state->MM_OPS->menuQuit->is_highlighted = false;
+                    this->state->mainMenuOps->menuStart->is_highlighted = true;
+                    this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                    this->state->mainMenuOps->menuOptions->is_highlighted = false;
+                    this->state->mainMenuOps->menuQuit->is_highlighted = false;
 
                 }
                 else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
                 {
-                    if(this->state->MM_OPS->menuBattle->is_highlighted)
+                    if(this->state->mainMenuOps->menuBattle->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= true;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= true;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
                     }
-                    else if(this->state->MM_OPS->menuOptions->is_highlighted)
+                    else if(this->state->mainMenuOps->menuOptions->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = true;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = true;
                     }
-                    else if(this->state->MM_OPS->menuQuit->is_highlighted)
+                    else if(this->state->mainMenuOps->menuQuit->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = true;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = true;
                     }
                 }
                 else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
                 {
-                    if(this->state->MM_OPS->menuBattle->is_highlighted)
+                    if(this->state->mainMenuOps->menuBattle->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = true;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = true;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
                     }
-                    else if(this->state->MM_OPS->menuOptions->is_highlighted)
+                    else if(this->state->mainMenuOps->menuOptions->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = true;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = true;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
                     }
-                    else if(this->state->MM_OPS->menuQuit->is_highlighted)
+                    else if(this->state->mainMenuOps->menuQuit->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= true;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= true;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
                     }
                 }
                 else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
                 {
-                    if(this->state->MM_OPS->menuBattle->is_highlighted)
+                    if(this->state->mainMenuOps->menuBattle->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = true;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = true;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
                         this->state->transition=true;
 
 
                     }
-                    else if(this->state->MM_OPS->menuOptions->is_highlighted)
+                    else if(this->state->mainMenuOps->menuOptions->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= true;
-                        this->state->MM_OPS->menuQuit->is_highlighted = false;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= true;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
 
                     }
-                    else if(this->state->MM_OPS->menuQuit->is_highlighted)
+                    else if(this->state->mainMenuOps->menuQuit->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->is_highlighted = false;
-                        this->state->MM_OPS->menuOptions->is_highlighted= false;
-                        this->state->MM_OPS->menuQuit->is_highlighted = true;
+                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
+                        this->state->mainMenuOps->menuOptions->is_highlighted= false;
+                        this->state->mainMenuOps->menuQuit->is_highlighted = true;
                         this->quit_program = true;
                     }
                 }
@@ -401,7 +401,7 @@ int Core::EventHandler(void* data)
         {
             Interaction *inter = new Interaction();
 
-            if( event.type == SDL_QUIT )
+            if( event.type == SDL_QUIT)
             {
                 quit=true;
             }
