@@ -5,6 +5,8 @@
    and c++ POSIX api standard. Are my original work in progress.
 */
 #include "Core.h"
+#include <SDL_thread.h>
+#include <vector>
 
 int WinMain( int argc, char* args[] )
 {
@@ -12,82 +14,41 @@ int WinMain( int argc, char* args[] )
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
     {
-        printf( "Failed to initialize!\n" );
+        std::cout<<"Failed to initialize!"<<std::endl;
     }
+
     else
     {
-        CoreGame->OnMainMenu = true;
+        SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)CoreGame->data);
         //While application is running
+        SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
+        CoreGame->renderClear();
+        CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
-            if ( CoreGame->OnMainMenu == true)
+            if ( CoreGame->state->onMainMenuStart == true && !CoreGame->quit_program)
             {
+                CoreGame->MainMenuRun();
                 //Initiate Main bootup sequence for main menu.
             }
-            else if (CoreGame->onLevelSelction == true)
+            else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
+            {
+                //CoreGame->CharacterSelectRun();
+                CoreGame->quit_program = true;
+            }
+            else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
             }
-            else if (CoreGame->onRunningMatch == true)
+            else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
                 //Initiate running match with previously loaded level.
             }
         }
+        SDL_DetachThread(EventThread);
+        SDL_WaitThread(EventThread, NULL );
     }
     //Free resources and close SDL
     CoreGame->CoreShutdown();
-
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  //Handle events on queue
-             uint64_t timer1; // These originally werent in this block
-             uint64_t timer2; // These originally werent in this block
-             EventHandler(e);
-             //Clear screen
-             renderClear();
-             render( mainTextureSheet[0],mainTextureSheet[0]->xposition+=xPos,(mainTextureSheet[0]->yposition-=yPos),2, &mainTextureSheet[0]->spriteClips[mainTextureSheet[0]->GetFrameCount()] );
-             mainTextureSheet[0]->TickFrameCount();
-
-
-                if(mainTextureSheet[0]->GetFrameCount() == mainTextureSheet[0]->GetSpriteCount()){
-
-                    mainTextureSheet[0]->SetFrameCount(0);
-                }
-
-                renderPresent();
-                //cout<<"Xpos:"<<xPos<<" "<<"Ypos:"<<yPos<<endl;
-                timer1 = SDL_GetPerformanceCounter();
-                SDL_Delay(70);
-                timer2 = SDL_GetPerformanceCounter();
-                cout<<(timer2-timer1)/(double )SDL_GetPerformanceFrequency()<<endl;*/
-
