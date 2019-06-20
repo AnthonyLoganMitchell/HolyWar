@@ -11,6 +11,7 @@
 #include "MenuButton.h"
 #include "State.h"
 #include "PlayerObject.h"
+#include <map>
 
 //
 class Core
@@ -34,7 +35,7 @@ public:
     int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;
-    std::vector<PlayerObject*>* players;
+    std::map<int,PlayerObject*>* players;
     //Game State
     //////////////
     State* state;//

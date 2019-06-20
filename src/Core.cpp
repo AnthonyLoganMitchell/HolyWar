@@ -14,7 +14,7 @@ Core::Core()
     this->data= new(ThreadData);
     this->data->parse_mutex = SDL_CreateMutex();
     this->data->interact = new(std::vector<Interaction*>);
-    this->players = new(std::vector<PlayerObject*>);
+    this->players = new(std::map<int,PlayerObject*>);
 
 }
 void Core::renderPresent()
@@ -93,12 +93,13 @@ bool Core::CoreInit()
                 {
                     //this->players.push_back()
                     PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2,this->renderer);
+                    newPlayer->controller = SDL_GameControllerOpen(i);
                     if (SDL_IsGameController(i))
                     {
-                        newPlayer->controller = SDL_GameControllerOpen(i);
-                        this->players->push_back(newPlayer);
+                        this->players->insert({i,newPlayer});
                     }
                 }
+                //std::cout<< "Num_controllers: "<<this->players->size() << std::endl;
             }
         }
     }
@@ -243,15 +244,21 @@ void  Core::MainMenuRun()
 
 void Core::CharacterSelectRun()
 {
-    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
+
+    //TODO: when multiple players, change color modulation
+    /*for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
     {
         //TODO: START HERE. INITIALIZE PLAYER CURSORS FOR CHARACTER SELECTION HERE.
         //(*i)->
-    }
-    while(this->state->onCharacterSelection)
+    }*/
+    //This compiles properly
+    /*while(this->state->onCharacterSelection)
     {
-
-    }
+        if(this->players->find(0)->second != NULL)
+        {
+            this->players->find(0)->second->cursor->Move();
+        }
+    }*/
 }
 
 template<class T>

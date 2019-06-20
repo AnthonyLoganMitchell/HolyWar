@@ -33,8 +33,7 @@ int WinMain( int argc, char* args[] )
             }
             else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
-                //CoreGame->CharacterSelectRun();
-                CoreGame->quit_program = true;
+                CoreGame->CharacterSelectRun();
             }
             else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
