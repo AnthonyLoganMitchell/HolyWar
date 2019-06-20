@@ -119,10 +119,22 @@ void Core::CoreShutdown()
 void  Core::MainMenuRun()
 {
     this->state->transition = false;
+    this->state->onMainMenuStart = true;
+    this->state->onOptionSelection= false;
     this->state->MM_OPS = new MainMenuOptions(this->renderer);
-    this->state->MM_OPS->menuStart->is_highlighted = true;
-    this->state->MM_OPS->menuBattle->is_highlighted = true;
-    this->state->MM_OPS->menuOptions->is_highlighted = false;
+    //Textures
+    MenuTexture* logo       = this->state->MM_OPS->menuLogo;
+    MenuTexture* background = this->state->MM_OPS->menuBackground;
+
+
+    //Buttons
+    MenuButton* StartButton = this->state->MM_OPS->menuStart;
+    MenuButton* BattleButton = this->state->MM_OPS->menuBattle;
+    BattleButton->is_highlighted = true;
+    MenuButton* OptionsButton = this->state->MM_OPS->menuOptions;
+    OptionsButton->is_highlighted = false;
+    MenuButton* QuitButton = this->state->MM_OPS->menuQuit;
+    QuitButton->is_highlighted=false;
 
 
     int logoXPos = 0;
@@ -136,10 +148,10 @@ void  Core::MainMenuRun()
             {
                 this->ParseEvents(this->data,"");
                 this->renderClear();
-                this->state->MM_OPS->menuBackground->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
-                this->state->MM_OPS->menuBackground->setAlpha(i);
-                this->state->MM_OPS->menuLogo->render(this->state->MM_OPS->menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
-                this->state->MM_OPS->menuLogo->setAlpha(i);
+                background->render(background, this->renderer,0,0,2,NULL);
+                background->setAlpha(i);
+                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
+                logo->setAlpha(i);
                 this->renderPresent();
                 SDL_Delay(20);
             }
@@ -147,31 +159,31 @@ void  Core::MainMenuRun()
         this->ParseEvents(this->data,"");
         alphaFlag = false;
         this->renderClear();
-        this->state->MM_OPS->menuBackground->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
-        this->state->MM_OPS->menuLogo->render(this->state->MM_OPS->menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
+        background->render(background, this->renderer,0,0,2,NULL);
+        logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
         if(this->state->onMainMenuStart)
         {
-            this->state->MM_OPS->menuStart->texture->render(this->state->MM_OPS->menuStart->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+            StartButton->texture->render(StartButton->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,NULL);
         }
         if (this->state->onOptionSelection)
         {
-            if(this->state->MM_OPS->menuBattle->is_highlighted)
+            if(BattleButton->is_highlighted)
             {
-                this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
-                this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
             }
-            if (this->state->MM_OPS->menuOptions->is_highlighted)
+            if (OptionsButton->is_highlighted)
             {
-                this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
-                this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
             }
-            if (this->state->MM_OPS->menuQuit->is_highlighted)
+            if (QuitButton->is_highlighted)
             {
-                this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
             }
 
         }
@@ -185,42 +197,38 @@ void  Core::MainMenuRun()
                 this->ParseEvents(this->data,"");
                 alphaFlag = false;
                 this->renderClear();
-                this->state->MM_OPS->menuBackground->setAlpha(i);
-                this->state->MM_OPS->menuBackground->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
-                this->state->MM_OPS->menuLogo->setAlpha(i);
-                this->state->MM_OPS->menuLogo->render(this->state->MM_OPS->menuLogo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
-                if(this->state->onMainMenuStart)
-                {
-                    this->state->MM_OPS->menuStart->texture->render(this->state->MM_OPS->menuStart->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                }
+                background->setAlpha(i);
+                background->render(this->state->MM_OPS->menuBackground, this->renderer,0,0,2,NULL);
+                logo->setAlpha(i);
+                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
                 if (this->state->onOptionSelection)
                 {
-                    if(this->state->MM_OPS->menuBattle->is_highlighted)
+                    if(BattleButton->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
-                        this->state->MM_OPS->menuBattle->texture->setAlpha(i);
-                        this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                        this->state->MM_OPS->menuOptions->texture->setAlpha(i);
-                        this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
-                        this->state->MM_OPS->menuQuit->texture->setAlpha(i);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
+                        BattleButton->texture->setAlpha(i);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                        OptionsButton->texture->setAlpha(i);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                        QuitButton->texture->setAlpha(i);
                     }
-                    if (this->state->MM_OPS->menuOptions->is_highlighted)
+                    if (OptionsButton->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                        this->state->MM_OPS->menuBattle->texture->setAlpha(i);
-                        this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
-                        this->state->MM_OPS->menuOptions->texture->setAlpha(i);
-                        this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
-                        this->state->MM_OPS->menuQuit->texture->setAlpha(i);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                        BattleButton->texture->setAlpha(i);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
+                        OptionsButton->texture->setAlpha(i);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                        QuitButton->texture->setAlpha(i);
                     }
-                    if (this->state->MM_OPS->menuQuit->is_highlighted)
+                    if (QuitButton->is_highlighted)
                     {
-                        this->state->MM_OPS->menuBattle->texture->render(this->state->MM_OPS->menuBattle->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                        this->state->MM_OPS->menuBattle->texture->setAlpha(i);
-                        this->state->MM_OPS->menuOptions->texture->render(this->state->MM_OPS->menuOptions->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                        this->state->MM_OPS->menuOptions->texture->setAlpha(i);
-                        this->state->MM_OPS->menuQuit->texture->render(this->state->MM_OPS->menuQuit->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
-                        this->state->MM_OPS->menuQuit->texture->setAlpha(i);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                        BattleButton->texture->setAlpha(i);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                        OptionsButton->texture->setAlpha(i);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
+                        QuitButton->texture->setAlpha(i);
                     }
 
                 }
