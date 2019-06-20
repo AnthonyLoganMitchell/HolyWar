@@ -1,7 +1,7 @@
-#include "MenuTexture.h"
+#include "GeneralTexture.h"
 #include <string>
 //Fix this constructor.
-MenuTexture::MenuTexture(int totalClips, std::string texName,SDL_Renderer* rend)
+GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer* rend)
 {
     this->textureClipCount = totalClips -1;
     this->name = texName;
@@ -11,7 +11,7 @@ MenuTexture::MenuTexture(int totalClips, std::string texName,SDL_Renderer* rend)
 
 }
 
-void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
+void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
     //std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
@@ -25,7 +25,7 @@ void MenuTexture::render(MenuTexture *t,SDL_Renderer* renderer, int x, int y,int
     //Render to screen
     SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
 }
-bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL_Renderer* renderer)
+bool GeneralTexture::loadGeneralTextureFromFile( std::string path, GeneralTexture* t, SDL_Renderer* renderer)
 {
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -54,12 +54,12 @@ bool MenuTexture::loadMenuTextureFromFile( std::string path, MenuTexture* t, SDL
     return t->texture != NULL;
 }
 
-bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
+bool GeneralTexture::loadMenuMedia(GeneralTexture *t, SDL_Renderer* renderer)
 {
     //Loading success flag
     if (t->name == "MainMenuLogo")
     {
-        if (!this->loadMenuTextureFromFile("rec/text/main_menu_logo.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_logo.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_logo.png\n" );
             return false;
@@ -75,7 +75,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "WoodTorch")
     {
-        if (!this->loadMenuTextureFromFile("rec/animations/torch_wood.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/animations/torch_wood.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: torch_wood.png\n");
             return false;
@@ -121,7 +121,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "SteelTorch")
     {
-        if (!this->loadMenuTextureFromFile("rec/animations/steel_wood.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/animations/steel_wood.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: steel_wood.png\n");
             return false;
@@ -168,7 +168,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     if (t->name == "FullMoonBlankSky")
     {
 
-        if (!this->loadMenuTextureFromFile("rec/backgrounds/full_moon_blank_sky.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/backgrounds/full_moon_blank_sky.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: full_moon_blank_sky.png\n");
             return false;
@@ -183,7 +183,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "PineTree")
     {
-        if (!this->loadMenuTextureFromFile("rec/animations/pine_tree_animation.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/animations/pine_tree_animation.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: pine_tree_animation.png\n" );
             return false;
@@ -239,7 +239,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MidGroundBush")
     {
-        if (!this->loadMenuTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: bush_midground\n" );
             return false;
@@ -255,7 +255,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MidGroundForest_1")
     {
-        if (!this->loadMenuTextureFromFile("rec/midgrounds/forest_midground_1.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/midgrounds/forest_midground_1.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: forest_midground_1.png\n" );
             return false;
@@ -272,7 +272,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "SplashBackground")
     {
-        if (!this->loadMenuTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: splash_background.png\n" );
             return false;
@@ -289,7 +289,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "MenuStartButton")
     {
-        if (!this->loadMenuTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
             return false;
@@ -306,7 +306,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "MenuBattleButton")
     {
-        if (!this->loadMenuTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
             return false;
@@ -323,7 +323,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "MenuOptionsButton")
     {
-        if (!this->loadMenuTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
             return false;
@@ -340,7 +340,7 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "MenuQuitButton")
     {
-        if(!this->loadMenuTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: main_menu_quit_button.png\n");
         }
@@ -355,76 +355,76 @@ bool MenuTexture::loadMenuMedia(MenuTexture *t, SDL_Renderer* renderer)
     return false;
 }
 
-int MenuTexture::GetWidth()
+int GeneralTexture::GetWidth()
 {
     return this->width;
 }
 
-int MenuTexture::GetHeight()
+int GeneralTexture::GetHeight()
 {
     return this->height;
 }
 
-void MenuTexture::SetWidth(int x)
+void GeneralTexture::SetWidth(int x)
 {
     this->width = x;
 }
 
-void MenuTexture::SetHeight(int x)
+void GeneralTexture::SetHeight(int x)
 {
     this->height = x;
 }
-void MenuTexture::SetXPos(int x)
+void GeneralTexture::SetXPos(int x)
 {
     this->xposition = x;
 }
 
-void MenuTexture::SetYPos(int y)
+void GeneralTexture::SetYPos(int y)
 {
     this->yposition = y;
 }
 
-void MenuTexture::setBlendMode(SDL_BlendMode blending)
+void GeneralTexture::setBlendMode(SDL_BlendMode blending)
 {
     SDL_SetTextureBlendMode(this->texture,blending);
 }
 
-void MenuTexture::setAlpha( Uint8 alpha )
+void GeneralTexture::setAlpha( Uint8 alpha )
 {
     SDL_SetTextureAlphaMod( this->texture, alpha );
 }
 
-int MenuTexture::GetXPos()
+int GeneralTexture::GetXPos()
 {
     return this->xposition;
 }
-int MenuTexture::GetYPos()
+int GeneralTexture::GetYPos()
 {
     return this->yposition;
 }
 
-void MenuTexture::SetFrameCount(int x)
+void GeneralTexture::SetFrameCount(int x)
 {
     this->frameCount = x;
 }
 
-int MenuTexture::GetFrameCount()
+int GeneralTexture::GetFrameCount()
 {
     return this->frameCount;
 }
 
-void MenuTexture::TickFrameCount()
+void GeneralTexture::TickFrameCount()
 {
     this->frameCount++;
 
 }
 
-void MenuTexture::ResetFrameCount()
+void GeneralTexture::ResetFrameCount()
 {
     this->frameCount =0;
 }
 
-void MenuTexture::Free_Texture()
+void GeneralTexture::Free_Texture()
 {
     //Free texture if it exists
     if( this->texture != NULL )

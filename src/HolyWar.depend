@@ -796,18 +796,18 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1561002823 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1561003096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	<vector>
 	"MainMenuOptions.h"
 
-1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
+1561003096 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
 	<iostream>
 	"Texture.h"
-	"MenuTexture.h"
+	"GeneralTexture.h"
 	"Interaction.h"
 	"ThreadData.h"
 	"MenuButton.h"
@@ -845,30 +845,30 @@
 1560719068 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\src\menubutton.cpp
 	"MenuButton.h"
 
-1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\menubutton.h
-	"MenuTexture.h"
+1561003187 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\menubutton.h
+	"GeneralTexture.h"
 
 1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\state.h
 	"MainMenuOptions.h"
 
-1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\menubutton.cpp
+1561003096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\menubutton.cpp
 	"MenuButton.h"
 
 1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\state.cpp
 	"State.h"
 
-1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\mainmenuoptions.cpp
+1561003096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\mainmenuoptions.cpp
 	"MainMenuOptions.h"
 
-1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\mainmenuoptions.h
-	"MenuTexture.h"
+1561003096 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\mainmenuoptions.h
+	"GeneralTexture.h"
 	"MenuButton.h"
 
 1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\playercursor.cpp
 	"PlayerCursor.h"
 
-1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\playercursor.h
-	"MenuTexture.h"
+1561003096 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\playercursor.h
+	"GeneralTexture.h"
 
 1561000089 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\playerobject.cpp
 	"PlayerObject.h"
@@ -877,4 +877,16 @@
 1561000089 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\playerobject.h
 	"PlayerCursor.h"
 	"SDL.h"
+
+1561003096 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\generaltexture.h
+	<stdio.h>
+	<iostream>
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+	"Texture.h"
+
+1561003096 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\generaltexture.cpp
+	"GeneralTexture.h"
+	<string>
 

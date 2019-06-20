@@ -1,23 +1,23 @@
-#ifndef   MENUTEXTURE_H_
-#define   MENUTEXTURE_H_
+#ifndef   GENERALTEXTURE_H_
+#define   GENERALTEXTURE_H_
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Texture.h"
-class MenuTexture : public Texture
+class GeneralTexture : public Texture
 {
 public:
     //Constructors
     //total clips/name/xpos/ypos
-    MenuTexture(int,std::string,SDL_Renderer*); // Going to fix CharacterTexture class first
+    GeneralTexture(int,std::string,SDL_Renderer*); // Going to fix CharacterTexture class first
     //////////////////////////////////////////
 
     //These functions are not derived
-    bool loadMenuTextureFromFile( std::string, MenuTexture*, SDL_Renderer*);
-    bool loadMenuMedia(MenuTexture*, SDL_Renderer*);
-    void render(MenuTexture *, SDL_Renderer*, int, int, int, SDL_Rect*);
+    bool loadGeneralTextureFromFile( std::string, GeneralTexture*, SDL_Renderer*);
+    bool loadMenuMedia(GeneralTexture*, SDL_Renderer*);
+    void render(GeneralTexture *, SDL_Renderer*, int, int, int, SDL_Rect*);
 
 
     //These functions are generic and abstract in base class//

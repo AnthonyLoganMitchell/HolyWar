@@ -1,6 +1,6 @@
 #ifndef MAINMENUOPTIONS_H
 #define MAINMENUOPTIONS_H
-#include "MenuTexture.h"
+#include "GeneralTexture.h"
 #include "MenuButton.h"
 
 class MainMenuOptions
@@ -8,8 +8,8 @@ class MainMenuOptions
     public:
         MainMenuOptions(SDL_Renderer*);
         virtual ~MainMenuOptions();
-        MenuTexture *menuBackground;
-        MenuTexture *menuLogo;
+        GeneralTexture *menuBackground;
+        GeneralTexture *menuLogo;
 
         MenuButton  *menuStart;
         MenuButton  *menuBattle;

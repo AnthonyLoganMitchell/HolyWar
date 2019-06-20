@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "Texture.h"
-#include "MenuTexture.h"
+#include "GeneralTexture.h"
 #include "Interaction.h"
 #include "ThreadData.h"
 #include "MenuButton.h"

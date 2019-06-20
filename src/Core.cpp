@@ -123,8 +123,8 @@ void  Core::MainMenuRun()
     this->state->onOptionSelection= false;
     this->state->MM_OPS = new MainMenuOptions(this->renderer);
     //Textures
-    MenuTexture* logo       = this->state->MM_OPS->menuLogo;
-    MenuTexture* background = this->state->MM_OPS->menuBackground;
+    GeneralTexture* logo       = this->state->MM_OPS->menuLogo;
+    GeneralTexture* background = this->state->MM_OPS->menuBackground;
 
 
     //Buttons

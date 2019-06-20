@@ -1,6 +1,6 @@
 #ifndef PLAYERCURSOR_H
 #define PLAYERCURSOR_H
-#include "MenuTexture.h"
+#include "GeneralTexture.h"
 
 
 class PlayerCursor
@@ -8,7 +8,7 @@ class PlayerCursor
     public:
         PlayerCursor(int,int);
         static const int CURSOR_VEL = 10;
-        MenuTexture* Texture;
+        GeneralTexture* Texture;
         virtual ~PlayerCursor();
         void Move();
 

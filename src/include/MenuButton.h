@@ -1,6 +1,6 @@
 #ifndef MENUBUTTON_H
 #define MENUBUTTON_H
-#include "MenuTexture.h"
+#include "GeneralTexture.h"
 
 
 class MenuButton
@@ -9,9 +9,9 @@ class MenuButton
         MenuButton();
         MenuButton(int,std::string , SDL_Renderer*);
         virtual ~MenuButton();
-        MenuTexture* texture;
-        template<class T>
-        static T (*func)();
+        GeneralTexture* texture;
+        //template<class T>
+        //static T (*func)();
         bool is_highlighted;
 };
 
