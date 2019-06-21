@@ -35,7 +35,7 @@ public:
     int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;
-    std::map<int,PlayerObject*>* players;
+    std::vector<PlayerObject*>* players;
     //Game State
     //////////////
     State* state;//

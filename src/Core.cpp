@@ -14,7 +14,7 @@ Core::Core()
     this->data= new(ThreadData);
     this->data->parse_mutex = SDL_CreateMutex();
     this->data->interact = new(std::vector<Interaction*>);
-    this->players = new(std::map<int,PlayerObject*>);
+    this->players = new(std::vector<PlayerObject*>);
 
 }
 void Core::renderPresent()
@@ -96,7 +96,7 @@ bool Core::CoreInit()
                     newPlayer->controller = SDL_GameControllerOpen(i);
                     if (SDL_IsGameController(i))
                     {
-                        this->players->insert({i,newPlayer});
+                        this->players->push_back(newPlayer);
                     }
                 }
                 //std::cout<< "Num_controllers: "<<this->players->size() << std::endl;
@@ -244,7 +244,6 @@ void  Core::MainMenuRun()
 
 void Core::CharacterSelectRun()
 {
-
     //TODO: when multiple players, change color modulation
     /*for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
     {
@@ -252,13 +251,22 @@ void Core::CharacterSelectRun()
         //(*i)->
     }*/
     //This compiles properly
-    /*while(this->state->onCharacterSelection)
+    while(this->state->onCharacterSelection)
     {
-        if(this->players->find(0)->second != NULL)
+        this->ParseEvents(this->data,"");
+        this->renderClear();
+        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-            this->players->find(0)->second->cursor->Move();
+            //std::cout<<"CursorX: "<<(*i)->cursor->PosX<<std::endl;
+            //std::cout<<"CursorY: "<<(*i)->cursor->PosY<<std::endl;
+            (*i)->cursor->Move();
+            (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
+            //std::cout<<"CursorX: "<<(*i)->cursor->PosX<<std::endl;
+            //std::cout<<"CursorY: "<<(*i)->cursor->PosY<<std::endl;
         }
-    }*/
+        this->renderPresent();
+        SDL_Delay(10);
+    }
 }
 
 template<class T>
@@ -371,9 +379,103 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
         /////////////////////////////////////////////////////////////////////////////////////////
         else if ( this->state->onCharacterSelection)
         {
+            //std::cout<<"DEBUG_TRIGGER."<<std::endl;
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
             {
-                std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+                //std::cout<<"DEBUG_0"<<std::endl;
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
+                {
+                    //std::cout<<"trigger"<<std::endl;
+                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                           // std::cout<<"DEBUG_0_P"<<std::endl;
+                            (*j)->cursor->VelY += 1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
+                {
+                   for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY += -1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
+                {
+                    //std::cout<<"DEBUG_6"<<std::endl;
+                   for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX += -1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
+                {
+                    //std::cout<<"DEBUG_8"<<std::endl;
+                   for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX += 1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                //SDL_RELEASED
+
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
+                {
+                    //std::cout<<"DEBUG_10"<<std::endl;
+                   for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            std::cout<<"DEBUG_0_R"<<std::endl;
+                            (*j)->cursor->VelY += -1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
+                {
+                    //std::cout<<"DEBUG_12"<<std::endl;
+                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY += 1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
+                {
+                    //std::cout<<"DEBUG_14"<<std::endl;
+                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX += 1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
+                {
+                    //std::cout<<"DEBUG_16"<<std::endl;
+                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX += -1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+
             }
         }
         //LevelSelection state//

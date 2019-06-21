@@ -11,12 +11,10 @@ class PlayerCursor
         GeneralTexture* Texture;
         virtual ~PlayerCursor();
         void Move();
+        int VelX, VelY;
+        int PosX, PosY;
 
-    protected:
 
-    private:
-         int PosX, PosY;
-         int VelX, VelY;
 };
 
 #endif // PLAYERCURSOR_H
