@@ -37,11 +37,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:/SDL2/SDL/include" />
+			<Add directory="C:/SDL2-2.0.9/x86_64-w64-mingw32/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lSDL2 -lSDL2_image" />
-			<Add directory="C:/SDL2/SDL/lib" />
+			<Add directory="C:/SDL2-2.0.9/x86_64-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="CharacterTexture.cpp" />
 		<Unit filename="Core.cpp" />

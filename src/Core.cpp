@@ -6,6 +6,7 @@ Core::Core()
     this->window = NULL;
     this->renderer = NULL;
     this->quit_program =NULL;
+    this->state = new(State);
     this->state->onMainMenuStart = true;
     this->state->onOptionSelection = false;
     this->state->onLevelSelction = false;
@@ -15,7 +16,6 @@ Core::Core()
     this->data->parse_mutex = SDL_CreateMutex();
     this->data->interact = new(std::vector<Interaction*>);
     this->players = new(std::vector<PlayerObject*>);
-
 }
 void Core::renderPresent()
 {
@@ -81,12 +81,22 @@ bool Core::CoreInit()
                     success = false;
                 }
             }
+
+            //Add sdl2 controller mapping database.
+
+            int maps = SDL_GameControllerAddMappingsFromFile("rec/ControllerMaps/gamecontrollerdb.txt");
+            if (maps == -1)
+            {
+                std::cout << "Warning: No joystick mappings loaded from database!" << std::endl;
+
+            }
             if( SDL_NumJoysticks() < 1 )
             {
                 printf( "Warning: No joysticks connected!\n" );
             }
             else
             {
+                std::cout << SDL_NumJoysticks() << std::endl;
                 //Load new players and joystick pointers to each player.
                 //TODO:
                 for(int i = 0; i <SDL_NumJoysticks(); i++)
@@ -97,9 +107,17 @@ bool Core::CoreInit()
                     if (SDL_IsGameController(i))
                     {
                         this->players->push_back(newPlayer);
+                    }else
+                    {
+                        SDL_Joystick* js = SDL_JoystickOpen(i);
+                        char temp[1024];
+                        SDL_JoystickGUID GUID = SDL_JoystickGetGUID(js);
+                        SDL_JoystickGetGUIDString(GUID,temp,sizeof(temp));
+                        std::cout << temp << std::endl;
+
                     }
                 }
-                //std::cout<< "Num_controllers: "<<this->players->size() << std::endl;
+                std::cout<< "Num_controllers: "<<this->players->size() << std::endl;
             }
         }
     }
@@ -244,12 +262,8 @@ void  Core::MainMenuRun()
 
 void Core::CharacterSelectRun()
 {
+    //
     //TODO: when multiple players, change color modulation
-    /*for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i != this->players->end(); i++)
-    {
-        //TODO: START HERE. INITIALIZE PLAYER CURSORS FOR CHARACTER SELECTION HERE.
-        //(*i)->
-    }*/
     //This compiles properly
     while(this->state->onCharacterSelection)
     {
@@ -257,12 +271,8 @@ void Core::CharacterSelectRun()
         this->renderClear();
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-            //std::cout<<"CursorX: "<<(*i)->cursor->PosX<<std::endl;
-            //std::cout<<"CursorY: "<<(*i)->cursor->PosY<<std::endl;
             (*i)->cursor->Move();
             (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
-            //std::cout<<"CursorX: "<<(*i)->cursor->PosX<<std::endl;
-            //std::cout<<"CursorY: "<<(*i)->cursor->PosY<<std::endl;
         }
         this->renderPresent();
         SDL_Delay(10);
