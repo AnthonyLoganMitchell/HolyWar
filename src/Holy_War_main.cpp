@@ -30,24 +30,34 @@ int WinMain( int argc, char* args[] )
             {
                 CoreGame->MainMenuRun();
                 //Initiate Main bootup sequence for main menu.
+                std::cout <<"Exiting MainMenuRun()"<<std::endl;
             }
             else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
                 CoreGame->CharacterSelectRun();
+                 std::cout <<"Exiting CharacterSelectRun()"<<std::endl;
             }
             else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
+                 std::cout <<"Exiting LevelSelction()"<<std::endl;
             }
             else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
                 //Initiate running match with previously loaded level.
+                std::cout <<"Exiting RunningMatch()"<<std::endl;
             }
         }
+        std::cout <<"PreThread shutdown."<<std::endl;
         SDL_DetachThread(EventThread);
         SDL_WaitThread(EventThread, NULL );
+        std::cout <<"PostThread shutdown."<<std::endl;
     }
+    //
     //Free resources and close SDL
+    std::cout <<"PreCore shutdown."<<std::endl;
     CoreGame->CoreShutdown();
+    std::cout <<"PostCore shutdown."<<std::endl;
+    std::cout << SDL_GetError() << std::endl;
     return 0;
 }

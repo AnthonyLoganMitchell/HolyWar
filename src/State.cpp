@@ -8,4 +8,5 @@ State::State()
 State::~State()
 {
     //dtor
+    delete(this->mainMenuOps);
 }

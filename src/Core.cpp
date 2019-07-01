@@ -102,7 +102,7 @@ bool Core::CoreInit()
                 for(int i = 0; i <SDL_NumJoysticks(); i++)
                 {
                     //this->players.push_back()
-                    PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2,this->renderer);
+                    PlayerObject* newPlayer = new PlayerObject();
                     newPlayer->controller = SDL_GameControllerOpen(i);
                     if (SDL_IsGameController(i))
                     {
@@ -130,6 +130,13 @@ void Core::CoreShutdown()
     this->renderer      = NULL;
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
+    delete(this->state);
+    delete(this->data);
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    {
+        delete((*i));
+    }
+    delete(this->players);
     IMG_Quit();
     SDL_Quit();
 }
@@ -265,6 +272,12 @@ void Core::CharacterSelectRun()
     //
     //TODO: when multiple players, change color modulation
     //This compiles properly
+    for(std::vector<PlayerObject*>::iterator k = this->players->begin(); k!= this->players->end();k++)
+    {
+        (*k)->cursor = new PlayerCursor(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2,this->renderer);
+        (*k)->cursor->Texture = new GeneralTexture(1,"Pentagram",renderer);
+        (*k)->cursor->Texture->loadMenuMedia((*k)->cursor->Texture,this->renderer);
+    }
     while(this->state->onCharacterSelection)
     {
         this->ParseEvents(this->data,"");
@@ -435,6 +448,21 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
                             (*j)->cursor->VelX += 1*(*j)->cursor->CURSOR_VEL;
+                        }
+                    }
+                }
+                if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
+                {
+                    //std::cout<<"DEBUG_8"<<std::endl;
+                   for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            this->state->onCharacterSelection=false;
+                            this->state->onLevelSelction=false;
+                            this->state->onMainMenuStart=false;
+                            this->state->onRunningMatch =false;
+                            this->quit_program =true;
                         }
                     }
                 }

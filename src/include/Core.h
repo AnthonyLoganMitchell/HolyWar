@@ -12,7 +12,6 @@
 #include "State.h"
 #include "PlayerObject.h"
 #include <map>
-
 //
 class Core
 {
