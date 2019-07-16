@@ -7,10 +7,13 @@
 #include "Core.h"
 #include <SDL_thread.h>
 #include <vector>
+SDL_mutex* parse_mutex;
 
 int WinMain( int argc, char* args[] )
 {
+    parse_mutex = SDL_CreateMutex();
     Core *CoreGame = new Core();
+    CoreGame->data->parse_mutex = parse_mutex;
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
     {
@@ -28,13 +31,13 @@ int WinMain( int argc, char* args[] )
         {
             if ( CoreGame->state->onMainMenuStart == true && !CoreGame->quit_program)
             {
-                CoreGame->MainMenuRun();
+                CoreGame->MainMenuRun(parse_mutex);
                 //Initiate Main bootup sequence for main menu.
                 std::cout <<"Exiting MainMenuRun()"<<std::endl;
             }
             else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
-                CoreGame->CharacterSelectRun();
+                CoreGame->CharacterSelectRun(parse_mutex);
                  std::cout <<"Exiting CharacterSelectRun()"<<std::endl;
             }
             else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)

@@ -3,6 +3,7 @@
 #include "MainMenuOptions.h"
 Core::Core()
 {
+    //
     this->window = NULL;
     this->renderer = NULL;
     this->quit_program =NULL;
@@ -13,7 +14,6 @@ Core::Core()
     this->state->onCharacterSelection = false;
     this->state->onRunningMatch = false;
     this->data= new(ThreadData);
-    this->data->parse_mutex = SDL_CreateMutex();
     this->data->interact = new(std::vector<Interaction*>);
     this->players = new(std::vector<PlayerObject*>);
 }
@@ -141,7 +141,7 @@ void Core::CoreShutdown()
     SDL_Quit();
 }
 
-void  Core::MainMenuRun()
+void  Core::MainMenuRun(SDL_mutex* mutex)
 {
     this->state->transition = false;
     this->state->onMainMenuStart = true;
@@ -171,7 +171,7 @@ void  Core::MainMenuRun()
         {
             for (int i=0; i<256; i++)
             {
-                this->ParseEvents(this->data,"");
+                this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
                 background->render(background, this->renderer,0,0,2,NULL);
                 background->setAlpha(i);
@@ -181,7 +181,7 @@ void  Core::MainMenuRun()
                 SDL_Delay(20);
             }
         }
-        this->ParseEvents(this->data,"");
+        this->ParseEvents(this->data,"",mutex);
         alphaFlag = false;
         this->renderClear();
         background->render(background, this->renderer,0,0,2,NULL);
@@ -219,7 +219,7 @@ void  Core::MainMenuRun()
         {
             for(int i = 255; i>=0; i--)
             {
-                this->ParseEvents(this->data,"");
+                this->ParseEvents(this->data,"",mutex);
                 alphaFlag = false;
                 this->renderClear();
                 background->setAlpha(i);
@@ -267,7 +267,7 @@ void  Core::MainMenuRun()
     }
 }
 
-void Core::CharacterSelectRun()
+void Core::CharacterSelectRun(SDL_mutex* mutex)
 {
     //
     //TODO: when multiple players, change color modulation
@@ -275,17 +275,19 @@ void Core::CharacterSelectRun()
     for(std::vector<PlayerObject*>::iterator k = this->players->begin(); k!= this->players->end();k++)
     {
         (*k)->cursor = new PlayerCursor(this->SCREEN_WIDTH/2,this->SCREEN_HEIGHT/2,this->renderer);
-        (*k)->cursor->Texture = new GeneralTexture(1,"Pentagram",renderer);
+        (*k)->cursor->Texture = new GeneralTexture(1,"Pentagram",this->renderer);
         (*k)->cursor->Texture->loadMenuMedia((*k)->cursor->Texture,this->renderer);
     }
     while(this->state->onCharacterSelection)
     {
-        this->ParseEvents(this->data,"");
+        this->ParseEvents(this->data,"",mutex);
         this->renderClear();
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
+
             (*i)->cursor->Move();
             (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
+
         }
         this->renderPresent();
         SDL_Delay(10);
@@ -293,9 +295,9 @@ void Core::CharacterSelectRun()
 }
 
 template<class T>
-void Core::ParseEvents(ThreadData* data,T* Modify)
+void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 {
-    if (SDL_TryLockMutex(data->parse_mutex) == 0 && data->interact->size() > 0)
+    if (SDL_LockMutex(parse_mutex) == 0 && data->interact->size() > 0)
     {
         //On Main Menu states//
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -534,7 +536,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify)
         }
     }
     data->interact->clear();
-    SDL_UnlockMutex(data->parse_mutex);
+    SDL_UnlockMutex(parse_mutex);
 }
 
 int Core::EventHandler(void* data)
@@ -554,7 +556,7 @@ int Core::EventHandler(void* data)
             }
             else if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
             {
-                if (SDL_TryLockMutex(channel->parse_mutex) == 0)
+                if (SDL_LockMutex(channel->parse_mutex) == 0)
                 {
                     inter->button_event = event.cbutton.button;
                     inter->controller_id = event.cbutton.which;
