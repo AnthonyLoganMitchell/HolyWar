@@ -4,12 +4,14 @@
    and high level programming outside of SDL2 framework, openGL,
    and c++ POSIX api standard. Are my original work in progress.
 */
+#define  SDL_MAIN_HANDLED
+#include <SDL.h>
 #include "Core.h"
 #include <SDL_thread.h>
 #include <vector>
 SDL_mutex* parse_mutex;
 
-int WinMain( int argc, char* args[] )
+int main( int argc, char* args[] )
 {
     parse_mutex = SDL_CreateMutex();
     Core *CoreGame = new Core();
@@ -29,7 +31,7 @@ int WinMain( int argc, char* args[] )
         CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
-            if ( CoreGame->state->onMainMenuStart == true && !CoreGame->quit_program)
+            if ( CoreGame->state->onMainMenuStart&& !CoreGame->quit_program)
             {
                 CoreGame->MainMenuRun(parse_mutex);
                 //Initiate Main bootup sequence for main menu.
