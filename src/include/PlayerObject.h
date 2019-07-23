@@ -8,7 +8,7 @@
 class PlayerObject
 {
     public:
-        PlayerObject();
+        PlayerObject(int,int,SDL_Renderer*);
         virtual ~PlayerObject();
         PlayerCursor* cursor;
         SDL_GameController* controller;

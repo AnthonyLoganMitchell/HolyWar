@@ -7,7 +7,7 @@ GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer*
     this->name = texName;
     this->animation = new SDL_Rect[totalClips];
     this->frameCount = 0;
-    this->loadMenuMedia(this,rend);
+    this->loadMedia(this,rend);
 
 }
 
@@ -54,7 +54,7 @@ bool GeneralTexture::loadGeneralTextureFromFile( std::string path, GeneralTextur
     return t->texture != NULL;
 }
 
-bool GeneralTexture::loadMenuMedia(GeneralTexture *t, SDL_Renderer* renderer)
+bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 {
     //Loading success flag
     if (t->name == "MainMenuLogo")
