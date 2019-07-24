@@ -7,7 +7,7 @@ class PlayerCursor
 {
     public:
         PlayerCursor(int,int,SDL_Renderer*);
-        static const int CURSOR_VEL = 10;
+        static const int CURSOR_VEL = 15;
         GeneralTexture* Texture;
         virtual ~PlayerCursor();
         void Move();

@@ -51,6 +51,7 @@ bool Core::CoreInit()
         auto Height = DM.h;
         SCREEN_WIDTH = Width;
         SCREEN_HEIGHT= Height;
+        std::cout<<"screen_width: "<<SCREEN_WIDTH<<" "<<"screen_height: "<<SCREEN_HEIGHT<<std::endl;
         //TODO: Change screen width and height back.
         window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
         if( window == NULL )
@@ -123,23 +124,6 @@ bool Core::CoreInit()
         }
     }
     return success;
-}
-
-void Core::CoreShutdown()
-{
-    this->window        = NULL;
-    this->renderer      = NULL;
-    SDL_DestroyRenderer( renderer );
-    SDL_DestroyWindow( window );
-    delete(this->state);
-    delete(this->data);
-    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-    {
-        delete((*i));
-    }
-    delete(this->players);
-    IMG_Quit();
-    SDL_Quit();
 }
 
 void  Core::MainMenuRun(SDL_mutex* mutex)
@@ -272,6 +256,7 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
             }
             this->state->onMainMenuStart= false;
             this->state->onOptionSelection = false;
+            this->state->transition = false;
             this->state->onCharacterSelection = true;
         }
     }
@@ -279,30 +264,57 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
 
 void Core::CharacterSelectRun(SDL_mutex* mutex)
 {
-    //
+    GeneralTexture* background = this->state->mainMenuOps->menuBackground;
+    bool alphaFlag = true;
+    //TODO: Use these dimensions to create character selection menu.
+    //SDL_Rect *test_rec;
+    //test_rec->h= 900;
+    //test_rec->w= 1700;
+    //test_rec->x= 100;
+    //test_rec->y= 100;
+
     //TODO: when multiple players, change color modulation
-    //This compiles properly
+
     while(this->state->onCharacterSelection)
     {
+
+        if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
+        {
+            for (int i=0; i<256; i++)
+            {
+                this->ParseEvents(this->data,"",mutex);
+                this->renderClear();
+                background->render(background, this->renderer,0,0,2,NULL);
+                background->setAlpha(i);
+                this->renderPresent();
+                SDL_Delay(3);
+            }
+            alphaFlag = false;
+            //SDL_SetRenderDrawColor( renderer, 95, 59, 34, 0); // Testing rectangle.
+        }
         this->renderClear();
         this->ParseEvents(this->data,"",mutex);
+
+        background->render(background, this->renderer,0,0,2,NULL);
+        //SDL_RenderDrawRect( this->renderer, test_rec);
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-
-            (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
-            (*i)->cursor->Move();
-            //std::cout<< (*i)->cursor->PosX <<" : "<<(*i)->cursor->PosY << std::endl;
+            if ((*i)->isActive)
+            {
+                (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
+                (*i)->cursor->Move();
+                //std::cout<< (*i)->cursor->PosX <<" : "<<(*i)->cursor->PosY << std::endl;
+            }
 
         }
         this->renderPresent();
-        SDL_Delay(20);
+        SDL_Delay(25);
     }
 }
 
 template<class T>
 void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 {
-    int cursor_vel = 10;
     if (SDL_LockMutex(parse_mutex) == 0 && data->interact->size() > 0)
     {
         //On Main Menu states//
@@ -418,7 +430,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->cursor->VelY = cursor_vel;
+                            (*j)->cursor->VelY = (*j)->cursor->CURSOR_VEL;
                         }
 
 
@@ -428,7 +440,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->cursor->VelY = -cursor_vel;
+                            (*j)->cursor->VelY = -(*j)->cursor->CURSOR_VEL;
                         }
 
                     }
@@ -437,7 +449,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->cursor->VelX = -cursor_vel;
+                            (*j)->cursor->VelX = -(*j)->cursor->CURSOR_VEL;
                         }
 
                     }
@@ -446,7 +458,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->cursor->VelX = cursor_vel;
+                            (*j)->cursor->VelX = (*j)->cursor->CURSOR_VEL;
                         }
 
                     }
@@ -455,11 +467,12 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            this->state->onCharacterSelection=false;
-                            this->state->onLevelSelction=false;
-                            this->state->onMainMenuStart=false;
-                            this->state->onRunningMatch =false;
-                            this->quit_program =true;
+                            //this->state->onCharacterSelection=false;
+                            //this->state->onLevelSelction=false;
+                            //this->state->onMainMenuStart=false;
+                            //this->state->onRunningMatch =false;
+                            //this->quit_program =true;
+                            (*j)->isActive =true;
                         }
 
                     }
@@ -564,4 +577,21 @@ int Core::EventHandler(void* data)
         }
     }
     return 0;
+}
+
+void Core::CoreShutdown()
+{
+    this->window        = NULL;
+    this->renderer      = NULL;
+    SDL_DestroyRenderer( renderer );
+    SDL_DestroyWindow( window );
+    delete(this->state);
+    delete(this->data);
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    {
+        delete((*i));
+    }
+    delete(this->players);
+    IMG_Quit();
+    SDL_Quit();
 }
