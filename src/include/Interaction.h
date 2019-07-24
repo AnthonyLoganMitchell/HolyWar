@@ -8,7 +8,7 @@ class Interaction
     public:
         Interaction();
         ~Interaction();
-        int controller_id;
+        SDL_JoystickID controller_id;
         uint8_t button_event;
         uint8_t pressed;
     private:

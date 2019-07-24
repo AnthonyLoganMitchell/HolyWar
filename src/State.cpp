@@ -1,11 +1,13 @@
 #include "State.h"
+#include "MainMenuOptions.h"
 
 State::State()
 {
-    //ctor
+    //cto
 }
 
 State::~State()
 {
     //dtor
+    delete(this->mainMenuOps);
 }

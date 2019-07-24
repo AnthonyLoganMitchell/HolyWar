@@ -4,13 +4,18 @@
    and high level programming outside of SDL2 framework, openGL,
    and c++ POSIX api standard. Are my original work in progress.
 */
+#define  SDL_MAIN_HANDLED
+#include <SDL.h>
 #include "Core.h"
 #include <SDL_thread.h>
 #include <vector>
+SDL_mutex* parse_mutex;
 
-int WinMain( int argc, char* args[] )
+int main( int argc, char* args[] )
 {
+    parse_mutex = SDL_CreateMutex();
     Core *CoreGame = new Core();
+    CoreGame->data->parse_mutex = parse_mutex;
     //Start up SDL and create window
     if( !CoreGame->CoreInit())
     {
@@ -26,29 +31,38 @@ int WinMain( int argc, char* args[] )
         CoreGame->renderPresent();
         while( !CoreGame->quit_program )
         {
-            if ( CoreGame->state->onMainMenuStart == true && !CoreGame->quit_program)
+            if ( CoreGame->state->onMainMenuStart&& !CoreGame->quit_program)
             {
-                CoreGame->MainMenuRun();
+                CoreGame->MainMenuRun(parse_mutex);
                 //Initiate Main bootup sequence for main menu.
+                std::cout <<"Exiting MainMenuRun()"<<std::endl;
             }
             else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
-                //CoreGame->CharacterSelectRun();
-                CoreGame->quit_program = true;
+                CoreGame->CharacterSelectRun(parse_mutex);
+                 std::cout <<"Exiting CharacterSelectRun()"<<std::endl;
             }
             else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
+                 std::cout <<"Exiting LevelSelction()"<<std::endl;
             }
             else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
                 //Initiate running match with previously loaded level.
+                std::cout <<"Exiting RunningMatch()"<<std::endl;
             }
         }
+        std::cout <<"PreThread shutdown."<<std::endl;
         SDL_DetachThread(EventThread);
         SDL_WaitThread(EventThread, NULL );
+        std::cout <<"PostThread shutdown."<<std::endl;
     }
+    //
     //Free resources and close SDL
+    std::cout <<"PreCore shutdown."<<std::endl;
     CoreGame->CoreShutdown();
+    std::cout <<"PostCore shutdown."<<std::endl;
+    std::cout << SDL_GetError() << std::endl;
     return 0;
 }

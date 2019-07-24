@@ -13,4 +13,10 @@ MainMenuOptions::MainMenuOptions(SDL_Renderer* renderer)
 MainMenuOptions::~MainMenuOptions()
 {
     //dtor
+    this->menuBackground->Free_Texture();
+    this->menuLogo->Free_Texture();
+    this->menuStart->texture->Free_Texture();
+    this->menuBattle->texture->Free_Texture();
+    this->menuOptions->texture->Free_Texture();
+    this->menuQuit->texture->Free_Texture();
 }

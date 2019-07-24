@@ -10,6 +10,7 @@ class PlayerObject
     public:
         PlayerObject(int,int,SDL_Renderer*);
         virtual ~PlayerObject();
+        bool isActive;
         PlayerCursor* cursor;
         SDL_GameController* controller;
         //Character Texture

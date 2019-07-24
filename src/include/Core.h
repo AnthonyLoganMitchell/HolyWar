@@ -11,7 +11,7 @@
 #include "MenuButton.h"
 #include "State.h"
 #include "PlayerObject.h"
-
+#include <map>
 //
 class Core
 {
@@ -21,10 +21,10 @@ public:
     void CoreShutdown();
     void renderPresent();
     void renderClear();
-    void MainMenuRun();
-    void CharacterSelectRun();
+    void MainMenuRun(SDL_mutex*);
+    void CharacterSelectRun(SDL_mutex*);
     template<class T>
-    void ParseEvents(ThreadData* data,T* Modify);
+    void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     static int EventHandler(void*);
 
 
