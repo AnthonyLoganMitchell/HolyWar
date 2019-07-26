@@ -8,11 +8,12 @@
 class PlayerObject
 {
     public:
-        PlayerObject(int,int,SDL_Renderer*);
+        PlayerObject(int,int,int,SDL_Renderer*);
         virtual ~PlayerObject();
         bool isActive;
         PlayerCursor* cursor;
         SDL_GameController* controller;
+        int ID;
         //Character Texture
 
     protected:
