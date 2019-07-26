@@ -40,7 +40,7 @@ bool Core::CoreInit()
     else
     {
         //Set texture filtering to linear
-        if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ))
+        if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" ))
         {
             printf( "Warning: Linear texture filtering not enabled!" );
         }
@@ -103,7 +103,7 @@ bool Core::CoreInit()
                 //TODO:
                 for(int i = 0; i <SDL_NumJoysticks(); i++)
                 {
-                    PlayerObject* newPlayer = new PlayerObject(this->SCREEN_WIDTH/2+i,SCREEN_HEIGHT/2,this->renderer);
+                    PlayerObject* newPlayer = new PlayerObject(i,this->SCREEN_WIDTH/2+i,SCREEN_HEIGHT/2,this->renderer);
                     newPlayer->controller = SDL_GameControllerOpen(i);
                     if (SDL_IsGameController(i))
                     {
@@ -167,9 +167,9 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
             {
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
-                background->render(background, this->renderer,0,0,2,NULL);
+                background->render(background, this->renderer,0,0,2,2,NULL);
                 background->setAlpha(i);
-                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
+                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,1,NULL);
                 logo->setAlpha(i);
                 this->renderPresent();
                 SDL_Delay(20);
@@ -178,31 +178,31 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
         this->ParseEvents(this->data,"",mutex);
         alphaFlag = false;
         this->renderClear();
-        background->render(background, this->renderer,0,0,2,NULL);
-        logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
+        background->render(background, this->renderer,0,0,2,2,NULL);
+        logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,1,NULL);
         if(this->state->onMainMenuStart)
         {
-            StartButton->texture->render(StartButton->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+            StartButton->texture->render(StartButton->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,4,NULL);
         }
         if (this->state->onOptionSelection)
         {
             if(BattleButton->is_highlighted)
             {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,5,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,4,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,4,NULL);
             }
             if (OptionsButton->is_highlighted)
             {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,4,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,5,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,4,NULL);
             }
             if (QuitButton->is_highlighted)
             {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
+                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,4,NULL);
+                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,4,NULL);
+                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,5,NULL);
             }
 
         }
@@ -217,36 +217,36 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
                 alphaFlag = false;
                 this->renderClear();
                 background->setAlpha(i);
-                background->render(this->state->mainMenuOps->menuBackground, this->renderer,0,0,2,NULL);
+                background->render(this->state->mainMenuOps->menuBackground, this->renderer,0,0,2,2,NULL);
                 logo->setAlpha(i);
-                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,NULL);
+                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,1,NULL);
                 if (this->state->onOptionSelection)
                 {
                     if(BattleButton->is_highlighted)
                     {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,NULL);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,5,NULL);
                         BattleButton->texture->setAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,4,NULL);
                         OptionsButton->texture->setAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,4,NULL);
                         QuitButton->texture->setAlpha(i);
                     }
                     if (OptionsButton->is_highlighted)
                     {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,4,NULL);
                         BattleButton->texture->setAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,NULL);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,5,NULL);
                         OptionsButton->texture->setAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,NULL);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,4,NULL);
                         QuitButton->texture->setAlpha(i);
                     }
                     if (QuitButton->is_highlighted)
                     {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,NULL);
+                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,4,NULL);
                         BattleButton->texture->setAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,NULL);
+                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,4,NULL);
                         OptionsButton->texture->setAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,NULL);
+                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,5,NULL);
                         QuitButton->texture->setAlpha(i);
                     }
 
@@ -265,13 +265,14 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
 void Core::CharacterSelectRun(SDL_mutex* mutex)
 {
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
+    GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     bool alphaFlag = true;
     //TODO: Use these dimensions to create character selection menu.
-    //SDL_Rect *test_rec;
-    //test_rec->h= 900;
-    //test_rec->w= 1700;
-    //test_rec->x= 100;
-    //test_rec->y= 100;
+    //SDL_Rect *ext_rec = new (SDL_Rect);
+    //ext_rec->h= 900;
+    //ext_rec->w= 1700;
+    //ext_rec->x= 100;
+    //ext_rec->y= 100;
 
     //TODO: when multiple players, change color modulation
 
@@ -284,25 +285,28 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             {
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
-                background->render(background, this->renderer,0,0,2,NULL);
+                background->render(background, this->renderer,0,0,2,2,NULL);
                 background->setAlpha(i);
                 this->renderPresent();
-                SDL_Delay(3);
+                SDL_Delay(1);
             }
             alphaFlag = false;
-            //SDL_SetRenderDrawColor( renderer, 95, 59, 34, 0); // Testing rectangle.
+            //SDL_SetRenderDrawColor( renderer, 119, 119, 119, 0); // Testing rectangle.
         }
+
+
         this->renderClear();
         this->ParseEvents(this->data,"",mutex);
-
-        background->render(background, this->renderer,0,0,2,NULL);
-        //SDL_RenderDrawRect( this->renderer, test_rec);
+        background->render(background, this->renderer,0,0,2,2,NULL);
+        //SDL_RenderDrawRect( this->renderer, ext_rec);
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
             if ((*i)->isActive)
             {
-                (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,1,NULL);
+                (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,3,NULL);
+                playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3,(*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,2, &playerNumber->animation[(*i)->ID+1]);
                 (*i)->cursor->Move();
+
                 //std::cout<< (*i)->cursor->PosX <<" : "<<(*i)->cursor->PosY << std::endl;
             }
 

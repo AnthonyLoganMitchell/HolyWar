@@ -7,7 +7,7 @@ PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer)
     this->PosY = y;
     this->VelX =0;
     this->VelY =0;
-    this->Texture = new GeneralTexture(1,"Pentagram",renderer);
+    this->Texture = new GeneralTexture(1,"PentagramCursor",renderer);
 
 }
 

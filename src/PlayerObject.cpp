@@ -1,10 +1,11 @@
 #include "PlayerObject.h"
 
 
-PlayerObject::PlayerObject(int x,int y, SDL_Renderer* renderer)
+PlayerObject::PlayerObject(int id,int x,int y, SDL_Renderer* renderer)
 {
     this->cursor = new PlayerCursor(x,y,renderer);
     this->isActive = false;
+    this->ID = id;
 }
 
 PlayerObject::~PlayerObject()

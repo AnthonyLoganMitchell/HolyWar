@@ -11,16 +11,16 @@ GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer*
 
 }
 
-void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
+void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_pos_x, int rend_pos_y,int size_width,int size_height, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
     //std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
-    SDL_Rect renderQuad = { x, y, t->GetWidth()*size, t->GetHeight()*size };
+    SDL_Rect renderQuad = { rend_pos_x, rend_pos_y, t->GetWidth()*size_width, t->GetHeight()*size_height };
     //Set clip rendering dimensions
     if( clip != NULL )
     {
-        renderQuad.w = clip->w*size;
-        renderQuad.h = clip->h*size;
+        renderQuad.w = clip->w*size_width;
+        renderQuad.h = clip->h*size_height;
     }
     //Render to screen
     SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
@@ -70,6 +70,187 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             t->animation[0].y =1;
             t->animation[0].h =385;
             t->animation[0].w =790;
+            return true;
+        }
+    }
+    if (t->name == "PentagramCursor")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram_cursor.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: pentagram_cursor.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 0;
+            t->animation[0].y = 0;
+            t->animation[0].w = 20;
+            t->animation[0].h = 20;
+            return true;
+        }
+    }
+    if (t->name == "FullMoonBlankSky")
+    {
+
+        if (!this->loadGeneralTextureFromFile("rec/backgrounds/full_moon_blank_sky.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: full_moon_blank_sky.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].h = 540;
+            t->animation[0].w = 960;
+            return true;
+        }
+    }
+    if (t->name == "MidGroundBush")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: bush_midground\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 960;
+            t->animation[0].h = 49;
+            return true;
+        }
+    }
+    if (t->name == "MidGroundForest_1")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/midgrounds/forest_midground_1.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: forest_midground_1.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 960;
+            t->animation[0].h = 540;
+            return true;
+        }
+    }
+    if (t->name == "SplashBackground")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: splash_background.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 1920;
+            t->animation[0].y = 1080;
+            return true;
+
+        }
+    }
+    if (t->name == "MenuStartButton")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 49;
+            t->animation[0].y = 10;
+            return true;
+
+        }
+    }
+    if (t->name == "MenuBattleButton")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 45;
+            t->animation[0].y = 10;
+            return true;
+
+        }
+    }
+    if (t->name == "MenuOptionsButton")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 55;
+            t->animation[0].y = 10;
+            return true;
+
+        }
+    }
+    if (t->name == "MenuQuitButton")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: main_menu_quit_button.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 32;
+            t->animation[0].y = 9;
+            return true;
+        }
+    }
+    if (t->name == "Pentagram")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: pentagram.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 159;
+            t->animation[0].y = 159;
+            return true;
+        }
+    }
+    if (t->name == "CharacterSelectMenu")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/midgrounds/character_select_menu.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: character_select_menu.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 1701;
+            t->animation[0].y = 901;
             return true;
         }
     }
@@ -165,22 +346,6 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             return true;
         }
     }
-    if (t->name == "FullMoonBlankSky")
-    {
-
-        if (!this->loadGeneralTextureFromFile("rec/backgrounds/full_moon_blank_sky.png",t,renderer))
-        {
-            printf("Failed to load sprite sheet texture: full_moon_blank_sky.png\n");
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].h = 540;
-            t->animation[0].w = 960;
-        }
-    }
     if (t->name == "PineTree")
     {
         if (!this->loadGeneralTextureFromFile("rec/animations/pine_tree_animation.png",t,renderer))
@@ -237,134 +402,65 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             return true;
         }
     }
-    if (t->name == "MidGroundBush")
+    if (t->name == "NumberStrip")
     {
-        if (!this->loadGeneralTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("rec/text/number_strip.png",t,renderer))
         {
-            printf( "Failed to load sprite sheet texture: bush_midground\n" );
+            printf( "Failed to load sprite sheet texture: number_strip.png\n" );
             return false;
         }
         else
         {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 960;
-            t->animation[0].h = 49;
+            t->animation[0].x =1;
+            t->animation[0].y =1;
+            t->animation[0].w =9;
+            t->animation[0].h =9;
+
+            t->animation[1].x =10;
+            t->animation[1].y =1;
+            t->animation[1].w =9;
+            t->animation[1].h =9;
+
+            t->animation[2].x =19;
+            t->animation[2].y =1;
+            t->animation[2].w =9;
+            t->animation[2].h =9;
+
+            t->animation[3].x =28;
+            t->animation[3].y =1;
+            t->animation[3].w =9;
+            t->animation[3].h =9;
+
+            t->animation[4].x =37;
+            t->animation[4].y =1;
+            t->animation[4].w =9;
+            t->animation[4].h =9;
+
+            t->animation[5].x =46;
+            t->animation[5].y =1;
+            t->animation[5].w =9;
+            t->animation[5].h =9;
+
+            t->animation[6].x =55;
+            t->animation[6].y =1;
+            t->animation[6].w =9;
+            t->animation[6].h =9;
+
+            t->animation[7].x =64;
+            t->animation[7].y =1;
+            t->animation[7].w =9;
+            t->animation[7].h =9;
+
+            t->animation[8].x =73;
+            t->animation[8].y =1;
+            t->animation[8].w =9;
+            t->animation[8].h =9;
+
+            t->animation[9].x =82;
+            t->animation[9].y =1;
+            t->animation[9].w =9;
+            t->animation[9].h =9;
             return true;
-        }
-    }
-    if (t->name == "MidGroundForest_1")
-    {
-        if (!this->loadGeneralTextureFromFile("rec/midgrounds/forest_midground_1.png",t,renderer))
-        {
-            printf( "Failed to load sprite sheet texture: forest_midground_1.png\n" );
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 960;
-            t->animation[0].h = 540;
-            return true;
-        }
-    }
-
-    if (t->name == "SplashBackground")
-    {
-        if (!this->loadGeneralTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
-        {
-            printf( "Failed to load sprite sheet texture: splash_background.png\n" );
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 1920;
-            t->animation[0].y = 1080;
-
-        }
-    }
-
-    if (t->name == "MenuStartButton")
-    {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
-        {
-            printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 49;
-            t->animation[0].y = 10;
-
-        }
-    }
-
-    if (t->name == "MenuBattleButton")
-    {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
-        {
-            printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 45;
-            t->animation[0].y = 10;
-
-        }
-    }
-
-    if (t->name == "MenuOptionsButton")
-    {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
-        {
-            printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
-            return false;
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 55;
-            t->animation[0].y = 10;
-
-        }
-    }
-
-    if (t->name == "MenuQuitButton")
-    {
-        if(!this->loadGeneralTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
-        {
-            printf("Failed to load sprite sheet texture: main_menu_quit_button.png\n");
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 32;
-            t->animation[0].y = 9;
-        }
-    }
-
-    if (t->name == "Pentagram")
-    {
-        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram.png",t,renderer))
-        {
-            printf("Failed to load sprite sheet texture: pentagram.png\n");
-        }
-        else
-        {
-            t->animation[0].x = 1;
-            t->animation[0].y = 1;
-            t->animation[0].w = 159;
-            t->animation[0].y = 159;
         }
     }
     return false;
