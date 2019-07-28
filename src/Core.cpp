@@ -268,12 +268,14 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
     bool alphaFlag = true;
-    SDL_Rect *exp_rec = new (SDL_Rect);
+    int default_x_pos = 200;
+    int default_y_pos = 500;
 
+    SDL_Rect *exp_rec = new (SDL_Rect);
     exp_rec->h= 85;
     exp_rec->w= 120;
-    exp_rec->x= 350;
-    exp_rec->y= 500;
+    exp_rec->x= default_x_pos;
+    exp_rec->y= default_y_pos;
 
     //TODO: when multiple players, change color modulation
 
@@ -302,7 +304,22 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         this->ParseEvents(this->data,"",mutex);
         background->render(background, this->renderer,0,0,2,2,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,1,NULL);
-        SDL_RenderDrawRect( this->renderer, exp_rec);
+        //SDL_RenderDrawRect( this->renderer, exp_rec);
+        for(int i =0; i<32; i++)
+        {
+            if(exp_rec->x+ exp_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth())
+            {
+               SDL_RenderDrawRect(this->renderer,exp_rec);
+               exp_rec->x = exp_rec->x+exp_rec->w+30;
+            }
+            else
+            {
+                exp_rec->x=default_x_pos;
+                exp_rec->y= exp_rec->y+exp_rec->h+50;
+                SDL_RenderDrawRect(this->renderer,exp_rec);
+            }
+
+        }
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
             if ((*i)->isActive)
@@ -315,7 +332,10 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             }
 
         }
+
         this->renderPresent();
+        exp_rec->x = default_x_pos;
+        exp_rec->y = default_y_pos;
         SDL_Delay(25);
     }
 }

@@ -8,7 +8,8 @@ GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer*
     this->animation = new SDL_Rect[totalClips];
     this->frameCount = 0;
     this->loadMedia(this,rend);
-
+    this->xposition=0;
+    this->yposition=0;
 }
 
 void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_pos_x, int rend_pos_y,int size_width,int size_height, SDL_Rect* clip )

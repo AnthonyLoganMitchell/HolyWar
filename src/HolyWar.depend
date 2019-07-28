@@ -796,7 +796,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1564256973 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1564337557 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	<vector>
 	"MainMenuOptions.h"
@@ -892,7 +892,7 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1564119700 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\generaltexture.cpp
+1564337792 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\generaltexture.cpp
 	"GeneralTexture.h"
 	<string>
 
