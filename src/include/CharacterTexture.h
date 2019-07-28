@@ -11,13 +11,13 @@ public:
     //Constructors
     //totalIdleClips, totalJumpingClips, totalFallingClips, totalMovementClips, totalRegularAttackClips, totalStrongAttackClips
     //^^^The six int's at beginning of CharacterTexture();^^^
-    CharacterTexture(int, int, int, int, int, int, std::string, int, int);
+    CharacterTexture(int, int, int, int, int, int, std::string);
     //////////////////////////////////////////
     ~CharacterTexture();
     //These functions are not derived
-    bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*);
+    bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*,char);
     bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);
-    void render(CharacterTexture *, SDL_Renderer*, int, int, int, SDL_Rect*);
+    void render(CharacterTexture *, SDL_Renderer*, int, int, int, SDL_Rect*,char);
     int  GetIdleClipCount();
 
     //These functions are generic and abstract in base class//
@@ -35,7 +35,14 @@ public:
     void Free_Texture();
     ///////////////////////////////////////////////////////////
 
-    SDL_Texture* texture;
+    SDL_Texture*    idleTexture;
+    SDL_Texture*    jumpingTexture;
+    SDL_Texture*    fallingTexture;
+    SDL_Texture*    movementTexture;
+    SDL_Texture*    attackRegularTexture;
+    SDL_Texture*    strongAttackTexture;
+
+
     SDL_Rect*    idleClips;
     SDL_Rect*    jumpingClips;
     SDL_Rect*    fallingClips;

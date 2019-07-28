@@ -86,7 +86,7 @@ bool Core::CoreInit()
 
             //Add sdl2 controller mapping database.
 
-            int maps = SDL_GameControllerAddMappingsFromFile("rec/ControllerMaps/gamecontrollerdb.txt");
+            int maps = SDL_GameControllerAddMappingsFromFile("rec/controller_maps/gamecontrollerdb.txt");
             if (maps == -1)
             {
                 std::cout << "Warning: No joystick mappings loaded from database!" << std::endl;
@@ -264,9 +264,11 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
 
 void Core::CharacterSelectRun(SDL_mutex* mutex)
 {
+
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
+
     bool alphaFlag = true;
     int default_x_pos = 200;
     int default_y_pos = 500;
@@ -276,8 +278,6 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     exp_rec->w= 120;
     exp_rec->x= default_x_pos;
     exp_rec->y= default_y_pos;
-
-    //TODO: when multiple players, change color modulation
 
     while(this->state->onCharacterSelection)
     {
@@ -325,7 +325,8 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             if ((*i)->isActive)
             {
                 (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,3,NULL);
-                playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3,(*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,2, &playerNumber->animation[(*i)->ID+1]);
+                playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
+                (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,2, &playerNumber->animation[(*i)->ID+1]);
                 (*i)->cursor->Move();
 
                 //std::cout<< (*i)->cursor->PosX <<" : "<<(*i)->cursor->PosY << std::endl;

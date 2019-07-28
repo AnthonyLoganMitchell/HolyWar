@@ -76,7 +76,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "PentagramCursor")
     {
-        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram_cursor.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("rec/objects/symbols/pentagram_cursor.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: pentagram_cursor.png\n");
             return false;
@@ -225,7 +225,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "Pentagram")
     {
-        if(!this->loadGeneralTextureFromFile("rec/Objects/symbols/pentagram.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("rec/objects/symbols/pentagram.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: pentagram.png\n");
             return false;

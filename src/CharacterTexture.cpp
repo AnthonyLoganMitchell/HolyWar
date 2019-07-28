@@ -1,32 +1,31 @@
 #include "CharacterTexture.h"
 
-CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, int totalFallingClips, int totalMovementClips, int totalRegularAttackClips, int totalStrongAttackClips, std::string n, int xPos, int yPos) : Texture()
+CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, int totalFallingClips, int totalMovementClips, \
+                                   int totalRegularAttackClips, int totalStrongAttackClips, std::string n) : Texture()
 {
-    texture       = NULL;
-    width         = 0;
-    height        = 0;
-    name          = n;
-    frameCount    = 0;
-    xposition     = xPos;
-    yposition     = yPos;
+    this->idleTexture = NULL;
+    this->name        = n;
+    this->frameCount  = 0;
+    this->xposition   = 0;
+    this->yposition   = 0;
 
-    idleClipCount   = totalIdleClips-1;
-    idleClips   = new SDL_Rect[totalIdleClips];
+    this->idleClipCount = totalIdleClips-1;
+    this->idleClips   = new SDL_Rect[totalIdleClips];
 
-    jumpingClipCount = totalJumpingClips-1;
-    jumpingClips = new SDL_Rect[totalJumpingClips];
+    this->jumpingClipCount = totalJumpingClips-1;
+    this->jumpingClips = new SDL_Rect[totalJumpingClips];
 
-    fallingClipCount = totalFallingClips-1;
-    fallingClips = new SDL_Rect[totalFallingClips];
+    this->fallingClipCount = totalFallingClips-1;
+    this->fallingClips = new SDL_Rect[totalFallingClips];
 
-    movementClipCount = totalMovementClips-1;
-    movementClips = new SDL_Rect[totalMovementClips];
+    this->movementClipCount = totalMovementClips-1;
+    this->movementClips = new SDL_Rect[totalMovementClips];
 
-    attackRegularClipCount = totalRegularAttackClips-1;
-    attackRegularClips = new SDL_Rect[totalRegularAttackClips];
+    this->attackRegularClipCount = totalRegularAttackClips-1;
+    this->attackRegularClips = new SDL_Rect[totalRegularAttackClips];
 
-    strongAttackClipCount = totalStrongAttackClips-1;
-    strongAttackClips = new SDL_Rect[totalStrongAttackClips];
+    this->strongAttackClipCount = totalStrongAttackClips-1;
+    this->strongAttackClips = new SDL_Rect[totalStrongAttackClips];
 
 }
 CharacterTexture::~CharacterTexture()
@@ -34,10 +33,11 @@ CharacterTexture::~CharacterTexture()
 
 }
 
-bool CharacterTexture::loadCharacterFromFile( std::string path, CharacterTexture* t, SDL_Renderer* renderer)
+bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture* t, SDL_Renderer* renderer,char t_type)
 {
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+    bool load_flag = false;
     if( loadedSurface == NULL )
     {
         printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
@@ -59,8 +59,39 @@ bool CharacterTexture::loadCharacterFromFile( std::string path, CharacterTexture
         SDL_FreeSurface( loadedSurface );
     }
     //Return success
-    t->texture = newTexture;
-    return t->texture != NULL;
+    switch(t_type)
+    {
+        case 'I':
+            t->idleTexture = newTexture;
+            load_flag =true;
+            break;
+
+        case 'J':
+            t->jumpingTexture = newTexture;
+            load_flag =true;
+            break;
+
+        case 'F':
+            t->fallingTexture = newTexture;
+            load_flag =true;
+            break;
+
+        case 'M':
+            t->movementTexture = newTexture;
+            load_flag =true;
+            break;
+
+        case 'A':
+            t->attackRegularTexture = newTexture;
+            load_flag =true;
+            break;
+
+        case 'S':
+            t->strongAttackTexture = newTexture;
+            load_flag =true;
+            break;
+    }
+    return load_flag;
 }
 
 bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* renderer)
@@ -68,7 +99,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
     //Loading success flag
     bool success = true;
     //Load sprite sheet texture
-    if(t->name == "jesus" && !this->loadCharacterFromFile("rec/Holy_War_Jesus-Sheet-strip.png", t, renderer))
+    if(t->name == "jesus" && !this->loadCharacterFromFile("rec/Holy_War_Jesus-Sheet-strip.png", t, renderer,'I'))
     {
 
         printf( "Failed to load sprite sheet texture!\n" );
@@ -163,14 +194,14 @@ int CharacterTexture::GetHeight()
 void CharacterTexture::Free_Texture()
 {
     //Free texture if it exists
-    if( this->texture != NULL )
+    if( this->idleTexture != NULL )
     {
-        this->texture = NULL;
-        SDL_DestroyTexture( this->texture );
+        this->idleTexture = NULL;
+        SDL_DestroyTexture( this->idleTexture);
     }
 }
 
-void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip )
+void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip, char t_type)
 {
     //Set rendering space and render to screen
     SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
@@ -181,7 +212,32 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         renderQuad.h = clip->h*size;
     }
     //Render to screen
-    SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
+     switch(t_type)
+    {
+        case 'I':
+            SDL_RenderCopy( renderer, t->idleTexture, clip, &renderQuad );
+            break;
+
+        case 'J':
+            SDL_RenderCopy( renderer, t->jumpingTexture, clip, &renderQuad );
+            break;
+
+        case 'F':
+            SDL_RenderCopy( renderer, t->fallingTexture, clip, &renderQuad );
+            break;
+
+        case 'M':
+            SDL_RenderCopy( renderer, t->movementTexture, clip, &renderQuad );
+            break;
+
+        case 'A':
+            SDL_RenderCopy( renderer, t->attackRegularTexture, clip, &renderQuad );
+            break;
+
+        case 'S':
+            SDL_RenderCopy( renderer, t->strongAttackTexture, clip, &renderQuad );
+            break;
+    }
 }
 
 int CharacterTexture::GetXPos()
