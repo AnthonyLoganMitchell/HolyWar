@@ -266,13 +266,14 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
 {
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
+    GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
     bool alphaFlag = true;
-    //TODO: Use these dimensions to create character selection menu.
-    //SDL_Rect *ext_rec = new (SDL_Rect);
-    //ext_rec->h= 900;
-    //ext_rec->w= 1700;
-    //ext_rec->x= 100;
-    //ext_rec->y= 100;
+    SDL_Rect *exp_rec = new (SDL_Rect);
+
+    exp_rec->h= 85;
+    exp_rec->w= 120;
+    exp_rec->x= 350;
+    exp_rec->y= 500;
 
     //TODO: when multiple players, change color modulation
 
@@ -285,20 +286,23 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             {
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
-                background->render(background, this->renderer,0,0,2,2,NULL);
                 background->setAlpha(i);
+                background->render(background, this->renderer,0,0,2,2,NULL);
+                cs_menu_midground->setAlpha(i);
+                cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,1,NULL);
                 this->renderPresent();
                 SDL_Delay(1);
             }
             alphaFlag = false;
-            //SDL_SetRenderDrawColor( renderer, 119, 119, 119, 0); // Testing rectangle.
+            SDL_SetRenderDrawColor( renderer, 119, 119, 119, 0); // Testing rectangle.
         }
 
 
         this->renderClear();
         this->ParseEvents(this->data,"",mutex);
         background->render(background, this->renderer,0,0,2,2,NULL);
-        //SDL_RenderDrawRect( this->renderer, ext_rec);
+        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,1,NULL);
+        SDL_RenderDrawRect( this->renderer, exp_rec);
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
             if ((*i)->isActive)
@@ -531,6 +535,8 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                 std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
             }
         }
+        //RnningMatch state//
+        /////////////////////////////////////////////////////////////////////////////////////////
         else if (this->state->onRunningMatch)
         {
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
@@ -538,6 +544,12 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                 //std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
             }
         }
+
+        //Clear interactions off of the heap
+        for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
+            {
+                delete(*i);
+            }
         data->interact->clear();
     }
     SDL_UnlockMutex(parse_mutex);
