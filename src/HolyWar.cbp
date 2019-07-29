@@ -55,6 +55,7 @@
 		<Unit filename="State.cpp" />
 		<Unit filename="Texture.cpp" />
 		<Unit filename="ThreadData.cpp" />
+		<Unit filename="include/CharacterPortrait.h" />
 		<Unit filename="include/CharacterTexture.h" />
 		<Unit filename="include/Core.h" />
 		<Unit filename="include/GeneralTexture.h" />
@@ -66,6 +67,7 @@
 		<Unit filename="include/State.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/ThreadData.h" />
+		<Unit filename="src/CharacterPortrait.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

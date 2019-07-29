@@ -30,6 +30,7 @@ CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, in
 }
 CharacterTexture::~CharacterTexture()
 {
+    //TODO: Delete all textures on the heap.
 
 }
 
@@ -61,35 +62,35 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
     //Return success
     switch(t_type)
     {
-        case 'I':
-            t->idleTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'I':
+        t->idleTexture = newTexture;
+        load_flag =true;
+        break;
 
-        case 'J':
-            t->jumpingTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'J':
+        t->jumpingTexture = newTexture;
+        load_flag =true;
+        break;
 
-        case 'F':
-            t->fallingTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'F':
+        t->fallingTexture = newTexture;
+        load_flag =true;
+        break;
 
-        case 'M':
-            t->movementTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'M':
+        t->movementTexture = newTexture;
+        load_flag =true;
+        break;
 
-        case 'A':
-            t->attackRegularTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'A':
+        t->attackRegularTexture = newTexture;
+        load_flag =true;
+        break;
 
-        case 'S':
-            t->strongAttackTexture = newTexture;
-            load_flag =true;
-            break;
+    case 'S':
+        t->strongAttackTexture = newTexture;
+        load_flag =true;
+        break;
     }
     return load_flag;
 }
@@ -97,58 +98,62 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
 bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* renderer)
 {
     //Loading success flag
-    bool success = true;
     //Load sprite sheet texture
-    if(t->name == "jesus" && !this->loadCharacterFromFile("rec/Holy_War_Jesus-Sheet-strip.png", t, renderer,'I'))
+    if(t->name == "jesus")
     {
+        if(!this->loadCharacterFromFile("rec/animations/jesus-idle.png", t, renderer,'I'))
+        {
+            printf( "Failed to load sprite sheet texture!\n" );
+            return false;
+        }
+        else
+        {
+            //Set top left sprite
+            t-> idleClips[ 0 ].x = 2;
+            t-> idleClips[ 0 ].y = 0;
+            t-> idleClips[ 0 ].w = 38;
+            t-> idleClips[ 0 ].h = 40;
 
-        printf( "Failed to load sprite sheet texture!\n" );
-        success = false;
-    }
-    else
-    {
-        //Set top left sprite
-        t-> idleClips[ 0 ].x = 2;
-        t-> idleClips[ 0 ].y = 0;
-        t-> idleClips[ 0 ].w = 38;
-        t-> idleClips[ 0 ].h = 40;
+            t-> idleClips[1].x = 43;
+            t-> idleClips[1].y = 0;
+            t-> idleClips[1].w = 38;
+            t-> idleClips[1].h = 40;
 
-        t-> idleClips[1].x = 43;
-        t-> idleClips[1].y = 0;
-        t-> idleClips[1].w = 38;
-        t-> idleClips[1].h = 40;
+            t-> idleClips[2].x = 84;
+            t-> idleClips[2].y = 0;
+            t-> idleClips[2].w = 38;
+            t-> idleClips[2].h = 40;
 
-        t-> idleClips[2].x = 84;
-        t-> idleClips[2].y = 0;
-        t-> idleClips[2].w = 38;
-        t-> idleClips[2].h = 40;
+            t-> idleClips[3].x = 125;
+            t-> idleClips[3].y = 0;
+            t-> idleClips[3].w = 38;
+            t-> idleClips[3].h = 40;
 
-        t-> idleClips[3].x = 125;
-        t-> idleClips[3].y = 0;
-        t-> idleClips[3].w = 38;
-        t-> idleClips[3].h = 40;
+            t-> idleClips[4].x = 166;
+            t-> idleClips[4].y = 0;
+            t-> idleClips[4].w = 38;
+            t-> idleClips[4].h = 40;
 
-        t-> idleClips[4].x = 166;
-        t-> idleClips[4].y = 0;
-        t-> idleClips[4].w = 38;
-        t-> idleClips[4].h = 40;
+            t-> idleClips[5].x = 207;
+            t-> idleClips[5].y = 0;
+            t-> idleClips[5].w = 38;
+            t-> idleClips[5].h = 40;
 
-        t-> idleClips[5].x = 207;
-        t-> idleClips[5].y = 0;
-        t-> idleClips[5].w = 38;
-        t-> idleClips[5].h = 40;
+            t-> idleClips[6].x = 248;
+            t-> idleClips[6].y = 0;
+            t-> idleClips[6].w = 38;
+            t-> idleClips[6].h = 40;
 
-        t-> idleClips[6].x = 248;
-        t-> idleClips[6].y = 0;
-        t-> idleClips[6].w = 38;
-        t-> idleClips[6].h = 40;
+            t-> idleClips[7].x = 289;
+            t-> idleClips[7].y = 0;
+            t-> idleClips[7].w = 38;
+            t-> idleClips[7].h = 40;
+        }
 
-        t-> idleClips[7].x = 289;
-        t-> idleClips[7].y = 0;
-        t-> idleClips[7].w = 38;
-        t-> idleClips[7].h = 40;
-    }
-    return success;
+        //TODO: Load more of jesus's textures here before return. (movement,attacking,jumping,falling,ect...)
+        return true;
+    }//End of jesus textures.
+    return false;
 }
 
 int CharacterTexture::GetIdleClipCount()
@@ -212,31 +217,31 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         renderQuad.h = clip->h*size;
     }
     //Render to screen
-     switch(t_type)
+    switch(t_type)
     {
-        case 'I':
-            SDL_RenderCopy( renderer, t->idleTexture, clip, &renderQuad );
-            break;
+    case 'I':
+        SDL_RenderCopy( renderer,t->idleTexture, clip, &renderQuad );
+        break;
 
-        case 'J':
-            SDL_RenderCopy( renderer, t->jumpingTexture, clip, &renderQuad );
-            break;
+    case 'J':
+        SDL_RenderCopy( renderer, t->jumpingTexture, clip, &renderQuad );
+        break;
 
-        case 'F':
-            SDL_RenderCopy( renderer, t->fallingTexture, clip, &renderQuad );
-            break;
+    case 'F':
+        SDL_RenderCopy( renderer, t->fallingTexture, clip, &renderQuad );
+        break;
 
-        case 'M':
-            SDL_RenderCopy( renderer, t->movementTexture, clip, &renderQuad );
-            break;
+    case 'M':
+        SDL_RenderCopy( renderer, t->movementTexture, clip, &renderQuad );
+        break;
 
-        case 'A':
-            SDL_RenderCopy( renderer, t->attackRegularTexture, clip, &renderQuad );
-            break;
+    case 'A':
+        SDL_RenderCopy( renderer, t->attackRegularTexture, clip, &renderQuad );
+        break;
 
-        case 'S':
-            SDL_RenderCopy( renderer, t->strongAttackTexture, clip, &renderQuad );
-            break;
+    case 'S':
+        SDL_RenderCopy( renderer, t->strongAttackTexture, clip, &renderQuad );
+        break;
     }
 }
 
