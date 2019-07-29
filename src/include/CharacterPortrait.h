@@ -10,8 +10,6 @@ class CharacterPortrait
         GeneralTexture* avatar;
         bool isHover;
         bool isSelected;
-        int xPos;
-        int yPos;
     private:
 };
 
