@@ -17,7 +17,7 @@ public:
     //These functions are not derived
     bool loadGeneralTextureFromFile( std::string, GeneralTexture*, SDL_Renderer*);
     bool loadMedia(GeneralTexture*, SDL_Renderer*);
-    void render(GeneralTexture*, SDL_Renderer*, int, int, int, int, SDL_Rect*);
+    void render(GeneralTexture*, SDL_Renderer*, int, int, int, int,int, SDL_Rect*);
 
 
     //These functions are generic and abstract in base class//

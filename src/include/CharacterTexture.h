@@ -17,7 +17,7 @@ public:
     //These functions are not derived
     bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*,char);
     bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);
-    void render(CharacterTexture *, SDL_Renderer*, int, int, int, SDL_Rect*,char);
+    void render(CharacterTexture *, SDL_Renderer*, int, int, int, int, int, SDL_Rect*,char);
     int  GetIdleClipCount();
 
     //These functions are generic and abstract in base class//

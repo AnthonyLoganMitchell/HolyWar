@@ -12,16 +12,16 @@ GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer*
     this->yposition=0;
 }
 
-void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_pos_x, int rend_pos_y,int size_width,int size_height, SDL_Rect* clip )
+void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_pos_x, int rend_pos_y, int scale, int offset_width, int offset_height, SDL_Rect* clip )
 {
     //Set rendering space and render to screen
     //std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
-    SDL_Rect renderQuad = { rend_pos_x, rend_pos_y, t->GetWidth()*size_width, t->GetHeight()*size_height };
+    SDL_Rect renderQuad = { rend_pos_x, rend_pos_y, (t->GetWidth()*scale)+offset_width, (t->GetHeight()*scale)+offset_height};
     //Set clip rendering dimensions
     if( clip != NULL )
     {
-        renderQuad.w = clip->w*size_width;
-        renderQuad.h = clip->h*size_height;
+        renderQuad.w = (clip->w*scale)+offset_width;
+        renderQuad.h = (clip->h*scale)+offset_height;
     }
     //Render to screen
     SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );
@@ -461,6 +461,64 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             t->animation[9].y =1;
             t->animation[9].w =9;
             t->animation[9].h =9;
+            return true;
+        }
+    }
+
+    if (t->name == "HorusCharacterSelect")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/animations/characters/horus_idle.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: horus_idle.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x =1;
+            t->animation[0].y =1;
+            t->animation[0].w =80;
+            t->animation[0].h =65;
+
+            t->animation[1].x =81;
+            t->animation[1].y =1;
+            t->animation[1].w =80;
+            t->animation[1].h =65;
+
+            t->animation[2].x =161;
+            t->animation[2].y =1;
+            t->animation[2].w =80;
+            t->animation[2].h =65;
+
+            t->animation[3].x =241;
+            t->animation[3].y =1;
+            t->animation[3].w =80;
+            t->animation[3].h =65;
+
+            t->animation[4].x =321;
+            t->animation[4].y =1;
+            t->animation[4].w =80;
+            t->animation[4].h =65;
+
+            t->animation[5].x =401;
+            t->animation[5].y =1;
+            t->animation[5].w =80;
+            t->animation[5].h =65;
+
+            t->animation[6].x =481;
+            t->animation[6].y =1;
+            t->animation[6].w =80;
+            t->animation[6].h =65;
+
+            t->animation[7].x =561;
+            t->animation[7].y =1;
+            t->animation[7].w =80;
+            t->animation[7].h =65;
+
+            t->animation[8].x =641;
+            t->animation[8].y =1;
+            t->animation[8].w =80;
+            t->animation[8].h =65;
+
             return true;
         }
     }

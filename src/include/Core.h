@@ -12,6 +12,8 @@
 #include "State.h"
 #include "PlayerObject.h"
 #include <map>
+#include <vector>
+#include "CharacterPortrait.h"
 //
 class Core
 {
@@ -26,6 +28,7 @@ public:
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     static int EventHandler(void*);
+    std::vector<CharacterPortrait*> *InitPortraits();
 
 
     SDL_Window* window;

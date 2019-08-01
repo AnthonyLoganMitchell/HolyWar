@@ -206,15 +206,19 @@ void CharacterTexture::Free_Texture()
     }
 }
 
-void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int size, SDL_Rect* clip, char t_type)
+void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int scale, int offset_width, int offset_height, SDL_Rect* clip, char t_type)
 {
+    if (scale < 1)
+    {
+        scale = 1;
+    }
     //Set rendering space and render to screen
     SDL_Rect renderQuad = { x, y, t->GetWidth(), t->GetHeight() };
     //Set clip rendering dimensions
     if( clip != NULL )
     {
-        renderQuad.w = clip->w*size;
-        renderQuad.h = clip->h*size;
+        renderQuad.w = (clip->w*scale)+offset_width;
+        renderQuad.h = (clip->h*scale)+offset_height;
     }
     //Render to screen
     switch(t_type)
