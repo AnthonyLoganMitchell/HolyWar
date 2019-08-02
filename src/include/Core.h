@@ -14,6 +14,8 @@
 #include <map>
 #include <vector>
 #include "CharacterPortrait.h"
+#include <stdlib.h>
+#include "PlayerCursor.h"
 //
 class Core
 {
@@ -27,8 +29,9 @@ public:
     void CharacterSelectRun(SDL_mutex*);
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
+    bool CollisionDetect(PlayerCursor*,SDL_Rect*);
     static int EventHandler(void*);
-    std::vector<CharacterPortrait*> *InitPortraits();
+    std::vector<CharacterPortrait*> *InitPortraits(SDL_Renderer*);
 
 
     SDL_Window* window;

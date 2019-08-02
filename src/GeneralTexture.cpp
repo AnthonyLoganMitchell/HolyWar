@@ -16,12 +16,12 @@ void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_p
 {
     //Set rendering space and render to screen
     //std::cout << t->GetWidth() << ": " << t->GetHeight() << std::endl;
-    SDL_Rect renderQuad = { rend_pos_x, rend_pos_y, (t->GetWidth()*scale)+offset_width, (t->GetHeight()*scale)+offset_height};
+    SDL_Rect renderQuad = { rend_pos_x+offset_width, rend_pos_y+offset_height, (t->GetWidth()*scale), (t->GetHeight()*scale)};
     //Set clip rendering dimensions
     if( clip != NULL )
     {
-        renderQuad.w = (clip->w*scale)+offset_width;
-        renderQuad.h = (clip->h*scale)+offset_height;
+        renderQuad.w = (clip->w*scale);
+        renderQuad.h = (clip->h*scale);
     }
     //Render to screen
     SDL_RenderCopy( renderer, t->texture, clip, &renderQuad );

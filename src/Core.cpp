@@ -3,6 +3,7 @@
 #include "MainMenuOptions.h"
 #include <string>
 #include <vector>
+
 Core::Core()
 {
     //
@@ -269,7 +270,16 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
-
+    std::vector<CharacterPortrait*> *avatars = this->InitPortraits(this->renderer);
+    if(sizeof(avatars) > 0)
+    {
+        std::cout<<"Success:"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"Error: failed to load avatars."<<std::endl;
+        exit(EXIT_FAILURE);
+    }
     bool alphaFlag = true;
     int default_x_pos = 200;
     int default_y_pos = 500;
@@ -305,32 +315,62 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         this->ParseEvents(this->data,"",mutex);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
-        //SDL_RenderDrawRect( this->renderer, exp_rec);
-        for(int i =0; i<32; i++)
+        for(std::vector<CharacterPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++)
         {
+            //This section aligns the characterPortrait with its encapsulating square position.
             if(exp_rec->x+ exp_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth())
             {
-               SDL_RenderDrawRect(this->renderer,exp_rec);
-               exp_rec->x = exp_rec->x+exp_rec->w+30;
+                SDL_RenderDrawRect(this->renderer,exp_rec);
+                int offset_x= ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
+                int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
+                (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+                {
+                    if ((*i)->isActive)
+                    {
+                        if(this->CollisionDetect((*i)->cursor,exp_rec))
+                        {
+                            //TODO: Remove this
+                            std::cout<<"COLLISION!"<<std::endl;
+                            exit(EXIT_FAILURE);
+                        }
+
+                    }
+                }
+                exp_rec->x = exp_rec->x+exp_rec->w+30;
             }
             else
             {
                 exp_rec->x=default_x_pos;
                 exp_rec->y= exp_rec->y+exp_rec->h+50;
                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                int offset_x = ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
+                int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
+                (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+                {
+                    if ((*i)->isActive)
+                    {
+                        if(this->CollisionDetect((*i)->cursor,exp_rec))
+                        {
+                            std::cout<<"COLLISION!"<<std::endl;
+                            exit(EXIT_FAILURE);
+                        }
+
+                    }
+                }
             }
 
         }
+        //Render and move players cursor texture.
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
             if ((*i)->isActive)
             {
                 (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
                 playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
-                (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,0,0, &playerNumber->animation[(*i)->ID+1]);
+                                     (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,0,0, &playerNumber->animation[(*i)->ID+1]);
                 (*i)->cursor->Move();
-
-                //std::cout<< (*i)->cursor->PosX <<" : "<<(*i)->cursor->PosY << std::endl;
             }
 
         }
@@ -342,14 +382,56 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     }
 }
 
-std::vector<CharacterPortrait*> *Core::InitPortraits()
+std::vector<CharacterPortrait*> *Core::InitPortraits(SDL_Renderer* renderer)
 {
     //TODO: START HERE.
+    std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
+    CharacterPortrait *cp = new CharacterPortrait(9,"HorusCharacterSelect",renderer);
+    cp_vec->push_back(cp);
+    cp = NULL;
+    delete(cp);
+    if (sizeof(cp_vec) > 0)
+    {
+        return cp_vec;
+    }
     return NULL;
 }
 
 
+bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
+{
+    int rect_1_top = A->PosY;
+    int rect_1_bottom = A->PosY+A->Texture->GetHeight();
+    int rect_1_left = A->PosX;
+    int rect_1_right = A->PosX+A->Texture->GetWidth();
 
+    int rect_2_top = B->y;
+    int rect_2_bottom = B->y+B->h;
+    int rect_2_left = B->x;
+    int rect_2_right = B->x+B->w;
+
+    std::cout<<"Rect_1: top:"<<rect_1_top<<" bot: "<<rect_1_bottom<<" left: "<<rect_1_left<<" right: "<<rect_1_right<<std::endl;
+    std::cout<<"Rect_2: top:"<<rect_2_top<<" bot: "<<rect_2_bottom<<" left: "<<rect_2_left<<" right: "<<rect_2_right<<std::endl;
+
+    if (rect_1_bottom <= rect_2_top)
+    {
+        return false;
+    }
+    if (rect_1_top >= rect_2_bottom)
+    {
+        return false;
+    }
+    if (rect_1_right <= rect_2_left)
+    {
+        return false;
+    }
+    if (rect_1_left >= rect_2_right)
+    {
+        return false;
+    }
+    return true;
+
+}
 
 
 template<class T>
@@ -579,9 +661,9 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
         //Clear interactions off of the heap
         for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-            {
-                delete(*i);
-            }
+        {
+            delete(*i);
+        }
         data->interact->clear();
     }
     SDL_UnlockMutex(parse_mutex);

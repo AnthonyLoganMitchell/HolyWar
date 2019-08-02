@@ -5,11 +5,12 @@
 class CharacterPortrait
 {
     public:
-        CharacterPortrait();
+        CharacterPortrait(int,std::string,SDL_Renderer*);
         virtual ~CharacterPortrait();
         GeneralTexture* avatar;
         bool isHover;
         bool isSelected;
+
     private:
 };
 
