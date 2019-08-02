@@ -273,7 +273,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     std::vector<CharacterPortrait*> *avatars = this->InitPortraits(this->renderer);
     if(sizeof(avatars) > 0)
     {
-        std::cout<<"Success:"<<std::endl;
+        std::cout<<"Successfully loaded Avatars:"<<std::endl;
     }
     else
     {
@@ -307,7 +307,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                 SDL_Delay(1);
             }
             alphaFlag = false;
-            SDL_SetRenderDrawColor( renderer, 119, 119, 119, 0); // Testing rectangle.
+            SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0); // Testing rectangle.
         }
 
 
@@ -330,9 +330,22 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                     {
                         if(this->CollisionDetect((*i)->cursor,exp_rec))
                         {
-                            //TODO: Remove this
-                            std::cout<<"COLLISION!"<<std::endl;
-                            exit(EXIT_FAILURE);
+
+                            if((*i)->ID+1 == 1)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
+                            if ((*i)->ID+1 == 2)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
+                            if ((*i)->ID+1 == 3)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
                         }
 
                     }
@@ -353,8 +366,22 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                     {
                         if(this->CollisionDetect((*i)->cursor,exp_rec))
                         {
-                            std::cout<<"COLLISION!"<<std::endl;
-                            exit(EXIT_FAILURE);
+                            if((*i)->ID+1 == 1)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
+                            if ((*i)->ID+1 == 2)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
+                            if ((*i)->ID+1 == 3)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                            }
+
                         }
 
                     }
@@ -378,6 +405,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         this->renderPresent();
         exp_rec->x = default_x_pos;
         exp_rec->y = default_y_pos;
+        SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
         SDL_Delay(25);
     }
 }
@@ -410,8 +438,8 @@ bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
     int rect_2_left = B->x;
     int rect_2_right = B->x+B->w;
 
-    std::cout<<"Rect_1: top:"<<rect_1_top<<" bot: "<<rect_1_bottom<<" left: "<<rect_1_left<<" right: "<<rect_1_right<<std::endl;
-    std::cout<<"Rect_2: top:"<<rect_2_top<<" bot: "<<rect_2_bottom<<" left: "<<rect_2_left<<" right: "<<rect_2_right<<std::endl;
+    //std::cout<<"Rect_1: top:"<<rect_1_top<<" bot: "<<rect_1_bottom<<" left: "<<rect_1_left<<" right: "<<rect_1_right<<std::endl;
+    //std::cout<<"Rect_2: top:"<<rect_2_top<<" bot: "<<rect_2_bottom<<" left: "<<rect_2_left<<" right: "<<rect_2_right<<std::endl;
 
     if (rect_1_bottom <= rect_2_top)
     {
