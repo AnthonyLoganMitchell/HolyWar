@@ -324,28 +324,47 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                 int offset_x= ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
                 int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
                 (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
-                for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+                for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
                 {
-                    if ((*i)->isActive)
+                    if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*i)->cursor,exp_rec))
+                        if(this->CollisionDetect((*j)->cursor,exp_rec))
                         {
 
-                            if((*i)->ID+1 == 1)
+                            if((*j)->ID+1 == 1)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
                             }
-                            if ((*i)->ID+1 == 2)
+                            if ((*j)->ID+1 == 2)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
                             }
-                            if ((*i)->ID+1 == 3)
+                            if ((*j)->ID+1 == 3)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
                             }
+                            if ((*j)->ID+1 == 4)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
+                            }
+                            if ((*j)->CharacterSelected)
+                            {
+                                (*j)->CharacterName = (*i)->CharacterName;
+                                std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
+                                (*j)->CharacterSelected = false;
+                            }
+                        }
+                        else
+                        {
+                            (*j)->cursor->isColliding = false;
                         }
 
                     }
@@ -360,30 +379,49 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                 int offset_x = ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
                 int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
                 (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
-                for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+                for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
                 {
-                    if ((*i)->isActive)
+                    if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*i)->cursor,exp_rec))
+                        if(this->CollisionDetect((*j)->cursor,exp_rec))
                         {
-                            if((*i)->ID+1 == 1)
+                            if((*j)->ID+1 == 1)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
                             }
-                            if ((*i)->ID+1 == 2)
+                            if ((*j)->ID+1 == 2)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
                             }
-                            if ((*i)->ID+1 == 3)
+                            if ((*j)->ID+1 == 3)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
                                 SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
+                            }
+                            if ((*j)->ID+1 == 4)
+                            {
+                                SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
+                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                (*j)->cursor->isColliding = true;
+                            }
+
+                            if ((*j)->CharacterSelected)
+                            {
+                                (*j)->CharacterName = (*i)->CharacterName;
+                                std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
+                                (*j)->CharacterSelected = false;
                             }
 
                         }
-
+                        else
+                        {
+                            (*j)->cursor->isColliding = false;
+                        }
                     }
                 }
             }
@@ -414,7 +452,7 @@ std::vector<CharacterPortrait*> *Core::InitPortraits(SDL_Renderer* renderer)
 {
     //TODO: START HERE.
     std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
-    CharacterPortrait *cp = new CharacterPortrait(9,"HorusCharacterSelect",renderer);
+    CharacterPortrait *cp = new CharacterPortrait(9,"HorusCharacterSelect","Horus",renderer);
     cp_vec->push_back(cp);
     cp = NULL;
     delete(cp);
@@ -428,10 +466,10 @@ std::vector<CharacterPortrait*> *Core::InitPortraits(SDL_Renderer* renderer)
 
 bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
 {
-    int rect_1_top = A->PosY;
-    int rect_1_bottom = A->PosY+A->Texture->GetHeight();
-    int rect_1_left = A->PosX;
-    int rect_1_right = A->PosX+A->Texture->GetWidth();
+    int rect_1_top = A->PosY+2;
+    int rect_1_bottom = A->PosY+A->Texture->GetHeight()+2;
+    int rect_1_left = A->PosX+2;
+    int rect_1_right = A->PosX+A->Texture->GetWidth()+2;
 
     int rect_2_top = B->y;
     int rect_2_bottom = B->y+B->h;
@@ -615,16 +653,18 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
                     {
 
-                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller && (*j)->isActive == false)
                         {
-                            //this->state->onCharacterSelection=false;
-                            //this->state->onLevelSelction=false;
-                            //this->state->onMainMenuStart=false;
-                            //this->state->onRunningMatch =false;
-                            //this->quit_program =true;
                             (*j)->isActive =true;
                         }
 
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->CharacterSelected = true;
+                        }
                     }
                     //SDL_RELEASED
 

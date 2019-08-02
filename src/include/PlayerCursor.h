@@ -13,6 +13,7 @@ class PlayerCursor
         void Move();
         int VelX, VelY;
         int PosX, PosY;
+        bool isColliding;
 
 
 };
