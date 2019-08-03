@@ -15,6 +15,7 @@ class PlayerObject
         std::string CharacterName;
         bool isActive;
         bool CharacterSelected;
+        bool isReady;
 
 };
 

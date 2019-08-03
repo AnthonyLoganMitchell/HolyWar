@@ -8,6 +8,7 @@ PlayerObject::PlayerObject(int id,int x,int y, SDL_Renderer* renderer)
     this->ID = id;
     this->CharacterSelected = false;
     this->CharacterName="";
+    this->isReady = false;
 }
 
 PlayerObject::~PlayerObject()

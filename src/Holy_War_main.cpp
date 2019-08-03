@@ -46,6 +46,7 @@ int main( int argc, char* args[] )
             {
                 //Intiate Level selection screen
                  std::cout <<"Exiting LevelSelction()"<<std::endl;
+                 CoreGame->quit_program= true;
             }
             else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {

@@ -6,7 +6,6 @@
 
 Core::Core()
 {
-    //
     this->window = NULL;
     this->renderer = NULL;
     this->quit_program =NULL;
@@ -281,14 +280,21 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         exit(EXIT_FAILURE);
     }
     bool alphaFlag = true;
-    int default_x_pos = 200;
-    int default_y_pos = 500;
+    int def_x_pos = 200;
+    int def_y_pos = 500;
+    int char_box_y_pos = 100;
 
     SDL_Rect *exp_rec = new (SDL_Rect);
     exp_rec->h= 85;
     exp_rec->w= 120;
-    exp_rec->x= default_x_pos;
-    exp_rec->y= default_y_pos;
+    exp_rec->x= def_x_pos;
+    exp_rec->y= def_y_pos;
+
+    SDL_Rect *CharBox = new (SDL_Rect);
+    CharBox->h = 400;
+    CharBox->w = 300;
+    CharBox->x = def_x_pos;
+    CharBox->y = char_box_y_pos;
 
     while(this->state->onCharacterSelection)
     {
@@ -358,7 +364,8 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                             if ((*j)->CharacterSelected)
                             {
                                 (*j)->CharacterName = (*i)->CharacterName;
-                                std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
+                                (*j)->isReady = true;
+                                //std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
                                 (*j)->CharacterSelected = false;
                             }
                         }
@@ -373,7 +380,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             }
             else
             {
-                exp_rec->x=default_x_pos;
+                exp_rec->x=def_x_pos;
                 exp_rec->y= exp_rec->y+exp_rec->h+50;
                 SDL_RenderDrawRect(this->renderer,exp_rec);
                 int offset_x = ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
@@ -413,7 +420,8 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                             if ((*j)->CharacterSelected)
                             {
                                 (*j)->CharacterName = (*i)->CharacterName;
-                                std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
+                                (*j)->isReady = true;
+                                //std::cout<<"Character: "<<(*i)->CharacterName<<" selected!"<<std::endl;
                                 (*j)->CharacterSelected = false;
                             }
 
@@ -441,8 +449,8 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         }
 
         this->renderPresent();
-        exp_rec->x = default_x_pos;
-        exp_rec->y = default_y_pos;
+        exp_rec->x = def_x_pos;
+        exp_rec->y = def_y_pos;
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
         SDL_Delay(25);
     }
@@ -656,6 +664,19 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller && (*j)->isActive == false)
                         {
                             (*j)->isActive =true;
+                        }
+                        for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                        {
+                            if(!(*j)->isReady)
+                            {
+                               break;
+                            }
+                            std::cout<<"TRIGGER:"<<std::endl;
+                            if(j == this->players->end()-1 && (*j)->isReady)
+                            {
+                                this->state->onCharacterSelection=false;
+                                this->state->onLevelSelction = true;
+                            }
                         }
 
                     }
