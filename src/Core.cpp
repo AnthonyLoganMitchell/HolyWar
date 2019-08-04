@@ -270,6 +270,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
     std::vector<CharacterPortrait*> *avatars = this->InitPortraits(this->renderer);
+    int idleMod =0;
     if(sizeof(avatars) > 0)
     {
         std::cout<<"Successfully loaded Avatars:"<<std::endl;
@@ -282,7 +283,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     bool alphaFlag = true;
     int def_x_pos = 200;
     int def_y_pos = 500;
-    int char_box_y_pos = 100;
+    int char_box_y_pos = 125;
 
     SDL_Rect *exp_rec = new (SDL_Rect);
     exp_rec->h= 85;
@@ -291,7 +292,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     exp_rec->y= def_y_pos;
 
     SDL_Rect *CharBox = new (SDL_Rect);
-    CharBox->h = 400;
+    CharBox->h = 270;
     CharBox->w = 300;
     CharBox->x = def_x_pos;
     CharBox->y = char_box_y_pos;
@@ -321,6 +322,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         this->ParseEvents(this->data,"",mutex);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+
         for(std::vector<CharacterPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++)
         {
             //This section aligns the characterPortrait with its encapsulating square position.
@@ -375,6 +377,8 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                         }
 
                     }
+
+
                 }
                 exp_rec->x = exp_rec->x+exp_rec->w+30;
             }
@@ -433,6 +437,32 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                     }
                 }
             }
+            //TODO: Start here
+            SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
+            for(int j = 0; j<4; j++)
+            {
+
+                SDL_RenderDrawRect(this->renderer, CharBox);
+                for(std::vector<PlayerObject*>::iterator k = this->players->begin(); k!= this->players->end(); k++)
+                {
+                    if ((*k)->CharacterName == (*i)->CharacterName && j == (*k)->ID)
+                    {
+                        int offset_x = ((CharBox->w-((((*i)->avatar->GetWidth()*3))/(*i)->avatar->textureClipCount+1))/2)+10;
+                        int offset_y =   CharBox->h-(((*i)->avatar->GetHeight()*3))-15;
+                        (*i)->avatar->render((*i)->avatar,this->renderer,CharBox->x,CharBox->y,3,offset_x,offset_y, &(*i)->avatar->animation[(*i)->avatar->GetFrameCount()]);
+                        if(idleMod % 7 == 0)
+                        {
+                            (*i)->avatar->TickFrameCount();
+                        }
+                        if ((*i)->avatar->GetFrameCount() == (*i)->avatar->textureClipCount)
+                        {
+                            (*i)->avatar->ResetFrameCount();
+                        }
+                    }
+                }
+                CharBox->x = CharBox->x+CharBox->w+100;
+
+            }
 
         }
         //Render and move players cursor texture.
@@ -451,10 +481,79 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         this->renderPresent();
         exp_rec->x = def_x_pos;
         exp_rec->y = def_y_pos;
+        CharBox->x = def_x_pos;
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
+        idleMod++;
+        if (idleMod == 20000)
+        {
+            idleMod =0;
+        }
         SDL_Delay(25);
     }
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+    for (int i=255; i>=0; i--)
+    {
+        this->ParseEvents(this->data,"",mutex);
+        this->renderClear();
+        background->setAlpha(i);
+        background->render(background, this->renderer,0,0,2,0,0,NULL);
+        cs_menu_midground->setAlpha(i);
+        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        this->renderPresent();
+        SDL_Delay(5);
+    }
+    playerNumber->Free_Texture();
+    cs_menu_midground->Free_Texture();
+
+    for(CharacterPortrait* i : *avatars)
+    {
+        delete(i);
+    }
+
+
 }
+
+void Core::LevelSelectRun(SDL_mutex* mutex)
+{
+    bool alphaFlag = true;
+    GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
+    GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
+    GeneralTexture* background = this->state->mainMenuOps->menuBackground;
+    while(this->state->onLevelSelction)
+    {
+        if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
+        {
+            for (int i=0; i<256; i++)
+            {
+                this->ParseEvents(this->data,"",mutex);
+                this->renderClear();
+                background->setAlpha(i);
+                background->render(background, this->renderer,0,0,2,0,0,NULL);
+                cs_menu_midground->setAlpha(i);
+                cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+                this->renderPresent();
+                SDL_Delay(1);
+            }
+            alphaFlag = false;
+        }
+        this->ParseEvents(this->data,"",mutex);
+        this->renderClear();
+        background->render(background, this->renderer,0,0,2,0,0,NULL);
+        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+        {
+
+            (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
+            playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
+                                 (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,0,0, &playerNumber->animation[(*i)->ID+1]);
+            (*i)->cursor->Move();
+
+
+        }
+        this->renderPresent();
+        SDL_Delay(25);
+    }
+}//
 
 std::vector<CharacterPortrait*> *Core::InitPortraits(SDL_Renderer* renderer)
 {
@@ -669,9 +768,8 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         {
                             if(!(*j)->isReady)
                             {
-                               break;
+                                break;
                             }
-                            std::cout<<"TRIGGER:"<<std::endl;
                             if(j == this->players->end()-1 && (*j)->isReady)
                             {
                                 this->state->onCharacterSelection=false;
@@ -735,7 +833,112 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
         {
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
             {
-                std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+                for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                {
+                    if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY = (*j)->cursor->CURSOR_VEL;
+                        }
+
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY = -(*j)->cursor->CURSOR_VEL;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX = -(*j)->cursor->CURSOR_VEL;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX = (*j)->cursor->CURSOR_VEL;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        /*if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller && (*j)->isActive == false)
+                        {
+                            (*j)->isActive =true;
+                        }
+                        for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                        {
+                            if(!(*j)->isReady)
+                            {
+                                break;
+                            }
+                            if(j == this->players->end()-1 && (*j)->isReady)
+                            {
+                                this->state->onCharacterSelection=false;
+                                this->state->onLevelSelction = true;
+                            }
+                        }*/
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            //(*j)->CharacterSelected = true;
+                        }
+                    }
+                    //SDL_RELEASED
+
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelY = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->cursor->VelX =0;
+                        }
+
+                    }
+                }
+
             }
         }
         //RnningMatch state//
@@ -800,17 +1003,27 @@ int Core::EventHandler(void* data)
 
 void Core::CoreShutdown()
 {
+    std::cout<<"In core shutdown_1."<<std::endl;
     this->window        = NULL;
     this->renderer      = NULL;
+    std::cout<<"In core shutdown_2."<<std::endl;
     SDL_DestroyRenderer( renderer );
+    std::cout<<"In core shutdown_3."<<std::endl;
     SDL_DestroyWindow( window );
+    std::cout<<"In core shutdown_4."<<std::endl;
     delete(this->state);
+    std::cout<<"In core shutdown_5."<<std::endl;
     delete(this->data);
+    std::cout<<"In core shutdown_6."<<std::endl;
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         delete((*i));
     }
+    std::cout<<"In core shutdown_7."<<std::endl;
     delete(this->players);
+    std::cout<<"In core shutdown_8."<<std::endl;
     IMG_Quit();
+    std::cout<<"In core shutdown_9."<<std::endl;
     SDL_Quit();
+    std::cout<<"In core shutdown_10."<<std::endl;
 }

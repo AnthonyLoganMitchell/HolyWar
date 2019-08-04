@@ -10,5 +10,4 @@ CharacterPortrait::CharacterPortrait(int clip_no,std::string name,std::string ch
 CharacterPortrait::~CharacterPortrait()
 {
     this->avatar->Free_Texture();
-    delete(this);
 }

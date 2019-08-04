@@ -796,14 +796,14 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1564796494 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1564898810 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	<vector>
 	"MainMenuOptions.h"
 	<string>
 	<vector>
 
-1564719628 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
+1564896514 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\core.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -829,7 +829,7 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1564796601 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
+1564896788 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\holy_war_main.cpp
 	<SDL.h>
 	"Core.h"
 	<SDL_thread.h>
@@ -898,7 +898,7 @@
 	<SDL_image.h>
 	"Texture.h"
 
-1564706395 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\generaltexture.cpp
+1564891986 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\generaltexture.cpp
 	"GeneralTexture.h"
 	<string>
 
@@ -1602,6 +1602,6 @@
 	"GeneralTexture.h"
 	"string"
 
-1564771448 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\characterportrait.cpp
+1564897916 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\characterportrait.cpp
 	"CharacterPortrait.h"
 

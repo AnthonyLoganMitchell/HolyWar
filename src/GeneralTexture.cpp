@@ -476,47 +476,47 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
         {
             t->animation[0].x =1;
             t->animation[0].y =1;
-            t->animation[0].w =80;
+            t->animation[0].w =79;
             t->animation[0].h =65;
 
             t->animation[1].x =81;
             t->animation[1].y =1;
-            t->animation[1].w =80;
+            t->animation[1].w =79;
             t->animation[1].h =65;
 
             t->animation[2].x =161;
             t->animation[2].y =1;
-            t->animation[2].w =80;
+            t->animation[2].w =79;
             t->animation[2].h =65;
 
             t->animation[3].x =241;
             t->animation[3].y =1;
-            t->animation[3].w =80;
+            t->animation[3].w =79;
             t->animation[3].h =65;
 
             t->animation[4].x =321;
             t->animation[4].y =1;
-            t->animation[4].w =80;
+            t->animation[4].w =79;
             t->animation[4].h =65;
 
             t->animation[5].x =401;
             t->animation[5].y =1;
-            t->animation[5].w =80;
+            t->animation[5].w =79;
             t->animation[5].h =65;
 
             t->animation[6].x =481;
             t->animation[6].y =1;
-            t->animation[6].w =80;
+            t->animation[6].w =79;
             t->animation[6].h =65;
 
             t->animation[7].x =561;
             t->animation[7].y =1;
-            t->animation[7].w =80;
+            t->animation[7].w =79;
             t->animation[7].h =65;
 
             t->animation[8].x =641;
             t->animation[8].y =1;
-            t->animation[8].w =80;
+            t->animation[8].w =79;
             t->animation[8].h =65;
 
             return true;
