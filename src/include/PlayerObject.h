@@ -2,23 +2,21 @@
 #define PLAYEROBJECT_H
 #include "PlayerCursor.h"
 #include "SDL.h"
-
-
-
+#include "CharacterTexture.h"
 class PlayerObject
 {
     public:
         PlayerObject(int,int,int,SDL_Renderer*);
         virtual ~PlayerObject();
-        bool isActive;
         PlayerCursor* cursor;
         SDL_GameController* controller;
+        CharacterTexture* Character;
         int ID;
-        //Character Texture
+        std::string CharacterName;
+        bool isActive;
+        bool CharacterSelected;
+        bool isReady;
 
-    protected:
-
-    private:
 };
 
 #endif // PLAYEROBJECT_H

@@ -2,7 +2,7 @@
 /* CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
    Holy war is my personal programming project and all artwork
    and high level programming outside of SDL2 framework, openGL,
-   and c++ POSIX api standard. Are my original work in progress.
+   and c++ api are my original work in progress.
 */
 #define  SDL_MAIN_HANDLED
 #include <SDL.h>
@@ -45,7 +45,9 @@ int main( int argc, char* args[] )
             else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
-                 std::cout <<"Exiting LevelSelction()"<<std::endl;
+                 //std::cout <<"Exiting LevelSelction()"<<std::endl;
+                 CoreGame->LevelSelectRun(parse_mutex);
+                 //CoreGame->quit_program= true;
             }
             else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
