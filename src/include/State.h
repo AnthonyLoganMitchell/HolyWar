@@ -10,11 +10,12 @@ public:
     virtual ~State();
     bool onMainMenuStart;
     bool onOptionSelection;
-    bool onLevelSelction;
+    bool onLevelSelection;
     bool onCharacterSelection;
     bool onRunningMatch;
     bool transition;
     MainMenuOptions* mainMenuOps;
+    std::string levelName;
 
 private:
 };

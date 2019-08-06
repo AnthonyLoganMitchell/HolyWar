@@ -16,6 +16,7 @@
 #include "CharacterPortrait.h"
 #include <stdlib.h>
 #include "PlayerCursor.h"
+#include "LevelPortrait.h"
 //
 class Core
 {
@@ -32,7 +33,8 @@ public:
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     bool CollisionDetect(PlayerCursor*,SDL_Rect*);
     static int EventHandler(void*);
-    std::vector<CharacterPortrait*> *InitPortraits(SDL_Renderer*);
+    std::vector<CharacterPortrait*> *InitCharacterPortraits(SDL_Renderer*);
+    std::vector<LevelPortrait*> *InitLevelPortraits(SDL_Renderer*);
 
 
     SDL_Window* window;

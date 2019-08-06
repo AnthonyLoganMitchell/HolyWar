@@ -11,7 +11,8 @@ class PlayerCursor
         GeneralTexture* Texture;
         virtual ~PlayerCursor();
         void Move();
-        int VelX, VelY;
+        void ResetPos();
+        int VelX, VelY, default_x, default_y;
         int PosX, PosY;
         bool isColliding;
 

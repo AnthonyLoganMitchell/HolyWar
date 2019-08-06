@@ -9,6 +9,7 @@ PlayerObject::PlayerObject(int id,int x,int y, SDL_Renderer* renderer)
     this->CharacterSelected = false;
     this->CharacterName="";
     this->isReady = false;
+    this->levelSelected = false;
 }
 
 PlayerObject::~PlayerObject()

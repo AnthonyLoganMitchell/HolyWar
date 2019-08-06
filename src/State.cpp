@@ -4,6 +4,7 @@
 State::State()
 {
     //cto
+    this->levelName="";
 }
 
 State::~State()
