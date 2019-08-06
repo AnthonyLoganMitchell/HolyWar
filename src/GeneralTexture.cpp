@@ -255,6 +255,41 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             return true;
         }
     }
+    if (t->name == "MountainPrototypeSmall")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/level_avatars/mountain_avatar_small.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: mountain_avatar_small.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 120;
+            t->animation[0].y = 85;
+            return true;
+        }
+    }
+    if (t->name == "MountainPrototypeBig")
+    {
+        if(!this->loadGeneralTextureFromFile("rec/level_avatars/mountain_avatar_big.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: mountain_avatar_big.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 600;
+            t->animation[0].y = 275;
+            return true;
+        }
+    }
+
+
+
     if (t->name == "WoodTorch")
     {
         if (!this->loadGeneralTextureFromFile("rec/animations/torch_wood.png",t,renderer))

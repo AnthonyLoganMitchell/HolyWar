@@ -42,17 +42,18 @@ int main( int argc, char* args[] )
                 CoreGame->CharacterSelectRun(parse_mutex);
                  std::cout <<"Exiting CharacterSelectRun()"<<std::endl;
             }
-            else if (CoreGame->state->onLevelSelction && !CoreGame->quit_program)
+            else if (CoreGame->state->onLevelSelection && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
-                 //std::cout <<"Exiting LevelSelction()"<<std::endl;
                  CoreGame->LevelSelectRun(parse_mutex);
+                 std::cout <<"Exiting LevelSelction()"<<std::endl;
                  //CoreGame->quit_program= true;
             }
             else if (CoreGame->state->onRunningMatch && !CoreGame->quit_program)
             {
                 //Initiate running match with previously loaded level.
                 std::cout <<"Exiting RunningMatch()"<<std::endl;
+                CoreGame->quit_program = true;
             }
         }
         std::cout <<"PreThread shutdown."<<std::endl;
