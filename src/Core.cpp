@@ -1,8 +1,9 @@
 #include "Core.h"
-#include <vector>
 #include "MainMenuOptions.h"
-#include <string>
+#include "Level.h"
 #include <vector>
+#include <string>
+
 
 Core::Core()
 {
@@ -169,9 +170,9 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
-                background->setAlpha(i);
+                background->SetAlpha(i);
                 logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
-                logo->setAlpha(i);
+                logo->SetAlpha(i);
                 this->renderPresent();
                 SDL_Delay(20);
             }
@@ -217,38 +218,38 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
                 this->ParseEvents(this->data,"",mutex);
                 alphaFlag = false;
                 this->renderClear();
-                background->setAlpha(i);
+                background->SetAlpha(i);
                 background->render(this->state->mainMenuOps->menuBackground, this->renderer,0,0,2,0,0,NULL);
-                logo->setAlpha(i);
+                logo->SetAlpha(i);
                 logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
                 if (this->state->onOptionSelection)
                 {
                     if(BattleButton->is_highlighted)
                     {
                         BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,0,0,NULL);
-                        BattleButton->texture->setAlpha(i);
+                        BattleButton->texture->SetAlpha(i);
                         OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
-                        OptionsButton->texture->setAlpha(i);
+                        OptionsButton->texture->SetAlpha(i);
                         QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
-                        QuitButton->texture->setAlpha(i);
+                        QuitButton->texture->SetAlpha(i);
                     }
                     if (OptionsButton->is_highlighted)
                     {
                         BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
-                        BattleButton->texture->setAlpha(i);
+                        BattleButton->texture->SetAlpha(i);
                         OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,0,0,NULL);
-                        OptionsButton->texture->setAlpha(i);
+                        OptionsButton->texture->SetAlpha(i);
                         QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
-                        QuitButton->texture->setAlpha(i);
+                        QuitButton->texture->SetAlpha(i);
                     }
                     if (QuitButton->is_highlighted)
                     {
                         BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
-                        BattleButton->texture->setAlpha(i);
+                        BattleButton->texture->SetAlpha(i);
                         OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
-                        OptionsButton->texture->setAlpha(i);
+                        OptionsButton->texture->SetAlpha(i);
                         QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,0,0,NULL);
-                        QuitButton->texture->setAlpha(i);
+                        QuitButton->texture->SetAlpha(i);
                     }
 
                 }
@@ -306,9 +307,9 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
             {
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
-                background->setAlpha(i);
+                background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
-                cs_menu_midground->setAlpha(i);
+                cs_menu_midground->SetAlpha(i);
                 cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
                 this->renderPresent();
                 SDL_Delay(1);
@@ -495,9 +496,9 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     {
         this->ParseEvents(this->data,"",mutex);
         this->renderClear();
-        background->setAlpha(i);
+        background->SetAlpha(i);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
-        cs_menu_midground->setAlpha(i);
+        cs_menu_midground->SetAlpha(i);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
         this->renderPresent();
         SDL_Delay(5);
@@ -559,9 +560,9 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
             {
                 this->ParseEvents(this->data,"",mutex);
                 this->renderClear();
-                background->setAlpha(i);
+                background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
-                cs_menu_midground->setAlpha(i);
+                cs_menu_midground->SetAlpha(i);
                 cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
                 this->renderPresent();
                 SDL_Delay(1);
@@ -709,7 +710,75 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
         exp_rec->x = def_x_pos;
         exp_rec->y = def_y_pos;
     }
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+    for (int i=255; i>=0; i--)
+    {
+        this->ParseEvents(this->data,"",mutex);
+        this->renderClear();
+        background->SetAlpha(i);
+        background->render(background, this->renderer,0,0,2,0,0,NULL);
+        cs_menu_midground->SetAlpha(i);
+        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        this->renderPresent();
+        SDL_Delay(5);
+    }
+    playerNumber->Free_Texture();
+    cs_menu_midground->Free_Texture();
+    delete(exp_rec);
+    delete(LevelBox);
+    for(LevelPortrait* i : *avatars)
+    {
+        delete(i);
+    }
+
 }//
+
+void Core::MatchRun(SDL_mutex* parse_mutex)
+{
+    Level* stage = new Level(this->state->levelName,this->renderer); //TODO: delete this from memory later.
+    bool EntryAlphaFlag = true;
+    while(this->state->onRunningMatch)
+    {
+        if(EntryAlphaFlag)
+        {
+            for(int j = 0; j<256; j++)
+            {
+                this->ParseEvents(this->data,"",parse_mutex);
+                this->renderClear();
+                for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
+                {
+                    (*i)->SetAlpha(j);
+                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+                }
+                for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
+                {
+                    (*i)->SetAlpha(j);
+                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+                }
+                this->renderPresent();
+                SDL_Delay(5);
+
+            }
+            EntryAlphaFlag = false;
+        }
+        this->ParseEvents(this->data,"",parse_mutex);
+        this->renderClear();
+        if(this->state->levelName == "")
+        {
+            exit(EXIT_FAILURE);
+        }
+        for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
+        {
+            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+        }
+        for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
+        {
+            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+        }
+        this->renderPresent();
+        SDL_Delay(25);
+    }
+}
 
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
@@ -729,7 +798,7 @@ std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* rend
 std::vector<LevelPortrait*> *Core::InitLevelPortraits(SDL_Renderer* renderer)
 {
     std::vector<LevelPortrait*> *lp_vec = new std::vector<LevelPortrait*>;
-    LevelPortrait *lp = new LevelPortrait("MountainPrototypeSmall","MountainPrototypeBig","Mountains",renderer);
+    LevelPortrait *lp = new LevelPortrait("MountainPrototypeSmall","MountainPrototypeBig","mountain_top",renderer);
     lp_vec->push_back(lp);
     lp = NULL;
     delete(lp);

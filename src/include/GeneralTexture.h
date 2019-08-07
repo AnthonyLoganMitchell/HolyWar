@@ -29,8 +29,8 @@ public:
     int  GetYPos();
     void SetXPos(int);
     void SetYPos(int);
-    void setBlendMode( SDL_BlendMode blending );
-    void setAlpha(Uint8 alpha);
+    void SetBlendMode( SDL_BlendMode blending );
+    void SetAlpha(Uint8 alpha);
     void SetFrameCount(int);
     void TickFrameCount();
     void ResetFrameCount();

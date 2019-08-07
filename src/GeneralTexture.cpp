@@ -107,6 +107,40 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             return true;
         }
     }
+    if (t->name == "BlankNightSky")
+    {
+
+        if (!this->loadGeneralTextureFromFile("rec/backgrounds/blank_night_sky.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: blank_night_sky.png\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].h = 540;
+            t->animation[0].w = 960;
+            return true;
+        }
+    }
+
+    if (t->name == "MountainMidground")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/midgrounds/mountain_midground.png",t,renderer))
+        {
+            printf("Failed to load sprite sheet texture: mountain_midground\n");
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].h = 185;
+            t->animation[0].w = 960;
+            return true;
+        }
+    }
     if (t->name == "MidGroundBush")
     {
         if (!this->loadGeneralTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
@@ -152,6 +186,24 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             t->animation[0].y = 1;
             t->animation[0].w = 1920;
             t->animation[0].y = 1080;
+            return true;
+
+        }
+    }
+
+    if (t->name == "StoneFloor")
+    {
+        if (!this->loadGeneralTextureFromFile("rec/forgrounds/stone_floor.png",t,renderer))
+        {
+            printf( "Failed to load sprite sheet texture: stone_floor.png\n" );
+            return false;
+        }
+        else
+        {
+            t->animation[0].x = 1;
+            t->animation[0].y = 1;
+            t->animation[0].w = 960;
+            t->animation[0].y = 25;
             return true;
 
         }
@@ -589,12 +641,12 @@ void GeneralTexture::SetYPos(int y)
     this->yposition = y;
 }
 
-void GeneralTexture::setBlendMode(SDL_BlendMode blending)
+void GeneralTexture::SetBlendMode(SDL_BlendMode blending)
 {
     SDL_SetTextureBlendMode(this->texture,blending);
 }
 
-void GeneralTexture::setAlpha( Uint8 alpha )
+void GeneralTexture::SetAlpha( Uint8 alpha )
 {
     SDL_SetTextureAlphaMod( this->texture, alpha );
 }
