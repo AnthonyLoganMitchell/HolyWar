@@ -735,8 +735,17 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
 
 void Core::MatchRun(SDL_mutex* parse_mutex)
 {
+    int Tick =0;
+    if(this->state->levelName == "")
+    {
+        exit(EXIT_FAILURE);
+    }
     Level* stage = new Level(this->state->levelName,this->renderer); //TODO: delete this from memory later.
     bool EntryAlphaFlag = true;
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    {
+        (*i)->character = new CharacterObject((*i)->CharacterName,100,this->renderer); //TODO: delete from memory later.
+    }
     while(this->state->onRunningMatch)
     {
         if(EntryAlphaFlag)
@@ -763,10 +772,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         }
         this->ParseEvents(this->data,"",parse_mutex);
         this->renderClear();
-        if(this->state->levelName == "")
-        {
-            exit(EXIT_FAILURE);
-        }
+
         for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
         {
             (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
@@ -775,8 +781,30 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         {
             (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
         }
+        //TODO: This forloop will serve as the main character rendering/movement/backend_calculations.
+        //Needs Major overhauls in the way this runs.
+        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end();i++)
+        {
+            (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
+                                                                     (*i)->character->posY,2,0,0,&(*i)->character->char_textures->idleClips[(*i)->character->char_textures->GetFrameCount()],'I');
+            if(Tick%8 == 0)
+            {
+             (*i)->character->char_textures->TickFrameCount();
+            }
+            (*i)->character->Move();
+            if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetIdleClipCount())
+            {
+               (*i)->character->char_textures->SetFrameCount(0);
+            }
+
+        }
         this->renderPresent();
         SDL_Delay(25);
+        Tick++;
+        if (Tick == 1000)
+        {
+            Tick =0;
+        }
     }
 }
 
@@ -1180,14 +1208,102 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
         {
             for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
             {
-                //std::cout <<"ControllerID: "<< (*i)->controller_id << std::endl;
+                for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+                {
+                    if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_vely = (*j)->character->moveVelX;
+                        }
+
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_velx = -(*j)->character->moveVelX;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_velx = (*j)->character->moveVelX;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
+                    {
+                        this->quit_program=true;
+                        this->state->onRunningMatch=false;
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+
+                        }
+                    }
+                    //SDL_RELEASED
+
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_vely = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_vely = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_velx = 0;
+                        }
+
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
+                    {
+
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                            (*j)->character->fluct_velx =0;
+                        }
+
+                    }
+                }
             }
         }
 
         //Clear interactions off of the heap
-        for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
+        for (Interaction* i : *data->interact)
         {
-            delete(*i);
+            delete (i);
         }
         data->interact->clear();
     }

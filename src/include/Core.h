@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "PlayerCursor.h"
 #include "LevelPortrait.h"
+#include "CharacterObject.h"
 //
 class Core
 {

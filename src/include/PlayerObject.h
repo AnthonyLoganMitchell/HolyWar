@@ -3,6 +3,7 @@
 #include "PlayerCursor.h"
 #include "SDL.h"
 #include "CharacterTexture.h"
+#include "CharacterObject.h"
 class PlayerObject
 {
     public:
@@ -10,7 +11,7 @@ class PlayerObject
         virtual ~PlayerObject();
         PlayerCursor* cursor;
         SDL_GameController* controller;
-        CharacterTexture* Character;
+        CharacterObject* character;
         int ID;
         std::string CharacterName;
         bool isActive;
