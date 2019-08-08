@@ -53,6 +53,7 @@ int main( int argc, char* args[] )
             {
                 //Initiate running match with previously loaded level.
                 std::cout <<"Exiting RunningMatch()"<<std::endl;
+                CoreGame->MatchRun(parse_mutex);
                 CoreGame->quit_program = true;
             }
         }

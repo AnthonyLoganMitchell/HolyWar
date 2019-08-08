@@ -49,6 +49,7 @@
 		<Unit filename="GeneralTexture.cpp" />
 		<Unit filename="Holy_War_main.cpp" />
 		<Unit filename="Interaction.cpp" />
+		<Unit filename="Level.cpp" />
 		<Unit filename="LevelPortrait.cpp" />
 		<Unit filename="MainMenuOptions.cpp" />
 		<Unit filename="MenuButton.cpp" />
@@ -62,6 +63,7 @@
 		<Unit filename="include/Core.h" />
 		<Unit filename="include/GeneralTexture.h" />
 		<Unit filename="include/Interaction.h" />
+		<Unit filename="include/Level.h" />
 		<Unit filename="include/LevelPortrait.h" />
 		<Unit filename="include/MainMenuOptions.h" />
 		<Unit filename="include/MenuButton.h" />

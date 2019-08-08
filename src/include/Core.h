@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "PlayerCursor.h"
 #include "LevelPortrait.h"
+#include "CharacterObject.h"
 //
 class Core
 {
@@ -29,6 +30,7 @@ public:
     void MainMenuRun(SDL_mutex*);
     void CharacterSelectRun(SDL_mutex*);
     void LevelSelectRun(SDL_mutex*);
+    void MatchRun(SDL_mutex*);
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     bool CollisionDetect(PlayerCursor*,SDL_Rect*);

@@ -1,9 +1,13 @@
 #include "CharacterTexture.h"
 
-CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, int totalFallingClips, int totalMovementClips, \
-                                   int totalRegularAttackClips, int totalStrongAttackClips, std::string n) : Texture()
+CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalMovementClips,int totalRegularAttackClips,\
+                                   int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture()
 {
     this->idleTexture = NULL;
+    this->attackRegularTexture = NULL;
+    this->movementTexture = NULL;
+    this->fallingTexture = NULL;
+    this->attackStrongTexture = NULL;
     this->name        = n;
     this->frameCount  = 0;
     this->xposition   = 0;
@@ -24,8 +28,10 @@ CharacterTexture::CharacterTexture(int totalIdleClips, int totalJumpingClips, in
     this->attackRegularClipCount = totalRegularAttackClips-1;
     this->attackRegularClips = new SDL_Rect[totalRegularAttackClips];
 
-    this->strongAttackClipCount = totalStrongAttackClips-1;
-    this->strongAttackClips = new SDL_Rect[totalStrongAttackClips];
+    this->attackStrongClipCount = totalStrongAttackClips-1;
+    this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
+    this->loadCharacterMedia(this,rend);
+
 
 }
 CharacterTexture::~CharacterTexture()
@@ -88,7 +94,7 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
         break;
 
     case 'S':
-        t->strongAttackTexture = newTexture;
+        t->attackStrongTexture = newTexture;
         load_flag =true;
         break;
     }
@@ -153,13 +159,89 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
         //TODO: Load more of jesus's textures here before return. (movement,attacking,jumping,falling,ect...)
         return true;
     }//End of jesus textures.
+    if(t->name == "Horus")
+    {
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_idle.png", t, renderer,'I'))
+        {
+            printf( "Failed to load sprite sheet texture!\n" );
+            return false;
+        }
+        else
+        {
+            t->idleClips[0].x =1;
+            t->idleClips[0].y =1;
+            t->idleClips[0].w =79;
+            t->idleClips[0].h =65;
+
+            t->idleClips[1].x =81;
+            t->idleClips[1].y =1;
+            t->idleClips[1].w =79;
+            t->idleClips[1].h =65;
+
+            t->idleClips[2].x =161;
+            t->idleClips[2].y =1;
+            t->idleClips[2].w =79;
+            t->idleClips[2].h =65;
+
+            t->idleClips[3].x =241;
+            t->idleClips[3].y =1;
+            t->idleClips[3].w =79;
+            t->idleClips[3].h =65;
+
+            t->idleClips[4].x =321;
+            t->idleClips[4].y =1;
+            t->idleClips[4].w =79;
+            t->idleClips[4].h =65;
+
+            t->idleClips[5].x =401;
+            t->idleClips[5].y =1;
+            t->idleClips[5].w =79;
+            t->idleClips[5].h =65;
+
+            t->idleClips[6].x =481;
+            t->idleClips[6].y =1;
+            t->idleClips[6].w =79;
+            t->idleClips[6].h =65;
+
+            t->idleClips[7].x =561;
+            t->idleClips[7].y =1;
+            t->idleClips[7].w =79;
+            t->idleClips[7].h =65;
+
+            t->idleClips[8].x =641;
+            t->idleClips[8].y =1;
+            t->idleClips[8].w =79;
+            t->idleClips[8].h =65;
+        }
+    }
     return false;
 }
 
 int CharacterTexture::GetIdleClipCount()
 {
-    return idleClipCount;
+    return this->idleClipCount;
 }
+int CharacterTexture::GetJumpingClipCount()
+{
+    return this->jumpingClipCount;
+}
+int CharacterTexture::GetFallingClipCount()
+{
+    return this->fallingClipCount;
+}
+int CharacterTexture::GetMoveingClipCount()
+{
+    return this->movementClipCount;
+}
+int CharacterTexture::GetRegularClipCount()
+{
+    return this->attackRegularClipCount;
+}
+int CharacterTexture::GetStrongClipCount()
+{
+    return this->attackStrongClipCount;
+}
+
 
 void CharacterTexture::SetFrameCount(int x)
 {
@@ -244,7 +326,7 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         break;
 
     case 'S':
-        SDL_RenderCopy( renderer, t->strongAttackTexture, clip, &renderQuad );
+        SDL_RenderCopy( renderer, t->attackStrongTexture, clip, &renderQuad );
         break;
     }
 }
