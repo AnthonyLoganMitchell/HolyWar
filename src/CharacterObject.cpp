@@ -13,6 +13,7 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isHoldingJump = false;
     this->isFalling = true;
     this->TimeHeld = 0;
+    this->isColliding = false;
 }
 
 CharacterObject::~CharacterObject()
@@ -38,16 +39,12 @@ void CharacterObject::Move()
     if(this->isHoldingJump || this->isFalling)
     {
         this->CalculateGravity(now);
+        this->posY += this->fluct_vely;
     }
     this->posX += this->fluct_velx;
-    this->posY += this->fluct_vely;
 }
 
 void CharacterObject::CalculateGravity(Uint32 time)
 {
-    if(time%3 ==0)
-    {
-        this->fluct_vely+=3;
-    }
-
+    this->fluct_vely+=2;
 }

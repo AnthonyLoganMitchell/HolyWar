@@ -783,22 +783,32 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         {
             (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
         }
+
+        //This part controls the collision detection between characters and objects in order to properly calculate when to stop gravity from taking its effects.
         for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
         {
             for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
             {
-                if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale))
-                   {
-                     (*j)->character->isFalling = false;
-                     (*j)->character->isHoldingJump = false;
-                     (*j)->character->TimeHeld = 0;
-                     (*j)->character->fluct_vely =0;
-                     (*j)->character->posY-=2;
-                   }
-                   else
-                   {
-                       (*j)->character->isFalling = true;
-                   }
+                if((*j)->character->isColliding && !(*j)->character->isHoldingJump)
+                {
+                    (*j)->character->isColliding = true;
+                    (*j)->character->isFalling = false;
+                }
+                else if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale)&&!(*j)->character->isColliding)
+                {
+                    (*j)->character->isColliding = true;
+                    (*j)->character->isFalling = false;
+                    (*j)->character->isHoldingJump = false;
+                    (*j)->character->TimeHeld = 0;
+                    (*j)->character->fluct_vely =0;
+                    (*j)->character->posY = (*i)->GetYPos()- (*j)->character->char_textures->idleClips[0].h*CharScale;
+
+                }
+                else
+                {
+                    (*j)->character->isFalling = true;
+                    (*j)->character->isColliding = false;
+                }
             }
         }
 
@@ -1340,9 +1350,9 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                          (*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                          (*j)->character->isHoldingJump = true;
-                          (*j)->character->TimeHeld = SDL_GetTicks();
+                            (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                            (*j)->character->isHoldingJump = true;
+                            (*j)->character->TimeHeld = SDL_GetTicks();
                         }
                     }
                     //SDL_RELEASED
@@ -1361,7 +1371,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->fluct_vely = 0;
+                            //(*j)->character->fluct_vely = 0;
                         }
 
                     }
@@ -1389,8 +1399,8 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                          (*j)->character->fluct_vely = (*j)->character->moveVelY;
-                          (*j)->character->isHoldingJump = false;
+                            //(*j)->character->fluct_vely = (*j)->character->moveVelY;
+                            (*j)->character->isHoldingJump = false;
                         }
                     }
                 }
