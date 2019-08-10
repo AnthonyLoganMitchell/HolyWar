@@ -736,6 +736,8 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
 void Core::MatchRun(SDL_mutex* parse_mutex)
 {
     int Tick =0;
+    int CharScale = 2;
+    int PlatformScale=2;
     if(this->state->levelName == "")
     {
         exit(EXIT_FAILURE);
@@ -762,7 +764,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
                 for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
                 {
                     (*i)->SetAlpha(j);
-                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
                 }
                 this->renderPresent();
                 SDL_Delay(5);
@@ -779,22 +781,73 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         }
         for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
         {
-            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
         }
+        for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
+        {
+            for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+            {
+                if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale))
+                   {
+                     (*j)->character->isFalling = false;
+                     (*j)->character->isHoldingJump = false;
+                     (*j)->character->TimeHeld = 0;
+                     (*j)->character->fluct_vely =0;
+                     (*j)->character->posY-=2;
+                   }
+                   else
+                   {
+                       (*j)->character->isFalling = true;
+                   }
+            }
+        }
+
         //TODO: This forloop will serve as the main character rendering/movement/backend_calculations.
         //Needs Major overhauls in the way this runs.
-        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end();i++)
+        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-            (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
-                                                                     (*i)->character->posY,2,0,0,&(*i)->character->char_textures->idleClips[(*i)->character->char_textures->GetFrameCount()],'I');
-            if(Tick%8 == 0)
+
+            if((*i)->character->fluct_velx == 0)
             {
-             (*i)->character->char_textures->TickFrameCount();
+                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
+                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->idleClips[(*i)->character->char_textures->GetFrameCount()],'I',SDL_FLIP_NONE);
+                if(Tick%6 == 0)
+                {
+                    (*i)->character->char_textures->TickFrameCount();
+                }
+                (*i)->character->Move();
+                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetIdleClipCount())
+                {
+                    (*i)->character->char_textures->SetFrameCount(0);
+                }
             }
-            (*i)->character->Move();
-            if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetIdleClipCount())
+            else if((*i)->character->fluct_velx > 0)
             {
-               (*i)->character->char_textures->SetFrameCount(0);
+                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
+                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->movementClips[(*i)->character->char_textures->GetFrameCount()],'M',SDL_FLIP_HORIZONTAL);
+                if(Tick%2 == 0)
+                {
+                    (*i)->character->char_textures->TickFrameCount();
+                }
+                (*i)->character->Move();
+                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetMoveingClipCount())
+                {
+                    (*i)->character->char_textures->SetFrameCount(0);
+                }
+            }
+            else if((*i)->character->fluct_velx < 0)
+            {
+                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
+                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->movementClips[(*i)->character->char_textures->GetFrameCount()],'M',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    (*i)->character->char_textures->TickFrameCount();
+                }
+                (*i)->character->Move();
+                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetMoveingClipCount())
+                {
+                    (*i)->character->char_textures->SetFrameCount(0);
+                }
             }
 
         }
@@ -837,7 +890,36 @@ std::vector<LevelPortrait*> *Core::InitLevelPortraits(SDL_Renderer* renderer)
     return NULL;
 }
 
+bool Core::CollisionObjectCharacter(GeneralTexture* A, int a_scale, CharacterObject* B, int b_scale)
+{
+    int rect_1_top = A->GetYPos();
+    int rect_1_bottom = A->GetYPos()+A->GetHeight()*a_scale;
+    int rect_1_left = A->GetXPos();
+    int rect_1_right = A->GetXPos()+A->GetWidth()*a_scale;
 
+    int rect_2_top = B->posY;
+    int rect_2_bottom = B->posY+B->char_textures->idleClips[0].h*b_scale;
+    int rect_2_left = B->posX;
+    int rect_2_right = B->posX+B->char_textures->idleClips[0].w*b_scale;
+
+    if (rect_1_bottom <= rect_2_top)
+    {
+        return false;
+    }
+    if (rect_1_top >= rect_2_bottom)
+    {
+        return false;
+    }
+    if (rect_1_right <= rect_2_left)
+    {
+        return false;
+    }
+    if (rect_1_left >= rect_2_right)
+    {
+        return false;
+    }
+    return true;
+}
 
 bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
 {
@@ -1214,7 +1296,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->fluct_vely = (*j)->character->moveVelX;
+                            //(*j)->character->fluct_vely = (*j)->character->moveVelX;
                         }
 
 
@@ -1225,6 +1307,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
                             (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }
@@ -1234,6 +1317,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
                             (*j)->character->fluct_velx = -(*j)->character->moveVelX;
+                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }
@@ -1243,6 +1327,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
                             (*j)->character->fluct_velx = (*j)->character->moveVelX;
+                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }
@@ -1255,7 +1340,9 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-
+                          (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                          (*j)->character->isHoldingJump = true;
+                          (*j)->character->TimeHeld = SDL_GetTicks();
                         }
                     }
                     //SDL_RELEASED
@@ -1265,7 +1352,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->fluct_vely = 0;
+                            //(*j)->character->fluct_vely = 0;
                         }
 
                     }
@@ -1284,6 +1371,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
                             (*j)->character->fluct_velx = 0;
+                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }
@@ -1292,9 +1380,18 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->fluct_velx =0;
+                            (*j)->character->fluct_velx = 0;
+                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
+                    }
+                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_RELEASED)
+                    {
+                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
+                        {
+                          (*j)->character->fluct_vely = (*j)->character->moveVelY;
+                          (*j)->character->isHoldingJump = false;
+                        }
                     }
                 }
             }
@@ -1364,11 +1461,6 @@ void Core::CoreShutdown()
     std::cout<<"In core shutdown_5."<<std::endl;
     delete(this->data);
     std::cout<<"In core shutdown_6."<<std::endl;
-    //for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-    //{
-    //    delete((*i));
-    //}
-
     for (PlayerObject* i : *this->players)
     {
         delete(i);

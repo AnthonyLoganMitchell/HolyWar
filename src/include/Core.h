@@ -34,6 +34,7 @@ public:
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     bool CollisionDetect(PlayerCursor*,SDL_Rect*);
+    bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
     static int EventHandler(void*);
     std::vector<CharacterPortrait*> *InitCharacterPortraits(SDL_Renderer*);
     std::vector<LevelPortrait*> *InitLevelPortraits(SDL_Renderer*);

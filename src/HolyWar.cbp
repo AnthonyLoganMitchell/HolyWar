@@ -43,6 +43,7 @@
 			<Add option="-lSDL2 -lSDL2_image -lSDL2main" />
 			<Add directory="C:/SDL2-2.0.9/lib" />
 		</Linker>
+		<Unit filename="CharacterObject.cpp" />
 		<Unit filename="CharacterPortrait.cpp" />
 		<Unit filename="CharacterTexture.cpp" />
 		<Unit filename="Core.cpp" />
@@ -58,6 +59,7 @@
 		<Unit filename="State.cpp" />
 		<Unit filename="Texture.cpp" />
 		<Unit filename="ThreadData.cpp" />
+		<Unit filename="include/CharacterObject.h" />
 		<Unit filename="include/CharacterPortrait.h" />
 		<Unit filename="include/CharacterTexture.h" />
 		<Unit filename="include/Core.h" />
