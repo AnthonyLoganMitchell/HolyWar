@@ -943,9 +943,6 @@ bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
     int rect_2_left = B->x;
     int rect_2_right = B->x+B->w;
 
-    //std::cout<<"Rect_1: top:"<<rect_1_top<<" bot: "<<rect_1_bottom<<" left: "<<rect_1_left<<" right: "<<rect_1_right<<std::endl;
-    //std::cout<<"Rect_2: top:"<<rect_2_top<<" bot: "<<rect_2_bottom<<" left: "<<rect_2_left<<" right: "<<rect_2_right<<std::endl;
-
     if (rect_1_bottom <= rect_2_top)
     {
         return false;
