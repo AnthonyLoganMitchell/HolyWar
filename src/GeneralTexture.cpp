@@ -554,9 +554,9 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "HorusCharacterSelect")
     {
-        if(!this->loadGeneralTextureFromFile("rec/animations/characters/horus_idle.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("rec/animations/characters/horus_idle.png", t, renderer))
         {
-            printf( "Failed to load sprite sheet texture: horus_idle.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_idle.png\n" );
             return false;
         }
         else
@@ -606,6 +606,50 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             t->animation[8].w =79;
             t->animation[8].h =65;
 
+            t->animation[9].x =721;
+            t->animation[9].y =1;
+            t->animation[9].w =79;
+            t->animation[9].h =65;
+
+            t->animation[10].x =801;
+            t->animation[10].y =1;
+            t->animation[10].w =79;
+            t->animation[10].h =65;
+
+            t->animation[11].x =881;
+            t->animation[11].y =1;
+            t->animation[11].w =79;
+            t->animation[11].h =65;
+
+            t->animation[12].x =961;
+            t->animation[12].y =1;
+            t->animation[12].w =79;
+            t->animation[12].h =65;
+
+            t->animation[13].x =1041;
+            t->animation[13].y =1;
+            t->animation[13].w =79;
+            t->animation[13].h =65;
+
+            t->animation[14].x =1121;
+            t->animation[14].y =1;
+            t->animation[14].w =79;
+            t->animation[14].h =65;
+
+            t->animation[15].x =1201;
+            t->animation[15].y =1;
+            t->animation[15].w =79;
+            t->animation[15].h =65;
+
+            t->animation[16].x =1281;
+            t->animation[16].y =1;
+            t->animation[16].w =79;
+            t->animation[16].h =65;
+
+            t->animation[17].x =1361;
+            t->animation[17].y =1;
+            t->animation[17].w =79;
+            t->animation[17].h =65;
             return true;
         }
     }

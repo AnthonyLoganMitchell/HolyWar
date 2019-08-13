@@ -212,6 +212,51 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->idleClips[8].y =1;
             t->idleClips[8].w =79;
             t->idleClips[8].h =65;
+
+            t->idleClips[9].x =721;
+            t->idleClips[9].y =1;
+            t->idleClips[9].w =79;
+            t->idleClips[9].h =65;
+
+            t->idleClips[10].x =801;
+            t->idleClips[10].y =1;
+            t->idleClips[10].w =79;
+            t->idleClips[10].h =65;
+
+            t->idleClips[11].x =881;
+            t->idleClips[11].y =1;
+            t->idleClips[11].w =79;
+            t->idleClips[11].h =65;
+
+            t->idleClips[12].x =961;
+            t->idleClips[12].y =1;
+            t->idleClips[12].w =79;
+            t->idleClips[12].h =65;
+
+            t->idleClips[13].x =1041;
+            t->idleClips[13].y =1;
+            t->idleClips[13].w =79;
+            t->idleClips[13].h =65;
+
+            t->idleClips[14].x =1121;
+            t->idleClips[14].y =1;
+            t->idleClips[14].w =79;
+            t->idleClips[14].h =65;
+
+            t->idleClips[15].x =1201;
+            t->idleClips[15].y =1;
+            t->idleClips[15].w =79;
+            t->idleClips[15].h =65;
+
+            t->idleClips[16].x =1281;
+            t->idleClips[16].y =1;
+            t->idleClips[16].w =79;
+            t->idleClips[16].h =65;
+
+            t->idleClips[17].x =1361;
+            t->idleClips[17].y =1;
+            t->idleClips[17].w =79;
+            t->idleClips[17].h =65;
         }
         if(!this->loadCharacterFromFile("rec/animations/characters/horus_movement_prototype.png", t, renderer,'M'))
         {

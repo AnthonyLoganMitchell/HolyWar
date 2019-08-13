@@ -34,7 +34,7 @@ bool Core::CoreInit()
     //Initialization flag
     bool success = true;
     //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK|SDL_INIT_GAMECONTROLLER) < 0 )
+    if( SDL_Init( SDL_INIT_EVERYTHING) < 0 )
     {
         printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
         success = false;
@@ -63,6 +63,12 @@ bool Core::CoreInit()
         }
         else
         {
+            //Full screen the window.
+            int res = SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+            if(res != 0)
+            {
+                printf("Could not fullscreen program. Error: %s\n",SDL_GetError());
+            }
 
             //Create renderer for window
             this->renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
@@ -337,7 +343,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*j)->cursor,exp_rec))
+                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
 
                             if((*j)->ID+1 == 1)
@@ -395,7 +401,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*j)->cursor,exp_rec))
+                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
                             if((*j)->ID+1 == 1)
                             {
@@ -584,7 +590,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*j)->cursor,exp_rec))
+                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
 
                             if((*j)->ID+1 == 1)
@@ -641,7 +647,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CollisionDetect((*j)->cursor,exp_rec))
+                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
                             if((*j)->ID+1 == 1)
                             {
@@ -812,7 +818,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
             }
         }
 
-        //TODO: This forloop will serve as the main character rendering/movement/backend_calculations.
+        //TODO: This for loop will serve as the main character rendering/movement/backend_calculations.
         //Needs Major overhauls in the way this runs.
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
@@ -862,7 +868,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
 
         }
         this->renderPresent();
-        SDL_Delay(25);
+        SDL_Delay(30);
         Tick++;
         if (Tick == 1000)
         {
@@ -875,7 +881,7 @@ std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* rend
 {
     //TODO: START HERE.
     std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
-    CharacterPortrait *cp = new CharacterPortrait(9,"HorusCharacterSelect","Horus",renderer);
+    CharacterPortrait *cp = new CharacterPortrait(18,"HorusCharacterSelect","Horus",renderer);
     cp_vec->push_back(cp);
     cp = NULL;
     delete(cp);
@@ -931,7 +937,7 @@ bool Core::CollisionObjectCharacter(GeneralTexture* A, int a_scale, CharacterObj
     return true;
 }
 
-bool Core::CollisionDetect(PlayerCursor* A,SDL_Rect* B)
+bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
 {
     int rect_1_top = A->PosY+2;
     int rect_1_bottom = A->PosY+A->Texture->GetHeight()+2;
@@ -1421,15 +1427,10 @@ int Core::EventHandler(void* data)
     bool quit = false;
     while (!quit)
     {
-        while( SDL_PollEvent(&event) != 0)
+        while( SDL_WaitEvent(&event) != 0)
         {
             Interaction *inter = new Interaction();
-
-            if( event.type == SDL_QUIT)
-            {
-                quit=true;
-            }
-            else if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
+            if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
             {
                 if (SDL_LockMutex(channel->parse_mutex) == 0)
                 {
@@ -1444,11 +1445,6 @@ int Core::EventHandler(void* data)
                     std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
                 }
             }// BUTTONDOWN
-            else
-            {
-                break;
-            }
-
         }
     }
     return 0;

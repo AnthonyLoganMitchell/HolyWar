@@ -25,7 +25,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 {
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(9,0,0,17,0,0,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(18,0,0,17,0,0,Name,renderer);
         this->char_textures = char_ptr;
         char_ptr = NULL;
         delete(char_ptr);
