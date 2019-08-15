@@ -32,8 +32,8 @@ public:
     void CharacterSelectRun(SDL_mutex*);
     void LevelSelectRun(SDL_mutex*);
     void MatchRun(SDL_mutex*);
-    void RunSimulation(int,int,int);
-    void RunPlatCollisionDetect(int,int, Level*);
+    void RunContextSimulation(int,int,int);
+    void RunCollisionModule(int,int, Level*);
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
