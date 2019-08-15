@@ -350,6 +350,68 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->movementClips[16].w =80;
             t->movementClips[16].h =65;
         }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_jump_prototype.png", t, renderer,'J'))
+        {
+            printf( "Failed to load sprite sheet texture! horus_jump_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->jumpingClips[0].x =1;
+            t->jumpingClips[0].y =1;
+            t->jumpingClips[0].w =80;
+            t->jumpingClips[0].h =65;
+
+            t->jumpingClips[1].x =81;
+            t->jumpingClips[1].y =1;
+            t->jumpingClips[1].w =80;
+            t->jumpingClips[1].h =65;
+
+            t->jumpingClips[2].x =161;
+            t->jumpingClips[2].y =1;
+            t->jumpingClips[2].w =80;
+            t->jumpingClips[2].h =65;
+
+            t->jumpingClips[3].x =241;
+            t->jumpingClips[3].y =1;
+            t->jumpingClips[3].w =80;
+            t->jumpingClips[3].h =65;
+
+            t->jumpingClips[4].x =321;
+            t->jumpingClips[4].y =1;
+            t->jumpingClips[4].w =80;
+            t->jumpingClips[4].h =65;
+
+            t->jumpingClips[5].x =401;
+            t->jumpingClips[5].y =1;
+            t->jumpingClips[5].w =80;
+            t->jumpingClips[5].h =65;
+
+            t->jumpingClips[6].x =481;
+            t->jumpingClips[6].y =1;
+            t->jumpingClips[6].w =80;
+            t->jumpingClips[6].h =65;
+
+            t->jumpingClips[7].x =561;
+            t->jumpingClips[7].y =1;
+            t->jumpingClips[7].w =80;
+            t->jumpingClips[7].h =65;
+
+            t->jumpingClips[8].x =641;
+            t->jumpingClips[8].y =1;
+            t->jumpingClips[8].w =80;
+            t->jumpingClips[8].h =65;
+
+            t->jumpingClips[9].x =721;
+            t->jumpingClips[9].y =1;
+            t->jumpingClips[9].w =80;
+            t->jumpingClips[9].h =65;
+
+            t->jumpingClips[10].x =801;
+            t->jumpingClips[10].y =1;
+            t->jumpingClips[10].w =80;
+            t->jumpingClips[10].h =65;
+        }
     }
     return false;
 }

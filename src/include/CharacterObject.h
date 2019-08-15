@@ -9,14 +9,16 @@ public:
     virtual ~CharacterObject();
     void InitializeCharacter(std::string Name,SDL_Renderer*);
     void Move();
-    void CalculateGravity(Uint32);
+    void CalculateGravity();
     const int moveVelX = 13;
     const int moveVelY = 30;
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
-    bool isHoldingJump;
+    bool isJumping;
     bool isFalling;
+    bool isMovingLeft;
+    bool isMovingRight;
     bool isColliding;
     Uint32 TimeHeld;
     int8_t health;

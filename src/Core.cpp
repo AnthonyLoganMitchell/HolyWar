@@ -790,85 +790,13 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
             (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
         }
 
-        //This part controls the collision detection between characters and objects in order to properly calculate when to stop gravity from taking its effects.
-        for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
-        {
-            for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-            {
-                if((*j)->character->isColliding && !(*j)->character->isHoldingJump)
-                {
-                    (*j)->character->isColliding = true;
-                    (*j)->character->isFalling = false;
-                }
-                else if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale)&&!(*j)->character->isColliding)
-                {
-                    (*j)->character->isColliding = true;
-                    (*j)->character->isFalling = false;
-                    (*j)->character->isHoldingJump = false;
-                    (*j)->character->TimeHeld = 0;
-                    (*j)->character->fluct_vely =0;
-                    (*j)->character->posY = (*i)->GetYPos()- (*j)->character->char_textures->idleClips[0].h*CharScale;
+        //This part controls the collision detection between characters and platform objects.
+        this->RunPlatCollisionDetect(CharScale,PlatformScale,stage);
+        //This part runs the entire physics and rendering systems
+        this->RunSimulation(CharScale,PlatformScale,Tick);
 
-                }
-                else
-                {
-                    (*j)->character->isFalling = true;
-                    (*j)->character->isColliding = false;
-                }
-            }
-        }
-
-        //TODO: This for loop will serve as the main character rendering/movement/backend_calculations.
-        //Needs Major overhauls in the way this runs.
-        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-        {
-
-            if((*i)->character->fluct_velx == 0)
-            {
-                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
-                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->idleClips[(*i)->character->char_textures->GetFrameCount()],'I',SDL_FLIP_NONE);
-                if(Tick%6 == 0)
-                {
-                    (*i)->character->char_textures->TickFrameCount();
-                }
-                (*i)->character->Move();
-                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetIdleClipCount())
-                {
-                    (*i)->character->char_textures->SetFrameCount(0);
-                }
-            }
-            else if((*i)->character->fluct_velx > 0)
-            {
-                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
-                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->movementClips[(*i)->character->char_textures->GetFrameCount()],'M',SDL_FLIP_HORIZONTAL);
-                if(Tick%2 == 0)
-                {
-                    (*i)->character->char_textures->TickFrameCount();
-                }
-                (*i)->character->Move();
-                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetMoveingClipCount())
-                {
-                    (*i)->character->char_textures->SetFrameCount(0);
-                }
-            }
-            else if((*i)->character->fluct_velx < 0)
-            {
-                (*i)->character->char_textures->render((*i)->character->char_textures,this->renderer,(*i)->character->posX, \
-                                                       (*i)->character->posY,CharScale,0,0,&(*i)->character->char_textures->movementClips[(*i)->character->char_textures->GetFrameCount()],'M',SDL_FLIP_NONE);
-                if(Tick%2 == 0)
-                {
-                    (*i)->character->char_textures->TickFrameCount();
-                }
-                (*i)->character->Move();
-                if((*i)->character->char_textures->GetFrameCount() == (*i)->character->char_textures->GetMoveingClipCount())
-                {
-                    (*i)->character->char_textures->SetFrameCount(0);
-                }
-            }
-
-        }
         this->renderPresent();
-        SDL_Delay(30);
+        SDL_Delay(32);
         Tick++;
         if (Tick == 1000)
         {
@@ -877,6 +805,221 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
     }
 }
 
+
+void Core::RunPlatCollisionDetect(int CharScale,int PlatformScale, Level* stage)
+{
+    for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
+        {
+            for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
+            {
+                if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale))
+                {
+                    (*j)->character->isColliding = true;
+                    (*j)->character->isFalling = false;
+                    (*j)->character->isJumping = false;
+                    (*j)->character->fluct_vely =0;
+                    (*j)->character->posY = (*i)->GetYPos()- (*j)->character->char_textures->idleClips[0].h*CharScale;
+
+                }
+                else if (!(*j)->character->isColliding)
+                {
+                    (*j)->character->isFalling = true;
+                    (*j)->character->isColliding = false;
+                }
+            }
+        }
+}
+void Core::RunSimulation(int CharScale,int PlatformScale,int Tick)
+{
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+        {
+            CharacterObject* p = (*i)->character;
+            if(!p->isJumping && !p->isMovingLeft && !p->isMovingRight  && !p->isFalling)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetIdleClipCount())
+                {
+                    p->char_textures->SetFrameCount(0);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],'I',SDL_FLIP_NONE);
+                if(Tick%6 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(!p->isJumping && !p->isMovingLeft && !p->isMovingRight && p->isFalling)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(0);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(!p->isJumping && p->isMovingRight && !p->isFalling)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
+                {
+                    p->char_textures->SetFrameCount(0);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],'M',SDL_FLIP_HORIZONTAL);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(!p->isJumping && !p->isFalling && p->isMovingLeft)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
+                {
+                    p->char_textures->SetFrameCount(0);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],'M',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(p->isJumping &&  !p->isFalling && p->isMovingLeft)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(p->isJumping && !p->isFalling && p->isMovingRight)
+            {
+                if((p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount()))
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+
+            }
+            else if((*i)->character->isJumping && !p->isFalling && !p->isMovingLeft&& !p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(!p->isJumping && p->isFalling && p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+
+            else if(!p->isJumping && p->isFalling && p->isMovingLeft)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(!p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount((*i)->character->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&(*i)->character->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(p->isJumping && p->isFalling && p->isMovingLeft && !p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+            else if(p->isJumping && p->isFalling && !p->isMovingLeft && p->isMovingRight)
+            {
+                if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+                {
+                    p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                }
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                                       p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+                if(Tick%2 == 0)
+                {
+                    p->char_textures->TickFrameCount();
+                }
+                p->Move();
+            }
+        }
+}
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
     //TODO: START HERE.
@@ -1319,8 +1462,8 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                            (*j)->character->char_textures->SetFrameCount(0);
+                            /*(*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                            (*j)->character->char_textures->SetFrameCount(0);*/
                         }
 
                     }
@@ -1329,6 +1472,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            (*j)->character->isMovingLeft = true;
                             (*j)->character->fluct_velx = -(*j)->character->moveVelX;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1339,6 +1483,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            (*j)->character->isMovingRight = true;
                             (*j)->character->fluct_velx = (*j)->character->moveVelX;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1353,9 +1498,11 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            (*j)->character->isJumping = true;
+                            (*j)->character->isColliding = false;
+                            (*j)->character->isFalling = false;
+                            (*j)->character->char_textures->SetFrameCount(0);
                             (*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                            (*j)->character->isHoldingJump = true;
-                            (*j)->character->TimeHeld = SDL_GetTicks();
                         }
                     }
                     //SDL_RELEASED
@@ -1383,6 +1530,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            (*j)->character->isMovingLeft = false;
                             (*j)->character->fluct_velx = 0;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1393,6 +1541,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
 
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            (*j)->character->isMovingRight = false;
                             (*j)->character->fluct_velx = 0;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1402,8 +1551,11 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            //(*j)->character->fluct_vely = (*j)->character->moveVelY;
-                            (*j)->character->isHoldingJump = false;
+                            (*j)->character->isJumping = false;
+                            if(!(*j)->character->isColliding)
+                            {
+                                (*j)->character->isFalling = true;
+                            }
                         }
                     }
                 }

@@ -10,7 +10,9 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->fluct_vely =0;
     this->posX=0;
     this->posY=0;
-    this->isHoldingJump = false;
+    this->isJumping = false;
+    this->isMovingLeft = false;
+    this->isMovingRight = false;
     this->isFalling = true;
     this->TimeHeld = 0;
     this->isColliding = false;
@@ -25,7 +27,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 {
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(18,0,0,17,0,0,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(18,11,0,17,0,0,Name,renderer);
         this->char_textures = char_ptr;
         char_ptr = NULL;
         delete(char_ptr);
@@ -34,17 +36,24 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 
 void CharacterObject::Move()
 {
-    Uint32 prev = this->TimeHeld;
-    Uint32 now = SDL_GetTicks() - prev;
-    if(this->isHoldingJump || this->isFalling)
+
+    if(!this->isColliding)
     {
-        this->CalculateGravity(now);
-        this->posY += this->fluct_vely;
+        if(this->isJumping || this->isFalling)
+        {
+            this->CalculateGravity();
+        }
+        if(this->fluct_vely >=0)
+        {
+            this->isFalling = true;
+            this->isJumping = false;
+        }
     }
+    this->posY += this->fluct_vely;
     this->posX += this->fluct_velx;
 }
 
-void CharacterObject::CalculateGravity(Uint32 time)
+void CharacterObject::CalculateGravity()
 {
     this->fluct_vely+=2;
 }
