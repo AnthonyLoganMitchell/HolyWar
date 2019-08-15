@@ -18,6 +18,7 @@
 #include "PlayerCursor.h"
 #include "LevelPortrait.h"
 #include "CharacterObject.h"
+#include "Level.h"
 //
 class Core
 {
@@ -31,9 +32,12 @@ public:
     void CharacterSelectRun(SDL_mutex*);
     void LevelSelectRun(SDL_mutex*);
     void MatchRun(SDL_mutex*);
+    void RunSimulation(int,int,int);
+    void RunPlatCollisionDetect(int,int, Level*);
     template<class T>
     void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
-    bool CollisionDetect(PlayerCursor*,SDL_Rect*);
+    bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
+    bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
     static int EventHandler(void*);
     std::vector<CharacterPortrait*> *InitCharacterPortraits(SDL_Renderer*);
     std::vector<LevelPortrait*> *InitLevelPortraits(SDL_Renderer*);

@@ -109,7 +109,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
     {
         if(!this->loadCharacterFromFile("rec/animations/jesus-idle.png", t, renderer,'I'))
         {
-            printf( "Failed to load sprite sheet texture!\n" );
+            printf( "Failed to load sprite sheet texture! jesus-idle.png\n" );
             return false;
         }
         else
@@ -163,7 +163,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
     {
         if(!this->loadCharacterFromFile("rec/animations/characters/horus_idle.png", t, renderer,'I'))
         {
-            printf( "Failed to load sprite sheet texture!\n" );
+            printf( "Failed to load sprite sheet texture! horus_idle.png\n" );
             return false;
         }
         else
@@ -212,6 +212,205 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->idleClips[8].y =1;
             t->idleClips[8].w =79;
             t->idleClips[8].h =65;
+
+            t->idleClips[9].x =721;
+            t->idleClips[9].y =1;
+            t->idleClips[9].w =79;
+            t->idleClips[9].h =65;
+
+            t->idleClips[10].x =801;
+            t->idleClips[10].y =1;
+            t->idleClips[10].w =79;
+            t->idleClips[10].h =65;
+
+            t->idleClips[11].x =881;
+            t->idleClips[11].y =1;
+            t->idleClips[11].w =79;
+            t->idleClips[11].h =65;
+
+            t->idleClips[12].x =961;
+            t->idleClips[12].y =1;
+            t->idleClips[12].w =79;
+            t->idleClips[12].h =65;
+
+            t->idleClips[13].x =1041;
+            t->idleClips[13].y =1;
+            t->idleClips[13].w =79;
+            t->idleClips[13].h =65;
+
+            t->idleClips[14].x =1121;
+            t->idleClips[14].y =1;
+            t->idleClips[14].w =79;
+            t->idleClips[14].h =65;
+
+            t->idleClips[15].x =1201;
+            t->idleClips[15].y =1;
+            t->idleClips[15].w =79;
+            t->idleClips[15].h =65;
+
+            t->idleClips[16].x =1281;
+            t->idleClips[16].y =1;
+            t->idleClips[16].w =79;
+            t->idleClips[16].h =65;
+
+            t->idleClips[17].x =1361;
+            t->idleClips[17].y =1;
+            t->idleClips[17].w =79;
+            t->idleClips[17].h =65;
+        }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_movement_prototype.png", t, renderer,'M'))
+        {
+            printf( "Failed to load sprite sheet texture! horus_movement_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->movementClips[0].x =1;
+            t->movementClips[0].y =1;
+            t->movementClips[0].w =80;
+            t->movementClips[0].h =65;
+
+            t->movementClips[1].x =81;
+            t->movementClips[1].y =1;
+            t->movementClips[1].w =80;
+            t->movementClips[1].h =65;
+
+            t->movementClips[2].x =161;
+            t->movementClips[2].y =1;
+            t->movementClips[2].w =80;
+            t->movementClips[2].h =65;
+
+            t->movementClips[3].x =241;
+            t->movementClips[3].y =1;
+            t->movementClips[3].w =80;
+            t->movementClips[3].h =65;
+
+            t->movementClips[4].x =321;
+            t->movementClips[4].y =1;
+            t->movementClips[4].w =80;
+            t->movementClips[4].h =65;
+
+            t->movementClips[5].x =401;
+            t->movementClips[5].y =1;
+            t->movementClips[5].w =80;
+            t->movementClips[5].h =65;
+
+            t->movementClips[6].x =481;
+            t->movementClips[6].y =1;
+            t->movementClips[6].w =80;
+            t->movementClips[6].h =65;
+
+            t->movementClips[7].x =561;
+            t->movementClips[7].y =1;
+            t->movementClips[7].w =80;
+            t->movementClips[7].h =65;
+
+            t->movementClips[8].x =641;
+            t->movementClips[8].y =1;
+            t->movementClips[8].w =80;
+            t->movementClips[8].h =65;
+
+            t->movementClips[9].x =721;
+            t->movementClips[9].y =1;
+            t->movementClips[9].w =80;
+            t->movementClips[9].h =65;
+
+            t->movementClips[10].x =801;
+            t->movementClips[10].y =1;
+            t->movementClips[10].w =80;
+            t->movementClips[10].h =65;
+
+            t->movementClips[11].x =881;
+            t->movementClips[11].y =1;
+            t->movementClips[11].w =80;
+            t->movementClips[11].h =65;
+
+            t->movementClips[12].x =961;
+            t->movementClips[12].y =1;
+            t->movementClips[12].w =80;
+            t->movementClips[12].h =65;
+
+            t->movementClips[13].x =1041;
+            t->movementClips[13].y =1;
+            t->movementClips[13].w =80;
+            t->movementClips[13].h =65;
+
+            t->movementClips[14].x =1121;
+            t->movementClips[14].y =1;
+            t->movementClips[14].w =80;
+            t->movementClips[14].h =65;
+
+            t->movementClips[15].x =1201;
+            t->movementClips[15].y =1;
+            t->movementClips[15].w =80;
+            t->movementClips[15].h =65;
+
+            t->movementClips[16].x =1281;
+            t->movementClips[16].y =1;
+            t->movementClips[16].w =80;
+            t->movementClips[16].h =65;
+        }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_jump_prototype.png", t, renderer,'J'))
+        {
+            printf( "Failed to load sprite sheet texture! horus_jump_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->jumpingClips[0].x =1;
+            t->jumpingClips[0].y =1;
+            t->jumpingClips[0].w =80;
+            t->jumpingClips[0].h =65;
+
+            t->jumpingClips[1].x =81;
+            t->jumpingClips[1].y =1;
+            t->jumpingClips[1].w =80;
+            t->jumpingClips[1].h =65;
+
+            t->jumpingClips[2].x =161;
+            t->jumpingClips[2].y =1;
+            t->jumpingClips[2].w =80;
+            t->jumpingClips[2].h =65;
+
+            t->jumpingClips[3].x =241;
+            t->jumpingClips[3].y =1;
+            t->jumpingClips[3].w =80;
+            t->jumpingClips[3].h =65;
+
+            t->jumpingClips[4].x =321;
+            t->jumpingClips[4].y =1;
+            t->jumpingClips[4].w =80;
+            t->jumpingClips[4].h =65;
+
+            t->jumpingClips[5].x =401;
+            t->jumpingClips[5].y =1;
+            t->jumpingClips[5].w =80;
+            t->jumpingClips[5].h =65;
+
+            t->jumpingClips[6].x =481;
+            t->jumpingClips[6].y =1;
+            t->jumpingClips[6].w =80;
+            t->jumpingClips[6].h =65;
+
+            t->jumpingClips[7].x =561;
+            t->jumpingClips[7].y =1;
+            t->jumpingClips[7].w =80;
+            t->jumpingClips[7].h =65;
+
+            t->jumpingClips[8].x =641;
+            t->jumpingClips[8].y =1;
+            t->jumpingClips[8].w =80;
+            t->jumpingClips[8].h =65;
+
+            t->jumpingClips[9].x =721;
+            t->jumpingClips[9].y =1;
+            t->jumpingClips[9].w =80;
+            t->jumpingClips[9].h =65;
+
+            t->jumpingClips[10].x =801;
+            t->jumpingClips[10].y =1;
+            t->jumpingClips[10].w =80;
+            t->jumpingClips[10].h =65;
         }
     }
     return false;
@@ -288,7 +487,7 @@ void CharacterTexture::Free_Texture()
     }
 }
 
-void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int scale, int offset_width, int offset_height, SDL_Rect* clip, char t_type)
+void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x, int y,int scale, int offset_width, int offset_height, SDL_Rect* clip, char t_type, SDL_RendererFlip flip)
 {
     if (scale < 1)
     {
@@ -303,32 +502,27 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         renderQuad.h = (clip->h*scale)+offset_height;
     }
     //Render to screen
-    switch(t_type)
-    {
-    case 'I':
-        SDL_RenderCopy( renderer,t->idleTexture, clip, &renderQuad );
-        break;
-
-    case 'J':
-        SDL_RenderCopy( renderer, t->jumpingTexture, clip, &renderQuad );
-        break;
-
-    case 'F':
-        SDL_RenderCopy( renderer, t->fallingTexture, clip, &renderQuad );
-        break;
-
-    case 'M':
-        SDL_RenderCopy( renderer, t->movementTexture, clip, &renderQuad );
-        break;
-
-    case 'A':
-        SDL_RenderCopy( renderer, t->attackRegularTexture, clip, &renderQuad );
-        break;
-
-    case 'S':
-        SDL_RenderCopy( renderer, t->attackStrongTexture, clip, &renderQuad );
-        break;
-    }
+        switch(t_type)
+        {
+        case 'I':
+            SDL_RenderCopyEx(renderer,t->idleTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        case 'J':
+            SDL_RenderCopyEx(renderer,t->jumpingTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        case 'F':
+            SDL_RenderCopyEx(renderer,t->fallingTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        case 'M':
+            SDL_RenderCopyEx(renderer,t->movementTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        case 'A':
+            SDL_RenderCopyEx(renderer,t->attackRegularTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        case 'S':
+            SDL_RenderCopyEx(renderer,t->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
+            break;
+        }
 }
 
 int CharacterTexture::GetXPos()
