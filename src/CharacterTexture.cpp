@@ -31,8 +31,12 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackStrongClipCount = totalStrongAttackClips-1;
     this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
     this->loadCharacterMedia(this,rend);
-
-
+    this->idleMod =0;
+    this->jumpingMod =0;
+    this->moveMod = 0;
+    this->fallingMod = 0;
+    this->attackRegMod =0;
+    this->attackStrongMod =0;
 }
 CharacterTexture::~CharacterTexture()
 {
@@ -411,6 +415,83 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->jumpingClips[10].y =1;
             t->jumpingClips[10].w =80;
             t->jumpingClips[10].h =65;
+        }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_reg_attack_1_prototype.png", t, renderer,'A'))
+        {
+            printf( "Failed to load sprite sheet texture! horus_reg_attack_1_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->attackRegularClips[0].x =1;
+            t->attackRegularClips[0].y =1;
+            t->attackRegularClips[0].w =85;
+            t->attackRegularClips[0].h =65;
+
+            t->attackRegularClips[1].x =86;
+            t->attackRegularClips[1].y =1;
+            t->attackRegularClips[1].w =85;
+            t->attackRegularClips[1].h =65;
+
+            t->attackRegularClips[2].x =171;
+            t->attackRegularClips[2].y =1;
+            t->attackRegularClips[2].w =85;
+            t->attackRegularClips[2].h =65;
+
+            t->attackRegularClips[3].x =256;
+            t->attackRegularClips[3].y =1;
+            t->attackRegularClips[3].w =85;
+            t->attackRegularClips[3].h =65;
+
+            t->attackRegularClips[4].x =341;
+            t->attackRegularClips[4].y =1;
+            t->attackRegularClips[4].w =85;
+            t->attackRegularClips[4].h =65;
+
+            t->attackRegularClips[5].x =426;
+            t->attackRegularClips[5].y =1;
+            t->attackRegularClips[5].w =85;
+            t->attackRegularClips[5].h =65;
+
+            t->attackRegularClips[6].x =511;
+            t->attackRegularClips[6].y =1;
+            t->attackRegularClips[6].w =85;
+            t->attackRegularClips[6].h =65;
+
+            t->attackRegularClips[7].x =596;
+            t->attackRegularClips[7].y =1;
+            t->attackRegularClips[7].w =85;
+            t->attackRegularClips[7].h =65;
+
+            t->attackRegularClips[8].x =681;
+            t->attackRegularClips[8].y =1;
+            t->attackRegularClips[8].w =85;
+            t->attackRegularClips[8].h =65;
+
+            t->attackRegularClips[9].x =766;
+            t->attackRegularClips[9].y =1;
+            t->attackRegularClips[9].w =85;
+            t->attackRegularClips[9].h =65;
+
+            t->attackRegularClips[10].x =851;
+            t->attackRegularClips[10].y =1;
+            t->attackRegularClips[10].w =85;
+            t->attackRegularClips[10].h =65;
+
+            t->attackRegularClips[11].x =936;
+            t->attackRegularClips[11].y =1;
+            t->attackRegularClips[11].w =85;
+            t->attackRegularClips[11].h =65;
+
+            t->attackRegularClips[12].x =1021;
+            t->attackRegularClips[12].y =1;
+            t->attackRegularClips[12].w =85;
+            t->attackRegularClips[12].h =65;
+
+            t->attackRegularClips[13].x =1106;
+            t->attackRegularClips[13].y =1;
+            t->attackRegularClips[13].w =85;
+            t->attackRegularClips[13].h =65;
         }
     }
     return false;

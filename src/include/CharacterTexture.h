@@ -54,6 +54,13 @@ public:
     SDL_Rect*    attackRegularClips;
     SDL_Rect*    attackStrongClips;
 
+    int idleMod;
+    int jumpingMod;
+    int fallingMod;
+    int moveMod;
+    int attackRegMod;
+    int attackStrongMod;
+
 private:
     //Common Across all derived
     std::string name;
