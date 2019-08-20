@@ -64,11 +64,11 @@ bool Core::CoreInit()
         else
         {
             //Full screen the window.
-            int res = SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
-            if(res != 0)
-            {
-                printf("Could not fullscreen program. Error: %s\n",SDL_GetError());
-            }
+             int res = SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+             if(res != 0)
+             {
+                 printf("Could not fullscreen program. Error: %s\n",SDL_GetError());
+             }
 
             //Create renderer for window
             this->renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
@@ -173,7 +173,7 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
         {
             for (int i=0; i<256; i++)
             {
-                this->ParseEvents(this->data,"",mutex);
+                this->ParseEvents(this->data,mutex);
                 this->renderClear();
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
                 background->SetAlpha(i);
@@ -183,7 +183,7 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
                 SDL_Delay(20);
             }
         }
-        this->ParseEvents(this->data,"",mutex);
+        this->ParseEvents(this->data,mutex);
         alphaFlag = false;
         this->renderClear();
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -221,7 +221,7 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
         {
             for(int i = 255; i>=0; i--)
             {
-                this->ParseEvents(this->data,"",mutex);
+                this->ParseEvents(this->data,mutex);
                 alphaFlag = false;
                 this->renderClear();
                 background->SetAlpha(i);
@@ -311,7 +311,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
         {
             for (int i=0; i<256; i++)
             {
-                this->ParseEvents(this->data,"",mutex);
+                this->ParseEvents(this->data,mutex);
                 this->renderClear();
                 background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -326,7 +326,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
 
 
         this->renderClear();
-        this->ParseEvents(this->data,"",mutex);
+        this->ParseEvents(this->data,mutex);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
 
@@ -500,7 +500,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
     for (int i=255; i>=0; i--)
     {
-        this->ParseEvents(this->data,"",mutex);
+        this->ParseEvents(this->data,mutex);
         this->renderClear();
         background->SetAlpha(i);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -564,7 +564,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
         {
             for (int i=0; i<256; i++)
             {
-                this->ParseEvents(this->data,"",mutex);
+                this->ParseEvents(this->data,mutex);
                 this->renderClear();
                 background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -576,7 +576,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
             alphaFlag = false;
         }
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
-        this->ParseEvents(this->data,"",mutex);
+        this->ParseEvents(this->data,mutex);
         this->renderClear();
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
@@ -719,7 +719,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
     for (int i=255; i>=0; i--)
     {
-        this->ParseEvents(this->data,"",mutex);
+        this->ParseEvents(this->data,mutex);
         this->renderClear();
         background->SetAlpha(i);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -760,7 +760,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         {
             for(int j = 0; j<256; j++)
             {
-                this->ParseEvents(this->data,"",parse_mutex);
+                this->ParseEvents(this->data,parse_mutex);
                 this->renderClear();
                 for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
                 {
@@ -778,7 +778,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
             }
             EntryAlphaFlag = false;
         }
-        this->ParseEvents(this->data,"",parse_mutex);
+        this->ParseEvents(this->data,parse_mutex);
         this->renderClear();
 
         for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
@@ -845,22 +845,31 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         CharacterObject* p = (*i)->character;
-        //Not jumping textures.
-        if(!p->isJumping && !p->isMovingLeft && !p->isMovingRight  && !p->isFalling && !p->isAttackingReg)
+
+        //Non-attack Non-jumping/Falling textures.
+        if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetIdleClipCount())
             {
                 p->char_textures->SetFrameCount(0);
             }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],'I',SDL_FLIP_NONE);
+            if(p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                   p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],'I',SDL_FLIP_NONE);
+            } else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                   p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],'I',SDL_FLIP_HORIZONTAL);
+            }
+
             if(Tick%p->char_textures->idleMod == 0)
             {
                 p->char_textures->TickFrameCount();
             }
             p->Move();
         }
-        else if(!p->isJumping && p->isMovingRight && !p->isFalling && !p->isAttackingReg)
+        else if(!p->isJumping && !p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
             {
@@ -874,21 +883,29 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        else if(!p->isJumping && !p->isMovingLeft && !p->isMovingRight && p->isFalling && !p->isAttackingReg)
+        else if(!p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
             {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+                p->char_textures->SetFrameCount((*i)->character->char_textures->GetJumpingClipCount()/2);
             }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+            if (p->lastDirection == "LEFT")
+            {
+             p->char_textures->render(p->char_textures,this->renderer,p->posX, \
                                      p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+            }
             if(Tick%p->char_textures->jumpingMod == 0)
             {
                 p->char_textures->TickFrameCount();
             }
             p->Move();
         }
-        else if(!p->isJumping && !p->isFalling && p->isMovingLeft && !p->isAttackingReg)
+        else if(!p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
             {
@@ -902,7 +919,7 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        else if(!p->isJumping && p->isFalling && p->isMovingRight && !p->isAttackingReg)
+        else if(!p->isJumping && p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
             {
@@ -916,7 +933,7 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        else if(!p->isJumping && p->isFalling && p->isMovingLeft && !p->isAttackingReg)
+        else if(!p->isJumping && p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
             {
@@ -930,22 +947,8 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        else if(!p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount((*i)->character->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        //Jumping Textures
-        else if(p->isJumping && !p->isFalling && p->isMovingLeft && !p->isAttackingReg)
+        //Non-attack Jumping/Falling Textures
+        else if(p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
             {
@@ -959,7 +962,7 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        else if(p->isJumping && !p->isFalling && p->isMovingRight && !p->isAttackingReg)
+        else if(p->isJumping && !p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
         {
             if((p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount()))
             {
@@ -980,8 +983,16 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             {
                 p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
             }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+            if (p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
                                      p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+            }
             if(Tick%p->char_textures->jumpingMod == 0)
             {
                 p->char_textures->TickFrameCount();
@@ -994,8 +1005,16 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             {
                 p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
             }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+            if (p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
                                      p->posY,CharScale,0,0,&(*i)->character->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&(*i)->character->char_textures->jumpingClips[p->char_textures->GetFrameCount()],'J',SDL_FLIP_HORIZONTAL);
+            }
             if(Tick%p->char_textures->jumpingMod == 0)
             {
                 p->char_textures->TickFrameCount();
@@ -1030,7 +1049,31 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             }
             p->Move();
         }
-        //Attacking animations.
+        //Non-Jumping/Non-Falling Attacking animations.
+        else if(p->isAttackingReg && !p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight)
+        {
+            if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
+            {
+                p->char_textures->SetFrameCount(0);
+                p->isAttackingReg = false;
+            }
+            if (p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],'A',SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],'A',SDL_FLIP_HORIZONTAL);
+            }
+
+            if(Tick%p->char_textures->attackRegMod == 0)
+            {
+                p->char_textures->TickFrameCount();
+            }
+
+        }
         else if(p->isAttackingReg && !p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight)
         {
             if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
@@ -1077,6 +1120,7 @@ void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
             p->Move();
 
         }
+        //Jumping/Falling attacking animations.
     }
 }
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
@@ -1171,9 +1215,7 @@ bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
 
 }
 
-
-template<class T>
-void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
+void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
 {
     if (SDL_LockMutex(parse_mutex) == 0 && data->interact->size() > 0)
     {
@@ -1533,6 +1575,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         {
                             (*j)->character->isMovingLeft = true;
                             (*j)->character->isAttackingReg = false;
+                            (*j)->character->lastDirection = "LEFT";
                             (*j)->character->fluct_velx = -(*j)->character->moveVelX;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1545,6 +1588,7 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         {
                             (*j)->character->isMovingRight = true;
                             (*j)->character->isAttackingReg = false;
+                            (*j)->character->lastDirection = "RIGHT";
                             (*j)->character->fluct_velx = (*j)->character->moveVelX;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1559,6 +1603,19 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
+                            if(!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg)
+                            {
+                                Uint32 now = SDL_GetTicks();
+                                if ( (now - (*j)->character->regAttackLastPress) <= 1000)
+                                {
+                                    (*j)->character->regAttackCount++;
+                                }
+                                else
+                                {
+                                    (*j)->character->regAttackCount = 0;
+                                }
+
+                            }
                             (*j)->character->isAttackingReg = true;
                             (*j)->character->char_textures->SetFrameCount(0);
                         }
@@ -1610,7 +1667,6 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         {
                             (*j)->character->isMovingLeft = false;
                             (*j)->character->fluct_velx = 0;
-                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }
@@ -1621,7 +1677,6 @@ void Core::ParseEvents(ThreadData* data,T* Modify,SDL_mutex* parse_mutex)
                         {
                             (*j)->character->isMovingRight = false;
                             (*j)->character->fluct_velx = 0;
-                            (*j)->character->char_textures->SetFrameCount(0);
                         }
 
                     }

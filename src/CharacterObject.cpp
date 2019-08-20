@@ -14,12 +14,15 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isMovingLeft = false;
     this->isMovingRight = false;
     this->isFalling = true;
-    this->HoldingReg = 0;
-    this->HoldingStrong =0;
+    this->isHoldingReg = false;
+    this->isHoldingStrong =false;
     this->isColliding = false;
     this->isAttackingReg = false;
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
+    this->regAttackLastPress = SDL_GetTicks();
+    this->strongAttackLastPress = SDL_GetTicks();
+    this->lastDirection = "LEFT";
 }
 
 CharacterObject::~CharacterObject()

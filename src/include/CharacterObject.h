@@ -21,15 +21,16 @@ public:
     bool isMovingRight;
     bool isColliding;
     bool isAttackingReg;
+    bool isHoldingReg;
+    bool isHoldingStrong;
     int  regAttackCount;
     int  StrongAttackCount;
     Uint32 regAttackLastPress;
     Uint32 strongAttackLastPress;
+    std::string lastDirection;
     //TODO: Future bools to add.
     //isJumpingAttackReg/isJumpingAttackStrong/isJumpingDownAttack/IsJumpingUpAttack
     //Have to create textures for each of these...
-    Uint32 HoldingReg;
-    Uint32 HoldingStrong;
     int8_t health;
     std::string name;
 

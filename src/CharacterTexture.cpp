@@ -30,13 +30,13 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
 
     this->attackStrongClipCount = totalStrongAttackClips-1;
     this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
-    this->loadCharacterMedia(this,rend);
     this->idleMod =0;
     this->jumpingMod =0;
     this->moveMod = 0;
     this->fallingMod = 0;
     this->attackRegMod =0;
     this->attackStrongMod =0;
+    this->loadCharacterMedia(this,rend);
 }
 CharacterTexture::~CharacterTexture()
 {

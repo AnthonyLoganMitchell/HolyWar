@@ -34,8 +34,7 @@ public:
     void MatchRun(SDL_mutex*);
     void RunContextSimulation(int,int,int);
     void RunCollisionModule(int,int, Level*);
-    template<class T>
-    void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
+    void ParseEvents(ThreadData* data,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
     bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
     static int EventHandler(void*);
