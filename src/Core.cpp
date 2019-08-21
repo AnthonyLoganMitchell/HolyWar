@@ -1541,7 +1541,7 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
 
             }
         }
-        //RnningMatch state//
+        //RunningMatch state//
         /////////////////////////////////////////////////////////////////////////////////////////
         else if (this->state->onRunningMatch)
         {
@@ -1617,7 +1617,7 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
 
                             }
                             (*j)->character->isAttackingReg = true;
-                            (*j)->character->char_textures->SetFrameCount(0);
+                            //(*j)->character->char_textures->SetFrameCount(0);
                         }
                     }
                     else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_B && (*i)->pressed == SDL_PRESSED)
