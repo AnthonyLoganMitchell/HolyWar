@@ -34,12 +34,13 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 {
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(18,11,0,17,14,0,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(18,11,0,17,14,0,15,Name,renderer);
         this->char_textures = char_ptr;
         this->char_textures->idleMod = 6;
         this->char_textures->jumpingMod = 2;
         this->char_textures->moveMod = 2;
         this->char_textures->attackRegMod = 1;
+        this->char_textures->attackRegMod2 = 1;
         char_ptr = NULL;
         delete(char_ptr);
     }
