@@ -54,7 +54,6 @@ bool Core::CoreInit()
         SCREEN_WIDTH = Width;
         SCREEN_HEIGHT= Height;
         std::cout<<"screen_width: "<<SCREEN_WIDTH<<" "<<"screen_height: "<<SCREEN_HEIGHT<<std::endl;
-        //TODO: Change screen width and height back.
         window = SDL_CreateWindow( "HolyWar", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
         if( window == NULL )
         {
@@ -106,9 +105,17 @@ bool Core::CoreInit()
             }
             else
             {
-                std::cout << SDL_NumJoysticks() << std::endl;
+                //std::cout << SDL_NumJoysticks() << std::endl;
                 //Load new players and joystick pointers to each player.
-                //TODO:
+
+                //TODO: This process needs to query the player when a new controller type is detected that is not in controller database.
+                //Will need deferred process that will activate after other controllers are initialized so player can select controller type
+                //(eg. playstation/xbox/gamecube/ ect...)
+                //If other controllers are recognized user can use neighboring controller to select controller type from user request.
+                //Making it easier on us to dynamically create entry in database, but in the off-chance the users only controller is not recognized
+                //Will have to have alternative solution(Not solved).
+
+
                 for(int i = 0; i <SDL_NumJoysticks(); i++)
                 {
                     PlayerObject* newPlayer = new PlayerObject(i,this->SCREEN_WIDTH/2+i,SCREEN_HEIGHT/2,this->renderer);
@@ -134,7 +141,7 @@ bool Core::CoreInit()
     return success;
 }
 
-void  Core::MainMenuRun(SDL_mutex* mutex)
+void  Core::RunMainMenu(SDL_mutex* mutex)
 {
     this->state->transition = false;
     this->state->onMainMenuStart = true;
@@ -270,7 +277,7 @@ void  Core::MainMenuRun(SDL_mutex* mutex)
     }
 }
 
-void Core::CharacterSelectRun(SDL_mutex* mutex)
+void Core::RunCharacterSelect(SDL_mutex* mutex)
 {
 
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
@@ -521,7 +528,7 @@ void Core::CharacterSelectRun(SDL_mutex* mutex)
 
 }
 
-void Core::LevelSelectRun(SDL_mutex* mutex)
+void Core::RunLevelSelect(SDL_mutex* mutex)
 {
 
     bool alphaFlag = true;
@@ -739,7 +746,7 @@ void Core::LevelSelectRun(SDL_mutex* mutex)
 
 }//
 
-void Core::MatchRun(SDL_mutex* parse_mutex)
+void Core::RunMatch(SDL_mutex* parse_mutex)
 {
     int Tick =0;
     int CharScale = 2;
@@ -793,7 +800,7 @@ void Core::MatchRun(SDL_mutex* parse_mutex)
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);
         //This part runs the entire physics and rendering systems
-        this->RunContextSimulation(CharScale,PlatformScale,Tick);
+        this->RunContext(CharScale,PlatformScale,Tick);
 
         this->renderPresent();
         SDL_Delay(30);
@@ -840,475 +847,255 @@ void Core::RunCollisionModule(int CharScale,int PlatformScale, Level* stage)
         }
     }
 }
-void Core::RunContextSimulation(int CharScale,int PlatformScale,int Tick)
+void Core::RunContext(int CharScale,int PlatformScale,int Tick)
 {
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         CharacterObject* p = (*i)->character;
 
-        //Non-attack Non-jumping/Falling textures.
+        //Non-attack Non-jumping textures.
         if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetIdleClipCount())
-            {
-                p->char_textures->SetFrameCount(0);
-            }
-            if(p->lastDirection == "LEFT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],"I",SDL_FLIP_NONE);
-            }
-            else if (p->lastDirection == "RIGHT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],"I",SDL_FLIP_HORIZONTAL);
-            }
-
-            if(Tick%p->char_textures->idleMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunIdleModule(p,CharScale,Tick);
         }
-        else if(!p->isJumping && !p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
+        else if(!p->isJumping && !p->isFalling && (p->isMovingRight || p->isMovingLeft) && !p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
-            {
-                p->char_textures->SetFrameCount(0);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_HORIZONTAL);
-            if(Tick%p->char_textures->moveMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunMoveModule(p,CharScale,Tick);
         }
-        else if(!p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        else if(!p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount((*i)->character->char_textures->GetJumpingClipCount()/2);
-            }
-            if (p->lastDirection == "LEFT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            }
-            else if (p->lastDirection == "RIGHT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            }
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        else if(!p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
-            {
-                p->char_textures->SetFrameCount(0);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_NONE);
-            if(Tick%p->char_textures->moveMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        else if(!p->isJumping && p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        else if(!p->isJumping && p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunFallingModule(p,CharScale,Tick);
         }
         //Non-attack Jumping/Falling Textures
-        else if(p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        else if(p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunJumpingModule(p,CharScale,Tick);
         }
-        else if(p->isJumping && !p->isFalling && p->isMovingRight && !p->isMovingLeft && !p->isAttackingReg)
+        else if((p->isJumping || p->isFalling) && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
-            if((p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount()))
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-
+            this->RunJumpFallTransitionModule(p,CharScale,Tick);
         }
-        else if(p->isJumping && !p->isFalling && !p->isMovingLeft&& !p->isMovingRight && !p->isAttackingReg)
+        else if(p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            if (p->lastDirection == "LEFT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            }
-            else if (p->lastDirection == "RIGHT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            }
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunJumpFallTransitionModule(p,CharScale,Tick);
         }
-        else if(p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        //Attacking animations.
+        else if(p->isAttackingReg)
         {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            if (p->lastDirection == "LEFT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&(*i)->character->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            }
-            else if (p->lastDirection == "RIGHT")
-            {
-                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                         p->posY,CharScale,0,0,&(*i)->character->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            }
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
+            this->RunRegularAttackModule(p,CharScale,Tick);
         }
-        else if(p->isJumping && p->isFalling && p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        else if(p->isJumping && p->isFalling && !p->isMovingLeft && p->isMovingRight && !p->isAttackingReg)
-        {
-            if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
-            {
-                p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
-            }
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
-            if(Tick%p->char_textures->jumpingMod == 0)
-            {
-                p->char_textures->TickFrameCount();
-            }
-            p->Move();
-        }
-        //Non-Jumping/Non-Falling Attacking animations.
-        else if(p->isAttackingReg && !p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight)
-        {
-
-            if(p->regAttackCount == 0)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-                if(Tick%p->char_textures->attackRegMod == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(Tick%p->char_textures->attackRegMod2 == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-
-        }
-        else if(p->isAttackingReg && !p->isJumping && !p->isFalling && p->isMovingLeft && !p->isMovingRight)
-        {
-            if(p->regAttackCount == 0)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-                if(Tick%p->char_textures->attackRegMod == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(Tick%p->char_textures->attackRegMod2 == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-        }
-        else if(p->isAttackingReg && !p->isJumping && !p->isFalling && !p->isMovingLeft && p->isMovingRight)
-        {
-            if(p->regAttackCount == 0)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-                if(Tick%p->char_textures->attackRegMod == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(Tick%p->char_textures->attackRegMod2 == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-        }
-        else if(p->isAttackingReg && !p->isJumping && p->isFalling && !p->isMovingLeft && !p->isMovingRight)
-        {
-            if(p->regAttackCount == 0)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
-                {
-                    p->char_textures->SetFrameCount(0);
-                    p->isAttackingReg = false;
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-
-                if (p->lastDirection == "LEFT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
-                }
-                else if (p->lastDirection == "RIGHT")
-                {
-                    p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                             p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
-                }
-            }
-
-            if(p->regAttackCount == 0)
-            {
-                if(Tick%p->char_textures->attackRegMod == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-            else if(p->regAttackCount == 1)
-            {
-                if(Tick%p->char_textures->attackRegMod2 == 0)
-                {
-                    p->char_textures->TickFrameCount();
-                }
-            }
-            // p->Move();
-
-        }
-        //Jumping/Falling attacking animations.
     }
+}
+
+
+void Core::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick)
+{
+    if(p->regAttackCount == 0)
+    {
+        if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
+        {
+            p->char_textures->SetFrameCount(0);
+            p->isAttackingReg = false;
+        }
+    }
+    else if(p->regAttackCount == 1)
+    {
+        if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
+        {
+            p->char_textures->SetFrameCount(0);
+            p->isAttackingReg = false;
+        }
+    }
+
+    if(p->regAttackCount == 0)
+    {
+
+        if (p->lastDirection == "LEFT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
+        }
+        else if (p->lastDirection == "RIGHT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
+        }
+    }
+    else if(p->regAttackCount == 1)
+    {
+
+        if (p->lastDirection == "LEFT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
+        }
+        else if (p->lastDirection == "RIGHT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
+        }
+    }
+
+    if(p->regAttackCount == 0)
+    {
+        if(Tick%p->char_textures->attackRegMod == 0)
+        {
+            p->char_textures->TickFrameCount();
+        }
+    }
+    else if(p->regAttackCount == 1)
+    {
+        if(Tick%p->char_textures->attackRegMod2 == 0)
+        {
+            p->char_textures->TickFrameCount();
+        }
+    }
+    if(p->isFalling)
+    {
+        p->Move();
+    }
+}
+
+void Core::RunIdleModule(CharacterObject* p,int CharScale,int Tick)
+{
+    if(p->char_textures->GetFrameCount() == p->char_textures->GetIdleClipCount())
+    {
+        p->char_textures->SetFrameCount(0);
+    }
+    if(p->lastDirection == "LEFT")
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],"I",SDL_FLIP_NONE);
+    }
+    else if (p->lastDirection == "RIGHT")
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->idleClips[p->char_textures->GetFrameCount()],"I",SDL_FLIP_HORIZONTAL);
+    }
+
+    if(Tick%p->char_textures->idleMod == 0)
+    {
+        p->char_textures->TickFrameCount();
+    }
+    p->Move();
+}
+
+void Core::RunMoveModule(CharacterObject* p, int CharScale, int Tick)
+{
+    if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
+    {
+        p->char_textures->SetFrameCount(0);
+    }
+    if(p->isMovingLeft)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_NONE);
+    }
+    else if (p->isMovingRight)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_HORIZONTAL);
+    }
+    if(Tick%p->char_textures->moveMod == 0)
+    {
+        p->char_textures->TickFrameCount();
+    }
+    p->Move();
+}
+
+void Core::RunFallingModule(CharacterObject* p, int CharScale, int Tick)
+{
+    if(p->char_textures->GetFrameCount() == p->char_textures->GetFallingClipCount())
+    {
+        p->char_textures->SetFrameCount(0);
+    }
+    if (p->lastDirection == "LEFT")
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_NONE);
+    }
+    else if (p->lastDirection == "RIGHT")
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_HORIZONTAL);
+    }
+    if(Tick%p->char_textures->fallingMod == 0)
+    {
+        p->char_textures->TickFrameCount();
+    }
+    p->Move();
+}
+
+void Core::RunJumpingModule(CharacterObject *p, int CharScale, int Tick)
+{
+    if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+    {
+        p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
+    }
+    if(p->isMovingLeft)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
+    }
+    else if(p->isMovingRight)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
+    }
+    else if(!p->isMovingLeft && !p->isMovingRight)
+    {
+        if(p->lastDirection == "RIGHT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
+        }
+        else if(p->lastDirection == "LEFT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
+        }
+    }
+    if(Tick%p->char_textures->jumpingMod == 0)
+    {
+        p->char_textures->TickFrameCount();
+    }
+    p->Move();
+}
+void Core ::RunJumpFallTransitionModule(CharacterObject* p, int CharScale, int Tick)
+{
+    if(p->char_textures->GetFrameCount() == p->char_textures->GetFallingClipCount())
+    {
+        p->char_textures->SetFrameCount(0);
+    }
+
+    if (p->isMovingLeft)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_NONE);
+    }
+    else if(p->isMovingRight)
+    {
+        p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                 p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_HORIZONTAL);
+    }
+    else if(!p->isMovingLeft && !p->isMovingRight)
+    {
+        if (p->lastDirection == "LEFT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_NONE);
+        }
+        else if (p->lastDirection == "RIGHT")
+        {
+            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                     p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_HORIZONTAL);
+        }
+    }
+    if(Tick%p->char_textures->fallingMod == 0)
+    {
+        p->char_textures->TickFrameCount();
+    }
+    p->Move();
 }
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
@@ -1807,7 +1594,8 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
                                 //TODO:// This is a temporary block To reset counter if it goes over amount Attack count.
                                 ////////////////////////////////////////////
                                 if ((*j)->character->regAttackCount > 1)  //
-                                {                                         //
+                                {
+                                    //
                                     (*j)->character->regAttackCount =0;   //
                                 }                                         //
                                 ////////////////////////////////////////////

@@ -28,12 +28,20 @@ public:
     void CoreShutdown();
     void renderPresent();
     void renderClear();
-    void MainMenuRun(SDL_mutex*);
-    void CharacterSelectRun(SDL_mutex*);
-    void LevelSelectRun(SDL_mutex*);
-    void MatchRun(SDL_mutex*);
-    void RunContextSimulation(int,int,int);
+
+    void RunMainMenu(SDL_mutex*);
+    void RunCharacterSelect(SDL_mutex*);
+    void RunLevelSelect(SDL_mutex*);
+    void RunMatch(SDL_mutex*);
+    void RunContext(int,int,int);
     void RunCollisionModule(int,int, Level*);
+    void RunRegularAttackModule(CharacterObject*,int,int);
+    void RunIdleModule(CharacterObject*,int,int);
+    void RunMoveModule(CharacterObject*,int,int);
+    void RunFallingModule(CharacterObject*,int,int);
+    void RunJumpingModule(CharacterObject*,int,int);
+    void RunJumpFallTransitionModule(CharacterObject*,int,int);
+
     void ParseEvents(ThreadData* data,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
     bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);

@@ -423,7 +423,44 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->jumpingClips[10].w =80;
             t->jumpingClips[10].h =65;
         }
-        if(!this->loadCharacterFromFile("rec/animations/characters/horus_reg_attack_1_prototype.png", t, renderer,"A"))
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_falling_prototype.png", t, renderer, "F"))
+        {
+            printf( "Failed to load sprite sheet texture! horus_falling_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->fallingClips[0].x =1;
+            t->fallingClips[0].y =1;
+            t->fallingClips[0].w =85;
+            t->fallingClips[0].h =65;
+
+            t->fallingClips[1].x =86;
+            t->fallingClips[1].y =1;
+            t->fallingClips[1].w =85;
+            t->fallingClips[1].h =65;
+
+            t->fallingClips[2].x =171;
+            t->fallingClips[2].y =1;
+            t->fallingClips[2].w =85;
+            t->fallingClips[2].h =65;
+
+            t->fallingClips[3].x =256;
+            t->fallingClips[3].y =1;
+            t->fallingClips[3].w =85;
+            t->fallingClips[3].h =65;
+
+            t->fallingClips[4].x =341;
+            t->fallingClips[4].y =1;
+            t->fallingClips[4].w =85;
+            t->fallingClips[4].h =65;
+
+            t->fallingClips[5].x =426;
+            t->fallingClips[5].y =1;
+            t->fallingClips[5].w =85;
+            t->fallingClips[5].h =65;
+        }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_reg_attack_1_prototype.png", t, renderer, "A"))
         {
             printf( "Failed to load sprite sheet texture! horus_reg_attack_1_prototype.png\n" );
             return false;
@@ -581,7 +618,13 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->attackRegularClips2[14].y =1;
             t->attackRegularClips2[14].w =85;
             t->attackRegularClips2[14].h =65;
+
+            t->attackRegularClips2[15].x =1276;
+            t->attackRegularClips2[15].y =1;
+            t->attackRegularClips2[15].w =85;
+            t->attackRegularClips2[15].h =65;
         }
+        return true;
     }
     return false;
 }

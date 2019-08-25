@@ -33,19 +33,19 @@ int main( int argc, char* args[] )
         {
             if ( CoreGame->state->onMainMenuStart&& !CoreGame->quit_program)
             {
-                CoreGame->MainMenuRun(parse_mutex);
+                CoreGame->RunMainMenu(parse_mutex);
                 //Initiate Main bootup sequence for main menu.
                 std::cout <<"Exiting MainMenuRun()"<<std::endl;
             }
             else if (CoreGame->state->onCharacterSelection && !CoreGame->quit_program)
             {
-                CoreGame->CharacterSelectRun(parse_mutex);
+                CoreGame->RunCharacterSelect(parse_mutex);
                  std::cout <<"Exiting CharacterSelectRun()"<<std::endl;
             }
             else if (CoreGame->state->onLevelSelection && !CoreGame->quit_program)
             {
                 //Intiate Level selection screen
-                 CoreGame->LevelSelectRun(parse_mutex);
+                 CoreGame->RunLevelSelect(parse_mutex);
                  std::cout <<"Exiting LevelSelction()"<<std::endl;
                  //CoreGame->quit_program= true;
             }
@@ -53,7 +53,7 @@ int main( int argc, char* args[] )
             {
                 //Initiate running match with previously loaded level.
                 std::cout <<"Exiting RunningMatch()"<<std::endl;
-                CoreGame->MatchRun(parse_mutex);
+                CoreGame->RunMatch(parse_mutex);
                 CoreGame->quit_program = true;
             }
         }
