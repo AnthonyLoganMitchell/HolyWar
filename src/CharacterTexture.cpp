@@ -1,7 +1,7 @@
 #include "CharacterTexture.h"
 
 CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalMovementClips,int totalRegularAttackClips,\
-                                   int totalStrongAttackClips,int totalRegularAttackClips2,std::string n,SDL_Renderer* rend) : Texture()
+                                   int totalRegularAttackClips2,int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture()
 {
     this->idleTexture = NULL;
     this->attackRegularTexture = NULL;

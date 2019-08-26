@@ -32,11 +32,14 @@ CharacterObject::~CharacterObject()
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
 {
+    //For Sanities sake while doing these.
+    //TotalClip numbers parameter structure in CharacterTextures.
+    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,0,16,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,0,Name,renderer);
         this->char_textures = char_ptr;
-        this->char_textures->idleMod = 6;
+        this->char_textures->idleMod = 4;
         this->char_textures->jumpingMod = 2;
         this->char_textures->moveMod = 2;
         this->char_textures->attackRegMod = 1;
