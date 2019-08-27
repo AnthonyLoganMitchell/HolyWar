@@ -33,7 +33,7 @@ public:
     void RunCharacterSelect(SDL_mutex*);
     void RunLevelSelect(SDL_mutex*);
     void RunMatch(SDL_mutex*);
-    void RunContext(int,int,int);
+    void RunCharacters(int,int,int);
     void RunCollisionModule(int,int, Level*);
     void RunRegularAttackModule(CharacterObject*,int,int);
     void RunIdleModule(CharacterObject*,int,int);

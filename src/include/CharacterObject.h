@@ -25,6 +25,7 @@ public:
     bool isHoldingStrong;
     int  regAttackCount;
     int  StrongAttackCount;
+    int  jumpBlock;
     Uint32 regAttackLastPress;
     Uint32 strongAttackLastPress;
     std::string lastDirection;

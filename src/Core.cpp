@@ -451,7 +451,6 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
                     }
                 }
             }
-            //TODO: Start here
             SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
             for(int j = 0; j<4; j++)
             {
@@ -799,8 +798,8 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
 
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);
-        //This part runs the entire physics and rendering systems
-        this->RunContext(CharScale,PlatformScale,Tick);
+        //This part runs the entire physics and rendering systems for characters.
+        this->RunCharacters(CharScale,PlatformScale,Tick);
 
         this->renderPresent();
         SDL_Delay(30);
@@ -826,6 +825,7 @@ void Core::RunCollisionModule(int CharScale,int PlatformScale, Level* stage)
                 (*j)->character->isJumping = false;
                 (*j)->character->fluct_vely =0;
                 (*j)->character->posY = (*i)->GetYPos()- (*j)->character->char_textures->idleClips[0].h*CharScale;
+                (*j)->character->jumpBlock = 0;
 
             }
             else if (!(*j)->character->isColliding)
@@ -847,13 +847,12 @@ void Core::RunCollisionModule(int CharScale,int PlatformScale, Level* stage)
         }
     }
 }
-void Core::RunContext(int CharScale,int PlatformScale,int Tick)
+void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
 {
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         CharacterObject* p = (*i)->character;
 
-        //Non-attack Non-jumping textures.
         if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             this->RunIdleModule(p,CharScale,Tick);
@@ -866,7 +865,6 @@ void Core::RunContext(int CharScale,int PlatformScale,int Tick)
         {
             this->RunFallingModule(p,CharScale,Tick);
         }
-        //Non-attack Jumping/Falling Textures
         else if(p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
         {
             this->RunJumpingModule(p,CharScale,Tick);
@@ -1609,12 +1607,16 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            (*j)->character->isJumping = true;
-                            (*j)->character->isColliding = false;
-                            (*j)->character->isFalling = false;
-                            (*j)->character->isAttackingReg = false;
-                            (*j)->character->char_textures->SetFrameCount(0);
-                            (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                            if((*j)->character->jumpBlock < 2)
+                            {
+                                (*j)->character->isJumping = true;
+                                (*j)->character->isColliding = false;
+                                (*j)->character->isFalling = false;
+                                (*j)->character->isAttackingReg = false;
+                                (*j)->character->char_textures->SetFrameCount(0);
+                                (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                                (*j)->character->jumpBlock++;
+                            }
                         }
                     }
                     else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_X && (*i)->pressed == SDL_PRESSED)
