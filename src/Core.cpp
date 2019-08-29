@@ -888,75 +888,104 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
 
 void Core::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick)
 {
-    if(p->regAttackCount == 0)
+    if(!p->isFalling && !p->isFalling)
     {
-        if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount())
+        if(p->regAttackCount == 0)
         {
+            if(p->char_textures->GetFrameCount() >= p->char_textures->GetRegularAttackClipCount())
+            {
+                p->char_textures->SetFrameCount(0);
+                p->isAttackingReg = false;
+            }
+        }
+        else if(p->regAttackCount == 1)
+        {
+            if(p->char_textures->GetFrameCount() >= p->char_textures->GetRegularAttackClipCount2())
+            {
+                p->char_textures->SetFrameCount(0);
+                p->isAttackingReg = false;
+            }
+        }
+
+        if(p->regAttackCount == 0)
+        {
+
+            if (p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                         p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                         p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
+            }
+        }
+        else if(p->regAttackCount == 1)
+        {
+
+            if (p->lastDirection == "LEFT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                         p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
+            }
+            else if (p->lastDirection == "RIGHT")
+            {
+                p->char_textures->render(p->char_textures,this->renderer,p->posX, \
+                                         p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
+            }
+        }
+
+        if(p->regAttackCount == 0)
+        {
+            if(Tick%p->char_textures->attackRegMod == 0)
+            {
+                p->char_textures->TickFrameCount();
+            }
+        }
+        else if(p->regAttackCount == 1)
+        {
+            if(Tick%p->char_textures->attackRegMod2 == 0)
+            {
+                p->char_textures->TickFrameCount();
+            }
+        }
+    }
+    else
+    {
+        std::cout<<"TRIGGER_0"<<std::endl;
+        if(p->char_textures->GetFrameCount() >= p->char_textures->GetJumpingRegularAttackClickCount())
+        {
+            std::cout<<"TRIGGER_1"<<std::endl;
             p->char_textures->SetFrameCount(0);
             p->isAttackingReg = false;
         }
-    }
-    else if(p->regAttackCount == 1)
-    {
-        if(p->char_textures->GetFrameCount() == p->char_textures->GetRegularClipCount2())
-        {
-            p->char_textures->SetFrameCount(0);
-            p->isAttackingReg = false;
-        }
-    }
-
-    if(p->regAttackCount == 0)
-    {
-
         if (p->lastDirection == "LEFT")
         {
+            std::cout<<"TRIGGER_2"<<std::endl;
             p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_NONE);
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularJumpingClips[p->char_textures->GetFrameCount()],"JA",SDL_FLIP_NONE);
         }
         else if (p->lastDirection == "RIGHT")
         {
+            std::cout<<"TRIGGER_3"<<std::endl;
             p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips[p->char_textures->GetFrameCount()],"A",SDL_FLIP_HORIZONTAL);
+                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularJumpingClips[p->char_textures->GetFrameCount()],"JA",SDL_FLIP_HORIZONTAL);
         }
-    }
-    else if(p->regAttackCount == 1)
-    {
-
-        if (p->lastDirection == "LEFT")
+        if(Tick%p->char_textures->attackRegJumpingMod == 0)
         {
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_NONE);
-        }
-        else if (p->lastDirection == "RIGHT")
-        {
-            p->char_textures->render(p->char_textures,this->renderer,p->posX, \
-                                     p->posY,CharScale,0,0,&p->char_textures->attackRegularClips2[p->char_textures->GetFrameCount()],"A2",SDL_FLIP_HORIZONTAL);
-        }
-    }
-
-    if(p->regAttackCount == 0)
-    {
-        if(Tick%p->char_textures->attackRegMod == 0)
-        {
+            std::cout<<"TRIGGER_4"<<std::endl;
             p->char_textures->TickFrameCount();
         }
-    }
-    else if(p->regAttackCount == 1)
-    {
-        if(Tick%p->char_textures->attackRegMod2 == 0)
-        {
-            p->char_textures->TickFrameCount();
-        }
-    }
-    if(p->isFalling)
-    {
+        std::cout<<"TRIGGER_5"<<std::endl;
         p->Move();
+        std::cout<<"TRIGGER_6"<<std::endl;
     }
 }
 
 void Core::RunIdleModule(CharacterObject* p,int CharScale,int Tick)
 {
-    if(p->char_textures->GetFrameCount() == p->char_textures->GetIdleClipCount())
+    if(p->char_textures->GetFrameCount() >= p->char_textures->GetIdleClipCount())
     {
         p->char_textures->SetFrameCount(0);
     }
@@ -980,7 +1009,7 @@ void Core::RunIdleModule(CharacterObject* p,int CharScale,int Tick)
 
 void Core::RunMoveModule(CharacterObject* p, int CharScale, int Tick)
 {
-    if(p->char_textures->GetFrameCount() == p->char_textures->GetMoveingClipCount())
+    if(p->char_textures->GetFrameCount() >= p->char_textures->GetMoveingClipCount())
     {
         p->char_textures->SetFrameCount(0);
     }
@@ -1003,7 +1032,7 @@ void Core::RunMoveModule(CharacterObject* p, int CharScale, int Tick)
 
 void Core::RunFallingModule(CharacterObject* p, int CharScale, int Tick)
 {
-    if(p->char_textures->GetFrameCount() == p->char_textures->GetFallingClipCount())
+    if(p->char_textures->GetFrameCount() >= p->char_textures->GetFallingClipCount())
     {
         p->char_textures->SetFrameCount(0);
     }
@@ -1026,7 +1055,7 @@ void Core::RunFallingModule(CharacterObject* p, int CharScale, int Tick)
 
 void Core::RunJumpingModule(CharacterObject *p, int CharScale, int Tick)
 {
-    if(p->char_textures->GetFrameCount() == p->char_textures->GetJumpingClipCount())
+    if(p->char_textures->GetFrameCount() >= p->char_textures->GetJumpingClipCount())
     {
         p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
     }
@@ -1575,8 +1604,9 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
                     {
                         if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                         {
-                            if(!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg)
+                            if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg))
                             {
+                                std::cout<<"FALLING_TRIGGER"<<std::endl;
                                 (*j)->character->char_textures->SetFrameCount(0);
                                 Uint32 now = SDL_GetTicks();
                                 if ( (now - (*j)->character->regAttackLastPress) <= 750)

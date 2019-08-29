@@ -11,7 +11,7 @@ public:
     //Constructors
     //totalIdleClips, totalJumpingClips, totalFallingClips, totalMovementClips, totalRegularAttackClips, totalStrongAttackClips
     //^^^The six int's at beginning of CharacterTexture();^^^
-    CharacterTexture(int,int,int,int,int,int,int,std::string,SDL_Renderer*);
+    CharacterTexture(int,int,int,int,int,int,int,int,std::string,SDL_Renderer*);
     //////////////////////////////////////////
     ~CharacterTexture();
     //These functions are not derived
@@ -22,8 +22,9 @@ public:
     int  GetJumpingClipCount();
     int  GetFallingClipCount();
     int  GetMoveingClipCount();
-    int  GetRegularClipCount();
-    int  GetRegularClipCount2();
+    int  GetRegularAttackClipCount();
+    int  GetRegularAttackClipCount2();
+    int  GetJumpingRegularAttackClickCount();
     int  GetStrongClipCount();
     //These functions are generic and abstract in base class//
     int  GetWidth();
@@ -47,6 +48,7 @@ public:
     SDL_Texture*    attackRegularTexture;
     SDL_Texture*    attackRegularTexture2;
     SDL_Texture*    attackStrongTexture;
+    SDL_Texture*    attackRegularJumpingTexture;
 
 
     SDL_Rect*    idleClips;
@@ -55,6 +57,7 @@ public:
     SDL_Rect*    movementClips;
     SDL_Rect*    attackRegularClips;
     SDL_Rect*    attackRegularClips2;
+    SDL_Rect*    attackRegularJumpingClips;
     SDL_Rect*    attackStrongClips;
 
     int idleMod;
@@ -63,6 +66,7 @@ public:
     int moveMod;
     int attackRegMod;
     int attackRegMod2;
+    int attackRegJumpingMod;
     int attackStrongMod;
 
 private:
@@ -82,6 +86,7 @@ private:
     int movementClipCount;
     int attackRegularClipCount;
     int attackRegularClipCount2;
+    int attackRegularJumpingClipCount;
     int attackStrongClipCount;
     ////////////////////////////////
 };

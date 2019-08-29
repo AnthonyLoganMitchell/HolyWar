@@ -1,13 +1,14 @@
 #include "CharacterTexture.h"
 
 CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalMovementClips,int totalRegularAttackClips,\
-                                   int totalRegularAttackClips2,int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture()
+                                   int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture()
 {
     this->idleTexture = NULL;
     this->attackRegularTexture = NULL;
     this->movementTexture = NULL;
     this->fallingTexture = NULL;
     this->attackStrongTexture = NULL;
+    this->attackRegularJumpingTexture = NULL;
     this->name        = n;
     this->frameCount  = 0;
     this->xposition   = 0;
@@ -31,15 +32,21 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackRegularClipCount2 = totalRegularAttackClips2-1;
     this->attackRegularClips2 = new SDL_Rect[totalRegularAttackClips2];
 
+    this->attackRegularJumpingClipCount = totalRegularJumpingAttackClips-1;
+    this->attackRegularJumpingClips = new SDL_Rect[totalRegularJumpingAttackClips];
+
     this->attackStrongClipCount = totalStrongAttackClips-1;
     this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
-    this->idleMod =0;
-    this->jumpingMod =0;
-    this->moveMod = 0;
-    this->fallingMod = 0;
-    this->attackRegMod =0;
-    this->attackRegMod2 =0;
-    this->attackStrongMod =0;
+    //THESE HAVE TO BE == 1
+    //Cant divide by zero....
+    this->idleMod =1;
+    this->jumpingMod =1;
+    this->moveMod = 1;
+    this->fallingMod = 1;
+    this->attackRegMod =1;
+    this->attackRegMod2 =1;
+    this->attackRegJumpingMod=1;
+    this->attackStrongMod =1;
     this->loadCharacterMedia(this,rend);
 }
 CharacterTexture::~CharacterTexture()
@@ -102,6 +109,11 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
     else if(t_type == "A2")
     {
         t->attackRegularTexture2 = newTexture;
+        load_flag = true;
+    }
+    else if (t_type == "JA")
+    {
+        t->attackRegularJumpingTexture = newTexture;
         load_flag = true;
     }
     else if(t_type == "S")
@@ -624,6 +636,63 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->attackRegularClips2[15].w =85;
             t->attackRegularClips2[15].h =65;
         }
+        if(!this->loadCharacterFromFile("rec/animations/characters/horus_jumping_regular_attack_prototype.png", t, renderer,"JA"))
+        {
+            printf( "Failed to load sprite sheet texture! horus_jumping_regular_attack_prototype.png\n" );
+            return false;
+        }
+        else
+        {
+            t->attackRegularJumpingClips[0].x =1;
+            t->attackRegularJumpingClips[0].y =1;
+            t->attackRegularJumpingClips[0].w =85;
+            t->attackRegularJumpingClips[0].h =65;
+
+            t->attackRegularJumpingClips[1].x =86;
+            t->attackRegularJumpingClips[1].y =1;
+            t->attackRegularJumpingClips[1].w =85;
+            t->attackRegularJumpingClips[1].h =65;
+
+            t->attackRegularJumpingClips[2].x =171;
+            t->attackRegularJumpingClips[2].y =1;
+            t->attackRegularJumpingClips[2].w =85;
+            t->attackRegularJumpingClips[2].h =65;
+
+            t->attackRegularJumpingClips[3].x =256;
+            t->attackRegularJumpingClips[3].y =1;
+            t->attackRegularJumpingClips[3].w =85;
+            t->attackRegularJumpingClips[3].h =65;
+
+            t->attackRegularJumpingClips[4].x =341;
+            t->attackRegularJumpingClips[4].y =1;
+            t->attackRegularJumpingClips[4].w =85;
+            t->attackRegularJumpingClips[4].h =65;
+
+            t->attackRegularJumpingClips[5].x =426;
+            t->attackRegularJumpingClips[5].y =1;
+            t->attackRegularJumpingClips[5].w =85;
+            t->attackRegularJumpingClips[5].h =65;
+
+            t->attackRegularJumpingClips[6].x =511;
+            t->attackRegularJumpingClips[6].y =1;
+            t->attackRegularJumpingClips[6].w =85;
+            t->attackRegularJumpingClips[6].h =65;
+
+            t->attackRegularJumpingClips[7].x =596;
+            t->attackRegularJumpingClips[7].y =1;
+            t->attackRegularJumpingClips[7].w =85;
+            t->attackRegularJumpingClips[7].h =65;
+
+            t->attackRegularJumpingClips[8].x =681;
+            t->attackRegularJumpingClips[8].y =1;
+            t->attackRegularJumpingClips[8].w =85;
+            t->attackRegularJumpingClips[8].h =65;
+
+            t->attackRegularJumpingClips[9].x =766;
+            t->attackRegularJumpingClips[9].y =1;
+            t->attackRegularJumpingClips[9].w =85;
+            t->attackRegularJumpingClips[9].h =65;
+        }
         return true;
     }
     return false;
@@ -645,13 +714,18 @@ int CharacterTexture::GetMoveingClipCount()
 {
     return this->movementClipCount;
 }
-int CharacterTexture::GetRegularClipCount()
+int CharacterTexture::GetRegularAttackClipCount()
 {
     return this->attackRegularClipCount;
 }
-int CharacterTexture::GetRegularClipCount2()
+int CharacterTexture::GetRegularAttackClipCount2()
 {
     return this->attackRegularClipCount2;
+}
+
+int CharacterTexture::GetJumpingRegularAttackClickCount()
+{
+    return this->attackRegularJumpingClipCount;
 }
 int CharacterTexture::GetStrongClipCount()
 {
@@ -742,6 +816,10 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         else if(t_type == "A2")
         {
             SDL_RenderCopyEx(renderer,t->attackRegularTexture2,clip,&renderQuad,0.0,NULL,flip);
+        }
+        else if(t_type == "JA")
+        {
+            SDL_RenderCopyEx(renderer,t->attackRegularJumpingTexture,clip,&renderQuad,0.0,NULL,flip);
         }
         else if(t_type == "S")
         {
