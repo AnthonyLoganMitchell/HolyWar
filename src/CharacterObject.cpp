@@ -38,7 +38,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
     //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,10,0,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,13,0,Name,renderer);
         this->char_textures = char_ptr;
         this->char_textures->idleMod = 4;
         this->char_textures->jumpingMod = 2;

@@ -692,6 +692,21 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->attackRegularJumpingClips[9].y =1;
             t->attackRegularJumpingClips[9].w =85;
             t->attackRegularJumpingClips[9].h =65;
+
+            t->attackRegularJumpingClips[10].x =851;
+            t->attackRegularJumpingClips[10].y =1;
+            t->attackRegularJumpingClips[10].w =85;
+            t->attackRegularJumpingClips[10].h =65;
+
+            t->attackRegularJumpingClips[11].x =936;
+            t->attackRegularJumpingClips[11].y =1;
+            t->attackRegularJumpingClips[11].w =85;
+            t->attackRegularJumpingClips[11].h =65;
+
+            t->attackRegularJumpingClips[12].x =1021;
+            t->attackRegularJumpingClips[12].y =1;
+            t->attackRegularJumpingClips[12].w =85;
+            t->attackRegularJumpingClips[12].h =65;
         }
         return true;
     }

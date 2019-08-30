@@ -953,33 +953,26 @@ void Core::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick)
     }
     else
     {
-        std::cout<<"TRIGGER_0"<<std::endl;
         if(p->char_textures->GetFrameCount() >= p->char_textures->GetJumpingRegularAttackClickCount())
         {
-            std::cout<<"TRIGGER_1"<<std::endl;
             p->char_textures->SetFrameCount(0);
             p->isAttackingReg = false;
         }
         if (p->lastDirection == "LEFT")
         {
-            std::cout<<"TRIGGER_2"<<std::endl;
             p->char_textures->render(p->char_textures,this->renderer,p->posX, \
                                      p->posY,CharScale,0,0,&p->char_textures->attackRegularJumpingClips[p->char_textures->GetFrameCount()],"JA",SDL_FLIP_NONE);
         }
         else if (p->lastDirection == "RIGHT")
         {
-            std::cout<<"TRIGGER_3"<<std::endl;
             p->char_textures->render(p->char_textures,this->renderer,p->posX, \
                                      p->posY,CharScale,0,0,&p->char_textures->attackRegularJumpingClips[p->char_textures->GetFrameCount()],"JA",SDL_FLIP_HORIZONTAL);
         }
         if(Tick%p->char_textures->attackRegJumpingMod == 0)
         {
-            std::cout<<"TRIGGER_4"<<std::endl;
             p->char_textures->TickFrameCount();
         }
-        std::cout<<"TRIGGER_5"<<std::endl;
         p->Move();
-        std::cout<<"TRIGGER_6"<<std::endl;
     }
 }
 
@@ -1606,7 +1599,6 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
                         {
                             if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg))
                             {
-                                std::cout<<"FALLING_TRIGGER"<<std::endl;
                                 (*j)->character->char_textures->SetFrameCount(0);
                                 Uint32 now = SDL_GetTicks();
                                 if ( (now - (*j)->character->regAttackLastPress) <= 750)
