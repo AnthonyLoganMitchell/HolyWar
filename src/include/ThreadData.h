@@ -8,6 +8,7 @@ class ThreadData
 public:
     virtual ~ThreadData();
     SDL_mutex* parse_mutex;
+
     std::vector<Interaction*> *interact;
     bool kill_thread;
 };

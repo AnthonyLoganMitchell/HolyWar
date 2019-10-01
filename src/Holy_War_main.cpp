@@ -67,6 +67,5 @@ int main( int argc, char* args[] )
     std::cout <<"PreCore shutdown."<<std::endl;
     CoreGame->CoreShutdown();
     std::cout <<"PostCore shutdown."<<std::endl;
-    std::cout << SDL_GetError() << std::endl;
     return 0;
 }
