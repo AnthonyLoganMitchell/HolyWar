@@ -42,6 +42,8 @@ public:
     int xposition;
     int yposition;
     int textureClipCount;
+    bool isStartingPlatform;
+    bool isOccupied;
 
 private:
    //Common Across all derived

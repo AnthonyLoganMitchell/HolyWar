@@ -761,6 +761,9 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     {
         (*i)->character = new CharacterObject((*i)->CharacterName,100,this->renderer); //TODO: delete from memory later.
     }
+    //TODO:// Place character objects on their starting positions.
+    this->SetInitialCharacterPositions(stage);
+
     while(this->state->onRunningMatch)
     {
         if(EntryAlphaFlag)
@@ -1209,6 +1212,29 @@ bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
     }
     return true;
 
+}
+
+void Core::SetInitialCharacterPositions(Level* stage)
+{
+       for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    {
+        for (std::vector<GeneralTexture*>::iterator j = stage->platforms->begin(); j != stage->platforms->end(); j++)
+        {
+            if(!(*j)->isOccupied && (*j)->isStartingPlatform)
+            {
+                (*i)->character->posX = (*j)->xposition;
+                (*i)->character->posY = (*j)->yposition - (*i)->character->char_textures->GetHeight();
+                (*j)->isOccupied = true;
+                break;
+            }
+            if(j == stage->platforms->end())
+            {
+                (*i)->character->posX = 0;
+                (*i)->character->posY = 0;
+                break;
+            }
+        }
+    }
 }
 
 void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)

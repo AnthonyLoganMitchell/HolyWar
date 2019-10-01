@@ -10,6 +10,8 @@ GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer*
     this->loadMedia(this,rend);
     this->xposition=0;
     this->yposition=0;
+    this->isStartingPlatform =false;
+    this->isOccupied = false;
 }
 
 void GeneralTexture::render(GeneralTexture *t,SDL_Renderer* renderer, int rend_pos_x, int rend_pos_y, int scale, int offset_width, int offset_height, SDL_Rect* clip )

@@ -41,6 +41,7 @@ public:
     void RunFallingModule(CharacterObject*,int,int);
     void RunJumpingModule(CharacterObject*,int,int);
     void RunJumpFallTransitionModule(CharacterObject*,int,int);
+    void SetInitialCharacterPositions(Level*);
 
     void ParseEvents(ThreadData* data,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
