@@ -10,6 +10,7 @@
 #define CHARACTEROBJECT_H
 #include "CharacterTexture.h"
 #include <string>
+#include "Hitbox.h"
 class CharacterObject
 {
 public:
@@ -18,11 +19,18 @@ public:
     void InitializeCharacter(std::string Name,SDL_Renderer*);
     void Move();
     void CalculateGravity();
+    void InitializeHitBoxes(int);
     const int moveVelX = 13;
     const int moveVelY = 30;
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
+    //////////////////////////
+    Hitbox* self;          ///
+    Hitbox* attack;        /// {Hitbox objects and offsets}
+    int  selfHitBoxOffset; ///
+    int  attackHitBoxOffset;//
+    //////////////////////////
     bool isJumping;
     bool isFalling;
     bool isMovingLeft;

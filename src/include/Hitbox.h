@@ -10,6 +10,7 @@ class Hitbox
         virtual ~Hitbox();
         int GetWidth();
         int GetHeight();
+        void RePosition(int,int);
 
         std::string direction;
         int posX,posY;
@@ -19,6 +20,7 @@ class Hitbox
         bool isSelf;
         bool isAlpha;
         bool isColliding;
+        bool isTangible;
         int width;
         int height;
     private:

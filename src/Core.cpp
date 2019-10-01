@@ -771,7 +771,10 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     }
     //Place characters in initial positions in level.
     this->SetInitialCharacterPositions(stage);
-
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    {
+        (*i)->character->InitializeHitBoxes(CharScale);
+    }
     while(this->state->onRunningMatch)
     {
         if(EntryAlphaFlag)
@@ -813,9 +816,21 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
 
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);
+
+
+        //Test block for visualizing hit boxes.
+        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+        {
+            if((*i)->character->self->isTangible)
+            {
+                (*i)->character->self->RePosition((*i)->character->posX,(*i)->character->posY);
+                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+                SDL_RenderDrawRect(this->renderer,(*i)->character->self->rect);
+                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+            }
+        }
         //This part runs the entire physics and rendering systems for characters.
         this->RunCharacters(CharScale,PlatformScale,Tick);
-
         this->renderPresent();
         SDL_Delay(30);
         Tick++;
@@ -1225,7 +1240,7 @@ bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
 
 void Core::SetInitialCharacterPositions(Level* stage)
 {
-       for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
+    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         for (std::vector<GeneralTexture*>::iterator j = stage->platforms->begin(); j != stage->platforms->end(); j++)
         {

@@ -32,11 +32,23 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->regAttackLastPress = SDL_GetTicks();
     this->strongAttackLastPress = SDL_GetTicks();
     this->lastDirection = "LEFT";
+    this->attack = NULL;
+    this->self = NULL;
+    this->selfHitBoxOffset =0;
+    this->attackHitBoxOffset =0;
 }
 
 CharacterObject::~CharacterObject()
 {
 
+}
+
+void CharacterObject::InitializeHitBoxes(int scale)
+{
+    this->attack = new Hitbox(this->posX,this->posY,this->char_textures->GetWidth()*scale,((this->char_textures->GetHeight()*3)/4)*scale);
+    this->self = new Hitbox(this->posX,this->posY,this->char_textures->idleClips[0].w*scale,this->char_textures->GetHeight()*scale);
+    this->self->isTangible = true;
+    //this->attack->isTangible = true;
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
