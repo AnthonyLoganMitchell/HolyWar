@@ -64,6 +64,7 @@
 		<Unit filename="include/CharacterTexture.h" />
 		<Unit filename="include/Core.h" />
 		<Unit filename="include/GeneralTexture.h" />
+		<Unit filename="include/Hitbox.h" />
 		<Unit filename="include/Interaction.h" />
 		<Unit filename="include/Level.h" />
 		<Unit filename="include/LevelPortrait.h" />
@@ -74,6 +75,7 @@
 		<Unit filename="include/State.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/ThreadData.h" />
+		<Unit filename="src/Hitbox.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

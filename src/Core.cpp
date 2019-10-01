@@ -758,7 +758,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
 {
     int Tick =0;
     int CharScale = 2;
-    int PlatformScale=2;
+    int PlatformScale = 2;
     if(this->state->levelName == "")
     {
         exit(EXIT_FAILURE);
@@ -769,7 +769,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     {
         (*i)->character = new CharacterObject((*i)->CharacterName,100,this->renderer); //TODO: delete from memory later.
     }
-    //TODO:// Place character objects on their starting positions.
+    //Place characters in initial positions in level.
     this->SetInitialCharacterPositions(stage);
 
     while(this->state->onRunningMatch)
@@ -808,6 +808,8 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         {
             (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
         }
+
+        //TODO:// Will run collision detection between character combat here.
 
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);

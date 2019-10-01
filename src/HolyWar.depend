@@ -796,7 +796,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1569904996 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1569908222 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	"MainMenuOptions.h"
 	"Level.h"
@@ -1636,4 +1636,14 @@
 1569905105 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\characterobject.h
 	"CharacterTexture.h"
 	<string>
+
+1569909940 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\src\hitbox.cpp
+	"Hitbox.h"
+
+1569910261 c:\users\smokumsdebudicus\gameworkspace\holywar\src\include\hitbox.h
+	"SDL.h"
+	<string>
+
+1569910383 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\hitbox.cpp
+	"Hitbox.h"
 
