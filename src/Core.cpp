@@ -1132,7 +1132,6 @@ void Core ::RunJumpFallTransitionModule(CharacterObject* p, int CharScale, int T
 }
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
-    //TODO: START HERE.
     std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
     CharacterPortrait *cp = new CharacterPortrait(18,"HorusCharacterSelect","Horus",renderer);
     cp_vec->push_back(cp);
