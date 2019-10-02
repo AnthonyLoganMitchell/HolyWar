@@ -817,15 +817,23 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);
 
-
         //Test block for visualizing hit boxes.
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-            if((*i)->character->self->isTangible)
+            if((*i)->character->self->isAlpha)
             {
-                (*i)->character->self->RePosition((*i)->character->posX,(*i)->character->posY);
-                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+                (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                                  (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
                 SDL_RenderDrawRect(this->renderer,(*i)->character->self->rect);
+                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+            }
+            if((*i)->character->attack->isAlpha)
+            {
+                (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                                    (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+                SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
                 SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
             }
         }
@@ -912,6 +920,15 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         {
             this->RunRegularAttackModule(p,CharScale,Tick);
         }
+        if(p->lastDirection == "LEFT")
+        {
+         p->attackHitBoxOffsetX=0;
+        }
+        else if (p->lastDirection == "RIGHT")
+        {
+            p->attackHitBoxOffsetX = p->const_x_offset;
+        }
+
     }
 }
 

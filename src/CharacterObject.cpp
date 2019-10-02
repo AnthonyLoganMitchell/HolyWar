@@ -13,6 +13,15 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
 {
     this->name=Name;
     this->health = Health;
+    this->selfHitBoxOffsetX =0;
+    this->selfHitBoxOffsetY = 0;
+    this->selfHitBoxOffsetWidth =0;
+    this->selfHitBoxOffsetHeight = 0;
+    this->attackHitBoxOffsetX =0;
+    this->attackHitBoxOffsetY = 0;
+    this->attackHitBoxOffsetWidth =0;
+    this->attackHitBoxOffsetHeight = 0;
+    this->const_x_offset=0;
     this->InitializeCharacter(Name,renderer);
     this->fluct_velx =0;
     this->fluct_vely =0;
@@ -34,8 +43,6 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->lastDirection = "LEFT";
     this->attack = NULL;
     this->self = NULL;
-    this->selfHitBoxOffset =0;
-    this->attackHitBoxOffset =0;
 }
 
 CharacterObject::~CharacterObject()
@@ -45,10 +52,17 @@ CharacterObject::~CharacterObject()
 
 void CharacterObject::InitializeHitBoxes(int scale)
 {
-    this->attack = new Hitbox(this->posX,this->posY,this->char_textures->GetWidth()*scale,((this->char_textures->GetHeight()*3)/4)*scale);
-    this->self = new Hitbox(this->posX,this->posY,this->char_textures->idleClips[0].w*scale,this->char_textures->GetHeight()*scale);
-    this->self->isTangible = true;
-    //this->attack->isTangible = true;
+    this->attack = new Hitbox(this->posX,\
+                              this->posY,\
+                              (this->char_textures->idleClips[0].w*scale)+this->attackHitBoxOffsetWidth,\
+                              (this->char_textures->idleClips[0].h*scale)+this->attackHitBoxOffsetHeight);
+
+    this->self = new Hitbox(this->posX,\
+                            this->posY, \
+                            (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffsetWidth,\
+                            (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffsetHeight);
+    this->self->isAlpha = true;
+    this->attack->isAlpha = true;
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
@@ -67,6 +81,9 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 1;
         this->char_textures->fallingMod = 2;
         this->char_textures->attackRegJumpingMod=1;
+        this->const_x_offset = 9;
+        this->attackHitBoxOffsetHeight = -25;
+        this->attackHitBoxOffsetY = 28;
         char_ptr = NULL;
         delete(char_ptr);
     }

@@ -14,7 +14,6 @@ class Hitbox
 
         std::string direction;
         int posX,posY;
-        int xoffset,yoffset;
         SDL_Rect* rect;
         bool isAttacking;
         bool isSelf;

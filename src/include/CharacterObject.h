@@ -25,12 +25,19 @@ public:
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
-    //////////////////////////
-    Hitbox* self;          ///
-    Hitbox* attack;        /// {Hitbox objects and offsets}
-    int  selfHitBoxOffset; ///
-    int  attackHitBoxOffset;//
-    //////////////////////////
+    //////////////////////////////////{Hitbox objects and offsets}
+    Hitbox* self;                  ///
+    Hitbox* attack;                ///
+    int const_x_offset;            ///
+    int selfHitBoxOffsetX;         ///
+    int selfHitBoxOffsetY;         ///
+    int selfHitBoxOffsetWidth;     ///
+    int selfHitBoxOffsetHeight;    ///
+    int attackHitBoxOffsetX;       ///
+    int attackHitBoxOffsetY;       ///
+    int attackHitBoxOffsetWidth;   ///
+    int attackHitBoxOffsetHeight;  ///
+    //////////////////////////////////
     bool isJumping;
     bool isFalling;
     bool isMovingLeft;

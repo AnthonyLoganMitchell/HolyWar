@@ -6,8 +6,6 @@ Hitbox::Hitbox(int x,int y,int W,int H)
     this->direction="";
     this->posX=x;
     this->posY=y;
-    this->xoffset=0;
-    this->yoffset=0;
     this->isAlpha = false;
     this->isAttacking = false;
     this->isSelf = false;

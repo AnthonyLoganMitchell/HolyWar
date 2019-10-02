@@ -48,6 +48,7 @@
 		<Unit filename="CharacterTexture.cpp" />
 		<Unit filename="Core.cpp" />
 		<Unit filename="GeneralTexture.cpp" />
+		<Unit filename="Hitbox.cpp" />
 		<Unit filename="Holy_War_main.cpp" />
 		<Unit filename="Interaction.cpp" />
 		<Unit filename="Level.cpp" />
@@ -75,7 +76,6 @@
 		<Unit filename="include/State.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/ThreadData.h" />
-		<Unit filename="src/Hitbox.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
