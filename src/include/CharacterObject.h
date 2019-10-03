@@ -28,7 +28,10 @@ public:
     //////////////////////////////////{Hitbox objects and offsets}
     Hitbox* self;                  ///
     Hitbox* attack;                ///
-    int const_x_offset;            ///
+    int right_x_offset_attack;     ///
+    int left_x_offset_attack;      ///
+    int right_x_offset_self;       ///
+    int left_x_offset_self;        ///
     int selfHitBoxOffsetX;         ///
     int selfHitBoxOffsetY;         ///
     int selfHitBoxOffsetWidth;     ///

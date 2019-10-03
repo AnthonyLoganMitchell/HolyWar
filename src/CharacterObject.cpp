@@ -21,7 +21,10 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->attackHitBoxOffsetY = 0;
     this->attackHitBoxOffsetWidth =0;
     this->attackHitBoxOffsetHeight = 0;
-    this->const_x_offset=0;
+    this->right_x_offset_attack=0;
+    this->left_x_offset_attack=0;
+    this->right_x_offset_self =0;
+    this->left_x_offset_self =0;
     this->InitializeCharacter(Name,renderer);
     this->fluct_velx =0;
     this->fluct_vely =0;
@@ -70,10 +73,13 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
     //For Sanities sake while doing these.
     //TotalClip numbers parameter structure in CharacterTextures.
     //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
+
+    //NOTE:// For future development, remember that attackHitBoxOffsetX is controlled
     if(Name == "Horus")
     {
         CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,13,0,Name,renderer);
         this->char_textures = char_ptr;
+        ////////////////////////////////////////////
         this->char_textures->idleMod = 4;
         this->char_textures->jumpingMod = 2;
         this->char_textures->moveMod = 2;
@@ -81,9 +87,23 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 1;
         this->char_textures->fallingMod = 2;
         this->char_textures->attackRegJumpingMod=1;
-        this->const_x_offset = 9;
-        this->attackHitBoxOffsetHeight = -25;
-        this->attackHitBoxOffsetY = 28;
+        /////////////////////////////////////////////
+
+        this->right_x_offset_attack = 75;
+        this->left_x_offset_attack = 5;
+
+        this->right_x_offset_self = 45;
+        this->left_x_offset_self = 15;
+        /////////////////////////////////////////////
+        this->attackHitBoxOffsetHeight = -50;
+        this->attackHitBoxOffsetY = 40;
+        this->attackHitBoxOffsetWidth = -76;
+        this->selfHitBoxOffsetHeight = -25;
+        this->selfHitBoxOffsetY = 25;
+        this->selfHitBoxOffsetWidth = -60;
+
+        /////////////////////////////////////////////
+
         char_ptr = NULL;
         delete(char_ptr);
     }

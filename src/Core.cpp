@@ -922,11 +922,13 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         }
         if(p->lastDirection == "LEFT")
         {
-         p->attackHitBoxOffsetX=0;
+         p->attackHitBoxOffsetX=p->left_x_offset_attack;
+         p->selfHitBoxOffsetX = p->left_x_offset_self;
         }
         else if (p->lastDirection == "RIGHT")
         {
-            p->attackHitBoxOffsetX = p->const_x_offset;
+            p->attackHitBoxOffsetX = p->right_x_offset_attack;
+            p->selfHitBoxOffsetX = p->right_x_offset_self;
         }
 
     }
