@@ -817,31 +817,6 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
 
         //This part controls the collision detection between characters and platform objects.
         this->RunCollisionModule(CharScale,PlatformScale,stage);
-
-        //Test block for visualizing hit boxes.
-        for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-        {
-            /*if((*i)->character->self->isAlpha)
-            {
-                (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                                  (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-                SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                SDL_RenderDrawRect(this->renderer,(*i)->character->self->rect);
-                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-            }
-            if((*i)->character->attack->isAlpha)
-            {
-                (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                                    (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-                SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-                SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
-                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-            }*/
-               (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                                  (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-               (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                                    (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-        }
         //This part runs the entire physics and rendering systems for characters.
         this->RunCharacters(CharScale,PlatformScale,Tick);
         this->renderPresent();
@@ -896,6 +871,30 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
     {
         CharacterObject* p = (*i)->character;
 
+        //Test block for visualizing hit boxes.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if((*i)->character->self->isAlpha)
+        {
+            (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                              (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+            SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
+            SDL_RenderDrawRect(this->renderer,(*i)->character->self->rect);
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+        }
+        if((*i)->character->attack->isAlpha)
+        {
+            (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                                (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+            SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
+            SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+        }
+        (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                          (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+        (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                            (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
         {
             this->RunIdleModule(p,CharScale,Tick);
@@ -935,7 +934,6 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
             p->attackHitBoxOffsetX = p->right_x_offset_attack;
             p->selfHitBoxOffsetX = p->right_x_offset_self;
         }
-
     }
 }
 
