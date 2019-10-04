@@ -796,7 +796,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1570168765 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
+1570169820 source:c:\users\smokumsdebudicus\gameworkspace\holywar\src\core.cpp
 	"Core.h"
 	"MainMenuOptions.h"
 	"Level.h"

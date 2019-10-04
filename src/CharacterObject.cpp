@@ -64,8 +64,12 @@ void CharacterObject::InitializeHitBoxes(int scale)
                             this->posY, \
                             (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffsetWidth,\
                             (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffsetHeight);
-    this->self->isAlpha = true;   //This block is for testing hitboxes
-    this->attack->isAlpha = true;
+
+
+    //TEMP://
+    //This block is for testing hitboxes
+    //this->self->isAlpha = true;
+    //this->attack->isAlpha = true;
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
