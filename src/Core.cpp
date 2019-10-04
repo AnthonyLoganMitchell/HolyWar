@@ -771,6 +771,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     }
     //Place characters in initial positions in level.
     this->SetInitialCharacterPositions(stage);
+
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
         (*i)->character->InitializeHitBoxes(CharScale);
@@ -820,7 +821,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         //Test block for visualizing hit boxes.
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
         {
-            if((*i)->character->self->isAlpha)
+            /*if((*i)->character->self->isAlpha)
             {
                 (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
                                                   (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
@@ -835,7 +836,11 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
                 SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
                 SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-            }
+            }*/
+               (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                                  (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+               (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                                    (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
         }
         //This part runs the entire physics and rendering systems for characters.
         this->RunCharacters(CharScale,PlatformScale,Tick);
@@ -922,8 +927,8 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         }
         if(p->lastDirection == "LEFT")
         {
-         p->attackHitBoxOffsetX=p->left_x_offset_attack;
-         p->selfHitBoxOffsetX = p->left_x_offset_self;
+            p->attackHitBoxOffsetX=p->left_x_offset_attack;
+            p->selfHitBoxOffsetX = p->left_x_offset_self;
         }
         else if (p->lastDirection == "RIGHT")
         {
@@ -1839,19 +1844,17 @@ void Core::CoreShutdown()
     this->window        = NULL;
     this->renderer      = NULL;
     std::cout<<"In core shutdown_2."<<std::endl;
-    std::cout<<"In core shutdown_3."<<std::endl;
-    std::cout<<"In core shutdown_4."<<std::endl;
     delete(this->state);
-    std::cout<<"In core shutdown_5."<<std::endl;
+    std::cout<<"In core shutdown_3."<<std::endl;
     delete(this->data);
-    std::cout<<"In core shutdown_6."<<std::endl;
+    std::cout<<"In core shutdown_4."<<std::endl;
     for (PlayerObject* i : *this->players)
     {
         delete(i);
     }
-    std::cout<<"In core shutdown_8."<<std::endl;
+    std::cout<<"In core shutdown_5."<<std::endl;
     IMG_Quit();
-    std::cout<<"In core shutdown_9."<<std::endl;
+    std::cout<<"In core shutdown_6."<<std::endl;
     SDL_Quit();
-    std::cout<<"In core shutdown_10."<<std::endl;
+    std::cout<<"In core shutdown_7."<<std::endl;
 }

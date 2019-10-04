@@ -64,22 +64,25 @@ void CharacterObject::InitializeHitBoxes(int scale)
                             this->posY, \
                             (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffsetWidth,\
                             (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffsetHeight);
-    this->self->isAlpha = true;
-    this->attack->isAlpha = true;
+    /*this->self->isAlpha = true;   //This block is for testing hitboxes
+    this->attack->isAlpha = true;*/
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
 {
-    //For Sanities sake while doing these.
-    //TotalClip numbers parameter structure in CharacterTextures.
-    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
+    //NOTE:// For future development, remember that attackHitBoxOffsetX and
+    //selfHitBoxOffsetX are both controlled within the Core::RunCharacters function.
 
-    //NOTE:// For future development, remember that attackHitBoxOffsetX is controlled
+
+    //For Sanities sake while doing these.
+    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
     if(Name == "Horus")
     {
         CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,13,0,Name,renderer);
         this->char_textures = char_ptr;
+
         ////////////////////////////////////////////
+
         this->char_textures->idleMod = 4;
         this->char_textures->jumpingMod = 2;
         this->char_textures->moveMod = 2;
@@ -87,14 +90,19 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 1;
         this->char_textures->fallingMod = 2;
         this->char_textures->attackRegJumpingMod=1;
+
         /////////////////////////////////////////////
 
         this->right_x_offset_attack = 75;
         this->left_x_offset_attack = 5;
-
         this->right_x_offset_self = 45;
         this->left_x_offset_self = 15;
+        //TODO://
+        // Add up_y_offset_attack/self
+        // Add down_y_offset_attack/self
+
         /////////////////////////////////////////////
+
         this->attackHitBoxOffsetHeight = -50;
         this->attackHitBoxOffsetY = 40;
         this->attackHitBoxOffsetWidth = -76;
