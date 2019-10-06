@@ -68,8 +68,8 @@ void CharacterObject::InitializeHitBoxes(int scale)
 
     //TEMP://
     //This block is for testing hitboxes
-    //this->self->isAlpha = true;
-    //this->attack->isAlpha = true;
+    this->self->isAlpha = true;
+    this->attack->isAlpha = true;
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)

@@ -873,7 +873,7 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
 
         //Test block for visualizing hit boxes.
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*if((*i)->character->self->isAlpha)
+        if((*i)->character->self->isAlpha)
         {
             (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
                                               (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
@@ -888,7 +888,7 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
             SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
             SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-        }*/
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //This block will reposition hitbox every iteration This will remain.

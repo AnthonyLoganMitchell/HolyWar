@@ -9,7 +9,5 @@
 
 TODO List:
 #1 Start working on collision systems with combat.
-#2 Implement Smash attacks on each character attack.
+#2 Implement indivudal attack frame Smash attacks on each character.
 
-
-id also like to work on a system that would allow me to click and hold the attack button and it would take whatever animation you are on and do a smash attack with it.
