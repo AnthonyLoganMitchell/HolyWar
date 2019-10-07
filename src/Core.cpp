@@ -829,6 +829,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     }
 }
 
+//void Core::RunCombatCollisionModule()
 
 void Core::RunCollisionModule(int CharScale,int PlatformScale, Level* stage)
 {
@@ -873,29 +874,29 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
 
         //Test block for visualizing hit boxes.
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if((*i)->character->self->isAlpha)
+        if((*i)->character->selfBox->isAlpha)
         {
-            (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+            (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
                                               (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-            SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-            SDL_RenderDrawRect(this->renderer,(*i)->character->self->rect);
+            SDL_SetRenderDrawColor(this->renderer,0,0,0xFF,0);
+            SDL_RenderDrawRect(this->renderer,(*i)->character->selfBox->rect);
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
         }
-        if((*i)->character->attack->isAlpha)
+        if((*i)->character->attackBox->isAlpha)
         {
-            (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+            (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
                                                 (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-            SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-            SDL_RenderDrawRect(this->renderer,(*i)->character->attack->rect);
+            SDL_SetRenderDrawColor(this->renderer,0xFF,0,0,0);
+            SDL_RenderDrawRect(this->renderer,(*i)->character->attackBox->rect);
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //This block will reposition hitbox every iteration This will remain.
+        //This block will reposition hitboxs every iteration.
+        //This will remain here for now.
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        (*i)->character->self->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+        (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
                                           (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-        (*i)->character->attack->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+        (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
                                             (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -928,6 +929,12 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         {
             this->RunRegularAttackModule(p,CharScale,Tick);
         }
+        //TODO:// Add Strong attack animation section here.
+
+
+
+
+        //Logic for controlling hitbox offsets based on last direction faced
         if(p->lastDirection == "LEFT")
         {
             p->attackHitBoxOffsetX=p->left_x_offset_attack;
@@ -1446,7 +1453,7 @@ void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
                             }
                             for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
                             {
-                                if(!(*j)->isReady)
+                                if(!(*j)->isReady && (*j)->isActive)
                                 {
                                     break;
                                 }

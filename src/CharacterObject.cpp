@@ -41,11 +41,18 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
     this->jumpBlock = 0;
-    this->regAttackLastPress = SDL_GetTicks();
-    this->strongAttackLastPress = SDL_GetTicks();
+
+    this->regAttackLastPress = 0;
+    this->strongAttackLastPress = 0;
+    this->upPress =0;
+    this->downPress=0;
+    this->leftPress=0;
+    this->rightPress=0;
+
+
     this->lastDirection = "LEFT";
-    this->attack = NULL;
-    this->self = NULL;
+    this->attackBox = NULL;
+    this->selfBox = NULL;
 }
 
 CharacterObject::~CharacterObject()
@@ -55,12 +62,13 @@ CharacterObject::~CharacterObject()
 
 void CharacterObject::InitializeHitBoxes(int scale)
 {
-    this->attack = new Hitbox(this->posX,\
+    //TODO:// Delete from memory later
+    this->attackBox = new Hitbox(this->posX,\
                               this->posY,\
                               (this->char_textures->idleClips[0].w*scale)+this->attackHitBoxOffsetWidth,\
                               (this->char_textures->idleClips[0].h*scale)+this->attackHitBoxOffsetHeight);
-
-    this->self = new Hitbox(this->posX,\
+    //TODO:// Delete from memory later
+    this->selfBox = new Hitbox(this->posX,\
                             this->posY, \
                             (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffsetWidth,\
                             (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffsetHeight);
@@ -68,8 +76,8 @@ void CharacterObject::InitializeHitBoxes(int scale)
 
     //TEMP://
     //This block is for testing hitboxes
-    this->self->isAlpha = true;
-    this->attack->isAlpha = true;
+    this->selfBox->isAlpha = true;
+    this->attackBox->isAlpha = true;
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
@@ -79,7 +87,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 
 
     //For Sanities sake while doing these.
-    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,StrongAttackClips,Name,renderer)
+    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,RegularJumpingAttackclips,StrongAttackClips,Name,renderer)
     if(Name == "Horus")
     {
         CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,13,0,Name,renderer);
@@ -101,7 +109,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->left_x_offset_attack = 5;
         this->right_x_offset_self = 45;
         this->left_x_offset_self = 15;
-        //TODO://
+        //TODO:// These are for jumping attacks/self
         // Add up_y_offset_attack/self
         // Add down_y_offset_attack/self
 

@@ -26,8 +26,8 @@ public:
     int posY,fluct_vely;
     CharacterTexture* char_textures;
     //////////////////////////////////{Hitbox objects and offsets}
-    Hitbox* self;                  ///
-    Hitbox* attack;                ///
+    Hitbox* selfBox;               ///
+    Hitbox* attackBox;             ///
     int right_x_offset_attack;     ///
     int left_x_offset_attack;      ///
     int right_x_offset_self;       ///
@@ -52,8 +52,16 @@ public:
     int  regAttackCount;
     int  StrongAttackCount;
     int  jumpBlock;
-    Uint32 regAttackLastPress;
-    Uint32 strongAttackLastPress;
+
+    //Timing variables
+    ///////////////////////////////
+    Uint32 regAttackLastPress;   //
+    Uint32 strongAttackLastPress;//
+    Uint32 leftPress;            //
+    Uint32 rightPress;           //
+    Uint32 upPress;              //
+    Uint32 downPress;            //
+    ///////////////////////////////
     std::string lastDirection;
     //TODO: Future bools to add.
     //isJumpingAttackReg/isJumpingAttackStrong/isJumpingDownAttack/IsJumpingUpAttack
