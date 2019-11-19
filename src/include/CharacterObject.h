@@ -5,7 +5,7 @@
    *Unauthorized copying of this file, via any medium is strictly prohibited
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
-*/
+*///
 #ifndef CHARACTEROBJECT_H
 #define CHARACTEROBJECT_H
 #include "CharacterTexture.h"
