@@ -5,7 +5,7 @@
    *Unauthorized copying of this file, via any medium is strictly prohibited
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
-*///
+*/////
 #define  SDL_MAIN_HANDLED
 #include <SDL.h>
 #include "Core.h"
