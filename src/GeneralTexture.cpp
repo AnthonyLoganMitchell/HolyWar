@@ -70,7 +70,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     //Loading success flag
     if (t->name == "MainMenuLogo")
     {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_logo.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/text/main_menu_logo.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_logo.png\n" );
             return false;
@@ -86,7 +86,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "PentagramCursor")
     {
-        if(!this->loadGeneralTextureFromFile("rec/objects/symbols/pentagram_cursor.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/objects/symbols/pentagram_cursor.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: pentagram_cursor.png\n");
             return false;
@@ -103,7 +103,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     if (t->name == "FullMoonBlankSky")
     {
 
-        if (!this->loadGeneralTextureFromFile("rec/backgrounds/full_moon_blank_sky.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/backgrounds/full_moon_blank_sky.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: full_moon_blank_sky.png\n");
             return false;
@@ -120,7 +120,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     if (t->name == "BlankNightSky")
     {
 
-        if (!this->loadGeneralTextureFromFile("rec/backgrounds/blank_night_sky.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/backgrounds/blank_night_sky.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: blank_night_sky.png\n");
             return false;
@@ -137,7 +137,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "MountainMidground")
     {
-        if (!this->loadGeneralTextureFromFile("rec/midgrounds/mountain_midground.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/midgrounds/mountain_midground.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: mountain_midground\n");
             return false;
@@ -153,7 +153,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MidGroundBush")
     {
-        if (!this->loadGeneralTextureFromFile("rec/midgrounds/bush_midground.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/midgrounds/bush_midground.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: bush_midground\n" );
             return false;
@@ -169,7 +169,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MidGroundForest_1")
     {
-        if (!this->loadGeneralTextureFromFile("rec/midgrounds/forest_midground_1.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/midgrounds/forest_midground_1.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: forest_midground_1.png\n" );
             return false;
@@ -185,7 +185,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "SplashBackground")
     {
-        if (!this->loadGeneralTextureFromFile("rec/backgrounds/splash_background.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/backgrounds/splash_background.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: splash_background.png\n" );
             return false;
@@ -203,7 +203,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "StoneFloor")
     {
-        if (!this->loadGeneralTextureFromFile("rec/forgrounds/stone_floor.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/forgrounds/stone_floor.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: stone_floor.png\n" );
             return false;
@@ -220,7 +220,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MenuStartButton")
     {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_start_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/text/main_menu_start_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_start_button.png\n" );
             return false;
@@ -237,7 +237,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MenuBattleButton")
     {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_battle_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/text/main_menu_battle_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_battle_button.png\n" );
             return false;
@@ -254,7 +254,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MenuOptionsButton")
     {
-        if (!this->loadGeneralTextureFromFile("rec/text/main_menu_options_button.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/text/main_menu_options_button.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: main_menu_options_button.png\n" );
             return false;
@@ -271,7 +271,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MenuQuitButton")
     {
-        if(!this->loadGeneralTextureFromFile("rec/text/main_menu_quit_button.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/text/main_menu_quit_button.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: main_menu_quit_button.png\n");
             return false;
@@ -287,7 +287,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "Pentagram")
     {
-        if(!this->loadGeneralTextureFromFile("rec/objects/symbols/pentagram.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/objects/symbols/pentagram.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: pentagram.png\n");
             return false;
@@ -303,7 +303,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "CharacterSelectMenu")
     {
-        if(!this->loadGeneralTextureFromFile("rec/midgrounds/character_select_menu.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/midgrounds/character_select_menu.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: character_select_menu.png\n");
             return false;
@@ -319,7 +319,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MountainPrototypeSmall")
     {
-        if(!this->loadGeneralTextureFromFile("rec/level_avatars/mountain_avatar_small.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/level_avatars/mountain_avatar_small.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: mountain_avatar_small.png\n");
             return false;
@@ -335,7 +335,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "MountainPrototypeBig")
     {
-        if(!this->loadGeneralTextureFromFile("rec/level_avatars/mountain_avatar_big.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/level_avatars/mountain_avatar_big.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: mountain_avatar_big.png\n");
             return false;
@@ -354,7 +354,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "WoodTorch")
     {
-        if (!this->loadGeneralTextureFromFile("rec/animations/torch_wood.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/animations/torch_wood.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: torch_wood.png\n");
             return false;
@@ -400,7 +400,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "SteelTorch")
     {
-        if (!this->loadGeneralTextureFromFile("rec/animations/steel_wood.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/animations/steel_wood.png",t,renderer))
         {
             printf("Failed to load sprite sheet texture: steel_wood.png\n");
             return false;
@@ -446,7 +446,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "PineTree")
     {
-        if (!this->loadGeneralTextureFromFile("rec/animations/pine_tree_animation.png",t,renderer))
+        if (!this->loadGeneralTextureFromFile("../../rec/animations/pine_tree_animation.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: pine_tree_animation.png\n" );
             return false;
@@ -502,7 +502,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
     }
     if (t->name == "NumberStrip")
     {
-        if(!this->loadGeneralTextureFromFile("rec/text/number_strip.png",t,renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/text/number_strip.png",t,renderer))
         {
             printf( "Failed to load sprite sheet texture: number_strip.png\n" );
             return false;
@@ -564,7 +564,7 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
 
     if (t->name == "HorusCharacterSelect")
     {
-        if(!this->loadGeneralTextureFromFile("rec/animations/characters/horus_idle.png", t, renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/animations/characters/horus_idle.png", t, renderer))
         {
             printf( "Failed to load sprite sheet texture! horus_idle.png\n" );
             return false;
