@@ -1,3 +1,11 @@
+/* *CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
+   *Holy war is my personal programming project and all artwork
+   *and high level programming outside of SDL2 framework, openGL,
+   *and c++ api are my original work in progress.
+   *Unauthorized copying of this file, via any medium is strictly prohibited
+   *Proprietary and confidential
+   *Written by Logan Mitchell <loganmitchell2011@gmail.com>
+*/
 #include "Level.h"
 
 
@@ -14,6 +22,7 @@ Level::~Level()
 }
 void Level::InitLevelObjects(std::string name,SDL_Renderer* renderer)
 {
+    //TODO:// this is the prototyping level for testing.
     if(name == "mountain_top")
     {
         GeneralTexture* background = new GeneralTexture(1,"BlankNightSky",renderer);
@@ -27,6 +36,9 @@ void Level::InitLevelObjects(std::string name,SDL_Renderer* renderer)
         GeneralTexture* forground = new GeneralTexture(1,"StoneFloor",renderer);
         forground->SetXPos(0);
         forground->SetYPos((background->GetXPos()+background->GetHeight()*2)-forground->GetHeight()*2);
+        //TODO:// in future for this demo level add actual platforms to start on, which can overlap with the
+        //forground platform, in order to have everyone start on floor platform but in their own positions.
+        forground->isStartingPlatform = true;
         this->platforms->push_back(forground);
 
 

@@ -1,3 +1,11 @@
+/* *CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
+   *Holy war is my personal programming project and all artwork
+   *and high level programming outside of SDL2 framework, openGL,
+   *and c++ api are my original work in progress.
+   *Unauthorized copying of this file, via any medium is strictly prohibited
+   *Proprietary and confidential
+   *Written by Logan Mitchell <loganmitchell2011@gmail.com>
+*///
 #ifndef CORE_H
 #define CORE_H
 #include <SDL.h>
@@ -28,14 +36,22 @@ public:
     void CoreShutdown();
     void renderPresent();
     void renderClear();
-    void MainMenuRun(SDL_mutex*);
-    void CharacterSelectRun(SDL_mutex*);
-    void LevelSelectRun(SDL_mutex*);
-    void MatchRun(SDL_mutex*);
-    void RunSimulation(int,int,int);
-    void RunPlatCollisionDetect(int,int, Level*);
-    template<class T>
-    void ParseEvents(ThreadData* data,T* Modify,SDL_mutex*);
+
+    void RunMainMenu(SDL_mutex*);
+    void RunCharacterSelect(SDL_mutex*);
+    void RunLevelSelect(SDL_mutex*);
+    void RunMatch(SDL_mutex*);
+    void RunCharacters(int,int,int);
+    void RunCollisionModule(int,int, Level*);
+    void RunRegularAttackModule(CharacterObject*,int,int);
+    void RunIdleModule(CharacterObject*,int,int);
+    void RunMoveModule(CharacterObject*,int,int);
+    void RunFallingModule(CharacterObject*,int,int);
+    void RunJumpingModule(CharacterObject*,int,int);
+    void RunJumpFallTransitionModule(CharacterObject*,int,int);
+    void SetInitialCharacterPositions(Level*);
+
+    void ParseEvents(ThreadData* data,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
     bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
     static int EventHandler(void*);
