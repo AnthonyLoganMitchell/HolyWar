@@ -101,7 +101,7 @@ bool Core::CoreInit()
 
             //Add sdl2 controller mapping database.
 
-            int maps = SDL_GameControllerAddMappingsFromFile("rec/controller_maps/gamecontrollerdb.txt");
+            int maps = SDL_GameControllerAddMappingsFromFile("../../rec/controller_maps/gamecontrollerdb.txt");
             if (maps == -1)
             {
                 std::cout << "Warning: No joystick mappings loaded from database!" << std::endl;
@@ -759,6 +759,9 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     int Tick =0;
     int CharScale = 2;
     int PlatformScale = 2;
+    float accumulator = 0.0f;
+    const int UPDATE_FREQENCY = 60;
+    const float CYCLE_TIME = 1.0f / UPDATE_FREQENCY;
     if(this->state->levelName == "")
     {
         exit(EXIT_FAILURE);
