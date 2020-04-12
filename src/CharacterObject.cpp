@@ -95,12 +95,12 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 
         ////////////////////////////////////////////
 
-        this->char_textures->idleMod = 20;
+        this->char_textures->idleMod = 50;
         this->char_textures->jumpingMod = 20;
         this->char_textures->moveMod = 20;
-        this->char_textures->attackRegMod = 10;
-        this->char_textures->attackRegMod2 = 10;
-        this->char_textures->fallingMod = 20;
+        this->char_textures->attackRegMod = 11;
+        this->char_textures->attackRegMod2 = 11;
+        this->char_textures->fallingMod = 40;
         this->char_textures->attackRegJumpingMod=20;
 
         /////////////////////////////////////////////
@@ -136,7 +136,7 @@ void CharacterObject::Move(int Tick)
     {
         if(this->isJumping || this->isFalling)
         {
-            if (Tick % 20 == 0)
+            if (Tick % 35 == 0)
             {
              this->CalculateGravity();
             }
@@ -147,8 +147,11 @@ void CharacterObject::Move(int Tick)
             this->isJumping = false;
         }
     }
-    this->posY += this->fluct_vely;
-    this->posX += this->fluct_velx;
+    if (Tick % 2 == 0)
+    {
+        this->posY += this->fluct_vely;
+        this->posX += this->fluct_velx;
+    }
 }
 
 void CharacterObject::CalculateGravity()
