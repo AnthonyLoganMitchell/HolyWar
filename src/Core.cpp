@@ -11,6 +11,8 @@
 #include "Level.h"
 #include <vector>
 #include <string>
+#include "Timer.h"
+#include <SDL.h>
 
 
 Core::Core()
@@ -759,9 +761,17 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     int Tick =0;
     int CharScale = 2;
     int PlatformScale = 2;
-    float accumulator = 0.0f;
-    const int UPDATE_FREQENCY = 60;
-    const float CYCLE_TIME = 1.0f / UPDATE_FREQENCY;
+
+    int MAXIMUM_FRAME_RATE = 60;
+    int MINIMUM_FRAME_RATE = 30;
+    float UPDATE_INTERVAL = (1.0 / MAXIMUM_FRAME_RATE);
+    float MAX_CYCLES_PER_FRAME = (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE);
+    static double lastFrameTime = 0.0;
+    static double cyclesLeftOver = 0.0;
+    double currentTime;
+    double updateIterations;
+
+
     if(this->state->levelName == "")
     {
         exit(EXIT_FAILURE);
@@ -781,6 +791,12 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     }
     while(this->state->onRunningMatch)
     {
+        currentTime = SDL_GetTicks();
+        updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
+        if (updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL))
+        {
+            updateIterations = (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL);
+        }
         if(EntryAlphaFlag)
         {
             for(int j = 0; j<256; j++)
@@ -817,13 +833,18 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         }
 
         //TODO:// Will run collision detection between character combat here.
+        while (updateIterations > UPDATE_INTERVAL) {
+            updateIterations -= UPDATE_INTERVAL;
+            //This part controls the collision detection between characters and platform objects.
+            this->RunCollisionModule(CharScale,PlatformScale,stage);
+            //This part runs the entire physics and rendering systems for characters.
+            this->RunCharacters(CharScale,PlatformScale,Tick);
 
-        //This part controls the collision detection between characters and platform objects.
-        this->RunCollisionModule(CharScale,PlatformScale,stage);
-        //This part runs the entire physics and rendering systems for characters.
-        this->RunCharacters(CharScale,PlatformScale,Tick);
+        }
+        cyclesLeftOver = updateIterations;
+        lastFrameTime = currentTime;
         this->renderPresent();
-        SDL_Delay(30);
+        SDL_Delay(1);
         Tick++;
         if (Tick == 1000)
         {
@@ -880,7 +901,7 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         if((*i)->character->selfBox->isAlpha)
         {
             (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                              (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+                                                 (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
             SDL_SetRenderDrawColor(this->renderer,0,0,0xFF,0);
             SDL_RenderDrawRect(this->renderer,(*i)->character->selfBox->rect);
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
@@ -888,7 +909,7 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         if((*i)->character->attackBox->isAlpha)
         {
             (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                                (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+                                                   (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
             SDL_SetRenderDrawColor(this->renderer,0xFF,0,0,0);
             SDL_RenderDrawRect(this->renderer,(*i)->character->attackBox->rect);
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
@@ -898,9 +919,9 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         //This will remain here for now.
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                          (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+                                             (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
         (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                            (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+                                               (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
@@ -1038,7 +1059,7 @@ void Core::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick)
         {
             p->char_textures->TickFrameCount();
         }
-        p->Move();
+        p->Move(Tick);
     }
 }
 
@@ -1063,7 +1084,7 @@ void Core::RunIdleModule(CharacterObject* p,int CharScale,int Tick)
     {
         p->char_textures->TickFrameCount();
     }
-    p->Move();
+    p->Move(Tick);
 }
 
 void Core::RunMoveModule(CharacterObject* p, int CharScale, int Tick)
@@ -1086,7 +1107,7 @@ void Core::RunMoveModule(CharacterObject* p, int CharScale, int Tick)
     {
         p->char_textures->TickFrameCount();
     }
-    p->Move();
+    p->Move(Tick);
 }
 
 void Core::RunFallingModule(CharacterObject* p, int CharScale, int Tick)
@@ -1109,7 +1130,7 @@ void Core::RunFallingModule(CharacterObject* p, int CharScale, int Tick)
     {
         p->char_textures->TickFrameCount();
     }
-    p->Move();
+    p->Move(Tick);
 }
 
 void Core::RunJumpingModule(CharacterObject *p, int CharScale, int Tick)
@@ -1145,7 +1166,7 @@ void Core::RunJumpingModule(CharacterObject *p, int CharScale, int Tick)
     {
         p->char_textures->TickFrameCount();
     }
-    p->Move();
+    p->Move(Tick);
 }
 void Core ::RunJumpFallTransitionModule(CharacterObject* p, int CharScale, int Tick)
 {
@@ -1181,7 +1202,7 @@ void Core ::RunJumpFallTransitionModule(CharacterObject* p, int CharScale, int T
     {
         p->char_textures->TickFrameCount();
     }
-    p->Move();
+    p->Move(Tick);
 }
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
