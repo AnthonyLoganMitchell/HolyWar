@@ -17,11 +17,11 @@ public:
     CharacterObject(std::string,int8_t,SDL_Renderer*);
     virtual ~CharacterObject();
     void InitializeCharacter(std::string Name,SDL_Renderer*);
-    void Move();
+    void Move(int);
     void CalculateGravity();
     void InitializeHitBoxes(int);
-    const int moveVelX = 13;
-    const int moveVelY = 30;
+    const int moveVelX = 2;
+    const int moveVelY = 5;
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;

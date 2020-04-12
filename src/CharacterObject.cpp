@@ -95,13 +95,13 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 
         ////////////////////////////////////////////
 
-        this->char_textures->idleMod = 4;
-        this->char_textures->jumpingMod = 2;
-        this->char_textures->moveMod = 2;
-        this->char_textures->attackRegMod = 1;
-        this->char_textures->attackRegMod2 = 1;
-        this->char_textures->fallingMod = 2;
-        this->char_textures->attackRegJumpingMod=1;
+        this->char_textures->idleMod = 50;
+        this->char_textures->jumpingMod = 20;
+        this->char_textures->moveMod = 20;
+        this->char_textures->attackRegMod = 11;
+        this->char_textures->attackRegMod2 = 11;
+        this->char_textures->fallingMod = 40;
+        this->char_textures->attackRegJumpingMod=20;
 
         /////////////////////////////////////////////
 
@@ -129,14 +129,17 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
     }
 }
 
-void CharacterObject::Move()
+void CharacterObject::Move(int Tick)
 {
 
     if(!this->isColliding)
     {
         if(this->isJumping || this->isFalling)
         {
-            this->CalculateGravity();
+            if (Tick % 35 == 0)
+            {
+             this->CalculateGravity();
+            }
         }
         if(this->fluct_vely >=0)
         {
@@ -144,11 +147,14 @@ void CharacterObject::Move()
             this->isJumping = false;
         }
     }
-    this->posY += this->fluct_vely;
-    this->posX += this->fluct_velx;
+    if (Tick % 2 == 0)
+    {
+        this->posY += this->fluct_vely;
+        this->posX += this->fluct_velx;
+    }
 }
 
 void CharacterObject::CalculateGravity()
 {
-    this->fluct_vely+=2;
+    this->fluct_vely+=1;
 }
