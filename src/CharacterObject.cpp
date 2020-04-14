@@ -38,6 +38,8 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isHoldingStrong =false;
     this->isColliding = false;
     this->isAttackingReg = false;
+    this->isRunning = false;
+    this->wasRunningWhenJump = false;
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
     this->jumpBlock = 0;
@@ -97,7 +99,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
 
         this->char_textures->idleMod = 50;
         this->char_textures->jumpingMod = 20;
-        this->char_textures->moveMod = 20;
+        this->char_textures->moveMod = 30;
         this->char_textures->attackRegMod = 11;
         this->char_textures->attackRegMod2 = 11;
         this->char_textures->fallingMod = 40;
