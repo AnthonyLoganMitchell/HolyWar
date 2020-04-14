@@ -10,5 +10,5 @@
 TODO List:
 #1 Add run texture horus, run-jump/run-fall physics.
 #2 Start working on collision systems with combat.
-#3 Implement indivudal attack frame Smash attacks on each character.
+#3 Implement individual attack frame Smash attacks on each character.
 
