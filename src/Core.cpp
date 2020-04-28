@@ -188,7 +188,7 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
     {
         if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
-            for (int i=0; i<256; i++)
+            for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
                 this->ParseEvents(this->data,mutex);
                 this->renderClear();
@@ -236,7 +236,7 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
 
         if(this->state->transition)
         {
-            for(int i = 255; i>=0; i--)
+            for(int i = 255; i>=0; i-=10) //TODO change back to slower value in production.
             {
                 this->ParseEvents(this->data,mutex);
                 alphaFlag = false;
@@ -326,7 +326,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
 
         if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
-            for (int i=0; i<256; i++)
+            for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
                 this->ParseEvents(this->data,mutex);
                 this->renderClear();
@@ -514,7 +514,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
         SDL_Delay(25);
     }
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-    for (int i=255; i>=0; i--)
+    for (int i=255; i>=0; i-=10)
     {
         //this->ParseEvents(this->data,mutex);
         this->renderClear();
@@ -578,7 +578,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
     {
         if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
-            for (int i=0; i<256; i++)
+            for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
                 this->ParseEvents(this->data,mutex);
                 this->renderClear();
@@ -734,7 +734,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
     }
     this->state->transition = true;
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-    for (int i=255; i>=0; i--)
+    for (int i=255; i>=0; i-=10) //TODO change back to slower value in production.
     {
         this->ParseEvents(this->data,mutex);
         this->renderClear();
@@ -799,7 +799,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         }
         if(EntryAlphaFlag)
         {
-            for(int j = 0; j<256; j++)
+            for(int j = 0; j<256; j+=10)
             {
                 //this->ParseEvents(this->data,parse_mutex);
                 this->renderClear();

@@ -561,12 +561,12 @@ bool GeneralTexture::loadMedia(GeneralTexture *t, SDL_Renderer* renderer)
             return true;
         }
     }
-
+    //Character Idle Portraits are loaded in here.
     if (t->name == "HorusCharacterSelect")
     {
-        if(!this->loadGeneralTextureFromFile("../../rec/animations/characters/horus_idle.png", t, renderer))
+        if(!this->loadGeneralTextureFromFile("../../rec/animations/characters/horus/horus_idle.png", t, renderer))
         {
-            printf( "Failed to load sprite sheet texture! horus_idle.png\n" );
+            printf( "Failed to load sprite sheet texture! GeneralTexture.cpp :horus_idle.png\n" );
             return false;
         }
         else

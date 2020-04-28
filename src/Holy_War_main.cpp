@@ -15,6 +15,7 @@ SDL_mutex* parse_mutex;
 
 int main( int argc, char* args[] )
 {
+    char pause;
     parse_mutex = SDL_CreateMutex();
     Core *CoreGame = new Core();
     CoreGame->data->parse_mutex = parse_mutex;
@@ -69,5 +70,6 @@ int main( int argc, char* args[] )
     std::cout <<"PreCore shutdown."<<std::endl;
     CoreGame->CoreShutdown();
     std::cout <<"PostCore shutdown."<<std::endl;
+    std::cin >> pause;
     return 0;
 }
