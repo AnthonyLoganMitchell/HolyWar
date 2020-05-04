@@ -289,7 +289,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->idleClips[17].w =79;
             t->idleClips[17].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_movement_prototype.png", t, renderer,"M"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_movement.png", t, renderer,"M"))
         {
             printf( "Failed to load sprite sheet texture! horus_movement_prototype.png\n" );
             return false;
@@ -381,7 +381,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->movementClips[16].w =80;
             t->movementClips[16].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jump_prototype.png", t, renderer,"J"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jump.png", t, renderer,"J"))
         {
             printf( "Failed to load sprite sheet texture! horus_jump_prototype.png\n" );
             return false;
@@ -443,7 +443,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->jumpingClips[10].w =80;
             t->jumpingClips[10].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_falling_prototype.png", t, renderer, "F"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_falling.png", t, renderer, "F"))
         {
             printf( "Failed to load sprite sheet texture! horus_falling_prototype.png\n" );
             return false;
@@ -480,7 +480,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->fallingClips[5].w =85;
             t->fallingClips[5].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_1_prototype.png", t, renderer, "A"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_1.png", t, renderer, "A"))
         {
             printf( "Failed to load sprite sheet texture! horus_reg_attack_1_prototype.png\n" );
             return false;
@@ -557,7 +557,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->attackRegularClips[13].w =85;
             t->attackRegularClips[13].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_2_prototype.png", t, renderer,"A2"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_2.png", t, renderer,"A2"))
         {
             printf( "Failed to load sprite sheet texture! horus_reg_attack_2_prototype.png\n" );
             return false;
@@ -644,7 +644,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             t->attackRegularClips2[15].w =85;
             t->attackRegularClips2[15].h =65;
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jumping_regular_attack_prototype.png", t, renderer,"JA"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jumping_regular_attack.png", t, renderer,"JA"))
         {
             printf( "Failed to load sprite sheet texture! horus_jumping_regular_attack_prototype.png\n" );
             return false;
