@@ -32,7 +32,7 @@ public:
     int  GetMoveingClipCount();
     int  GetRegularAttackClipCount();
     int  GetRegularAttackClipCount2();
-    int  GetJumpingRegularAttackClickCount();
+    int  GetJumpingRegularAttackClipCount();
     int  GetStrongClipCount();
     //These functions are generic and abstract in base class//
     int  GetWidth();

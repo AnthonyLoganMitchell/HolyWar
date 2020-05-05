@@ -1040,7 +1040,7 @@ void Core::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick)
     }
     else
     {
-        if(p->char_textures->GetFrameCount() >= p->char_textures->GetJumpingRegularAttackClickCount())
+        if(p->char_textures->GetFrameCount() >= p->char_textures->GetJumpingRegularAttackClipCount())
         {
             p->char_textures->SetFrameCount(0);
             p->isAttackingReg = false;

@@ -199,522 +199,125 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
         }
         else
         {
-            t->idleClips[0].x =1;
-            t->idleClips[0].y =1;
-            t->idleClips[0].w =79;
-            t->idleClips[0].h =65;
-
-            t->idleClips[1].x =81;
-            t->idleClips[1].y =1;
-            t->idleClips[1].w =79;
-            t->idleClips[1].h =65;
-
-            t->idleClips[2].x =161;
-            t->idleClips[2].y =1;
-            t->idleClips[2].w =79;
-            t->idleClips[2].h =65;
-
-            t->idleClips[3].x =241;
-            t->idleClips[3].y =1;
-            t->idleClips[3].w =79;
-            t->idleClips[3].h =65;
-
-            t->idleClips[4].x =321;
-            t->idleClips[4].y =1;
-            t->idleClips[4].w =79;
-            t->idleClips[4].h =65;
-
-            t->idleClips[5].x =401;
-            t->idleClips[5].y =1;
-            t->idleClips[5].w =79;
-            t->idleClips[5].h =65;
-
-            t->idleClips[6].x =481;
-            t->idleClips[6].y =1;
-            t->idleClips[6].w =79;
-            t->idleClips[6].h =65;
-
-            t->idleClips[7].x =561;
-            t->idleClips[7].y =1;
-            t->idleClips[7].w =79;
-            t->idleClips[7].h =65;
-
-            t->idleClips[8].x =641;
-            t->idleClips[8].y =1;
-            t->idleClips[8].w =79;
-            t->idleClips[8].h =65;
-
-            t->idleClips[9].x =721;
-            t->idleClips[9].y =1;
-            t->idleClips[9].w =79;
-            t->idleClips[9].h =65;
-
-            t->idleClips[10].x =801;
-            t->idleClips[10].y =1;
-            t->idleClips[10].w =79;
-            t->idleClips[10].h =65;
-
-            t->idleClips[11].x =881;
-            t->idleClips[11].y =1;
-            t->idleClips[11].w =79;
-            t->idleClips[11].h =65;
-
-            t->idleClips[12].x =961;
-            t->idleClips[12].y =1;
-            t->idleClips[12].w =79;
-            t->idleClips[12].h =65;
-
-            t->idleClips[13].x =1041;
-            t->idleClips[13].y =1;
-            t->idleClips[13].w =79;
-            t->idleClips[13].h =65;
-
-            t->idleClips[14].x =1121;
-            t->idleClips[14].y =1;
-            t->idleClips[14].w =79;
-            t->idleClips[14].h =65;
-
-            t->idleClips[15].x =1201;
-            t->idleClips[15].y =1;
-            t->idleClips[15].w =79;
-            t->idleClips[15].h =65;
-
-            t->idleClips[16].x =1281;
-            t->idleClips[16].y =1;
-            t->idleClips[16].w =79;
-            t->idleClips[16].h =65;
-
-            t->idleClips[17].x =1361;
-            t->idleClips[17].y =1;
-            t->idleClips[17].w =79;
-            t->idleClips[17].h =65;
+            int width = 79;
+            int x_pos = 1;
+            for (int i =0; i<18; i++)
+            {
+                t->idleClips[i].x = x_pos;
+                t->idleClips[i].y =1;
+                t->idleClips[i].w =79;
+                t->idleClips[i].h =65;
+                x_pos = x_pos + width + 1;
+            }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_movement.png", t, renderer,"M"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_walk.png", t, renderer,"M"))
         {
-            printf( "Failed to load sprite sheet texture! horus_movement_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_walk.png\n" );
             return false;
         }
         else
         {
-            t->movementClips[0].x =1;
-            t->movementClips[0].y =1;
-            t->movementClips[0].w =80;
-            t->movementClips[0].h =65;
-
-            t->movementClips[1].x =81;
-            t->movementClips[1].y =1;
-            t->movementClips[1].w =80;
-            t->movementClips[1].h =65;
-
-            t->movementClips[2].x =161;
-            t->movementClips[2].y =1;
-            t->movementClips[2].w =80;
-            t->movementClips[2].h =65;
-
-            t->movementClips[3].x =241;
-            t->movementClips[3].y =1;
-            t->movementClips[3].w =80;
-            t->movementClips[3].h =65;
-
-            t->movementClips[4].x =321;
-            t->movementClips[4].y =1;
-            t->movementClips[4].w =80;
-            t->movementClips[4].h =65;
-
-            t->movementClips[5].x =401;
-            t->movementClips[5].y =1;
-            t->movementClips[5].w =80;
-            t->movementClips[5].h =65;
-
-            t->movementClips[6].x =481;
-            t->movementClips[6].y =1;
-            t->movementClips[6].w =80;
-            t->movementClips[6].h =65;
-
-            t->movementClips[7].x =561;
-            t->movementClips[7].y =1;
-            t->movementClips[7].w =80;
-            t->movementClips[7].h =65;
-
-            t->movementClips[8].x =641;
-            t->movementClips[8].y =1;
-            t->movementClips[8].w =80;
-            t->movementClips[8].h =65;
-
-            t->movementClips[9].x =721;
-            t->movementClips[9].y =1;
-            t->movementClips[9].w =80;
-            t->movementClips[9].h =65;
-
-            t->movementClips[10].x =801;
-            t->movementClips[10].y =1;
-            t->movementClips[10].w =80;
-            t->movementClips[10].h =65;
-
-            t->movementClips[11].x =881;
-            t->movementClips[11].y =1;
-            t->movementClips[11].w =80;
-            t->movementClips[11].h =65;
-
-            t->movementClips[12].x =961;
-            t->movementClips[12].y =1;
-            t->movementClips[12].w =80;
-            t->movementClips[12].h =65;
-
-            t->movementClips[13].x =1041;
-            t->movementClips[13].y =1;
-            t->movementClips[13].w =80;
-            t->movementClips[13].h =65;
-
-            t->movementClips[14].x =1121;
-            t->movementClips[14].y =1;
-            t->movementClips[14].w =80;
-            t->movementClips[14].h =65;
-
-            t->movementClips[15].x =1201;
-            t->movementClips[15].y =1;
-            t->movementClips[15].w =80;
-            t->movementClips[15].h =65;
-
-            t->movementClips[16].x =1281;
-            t->movementClips[16].y =1;
-            t->movementClips[16].w =80;
-            t->movementClips[16].h =65;
+            int width = 80;
+            int x_pos = 1;
+            for (int i = 0; i<17; i++)
+            {
+                t->movementClips[i].x = x_pos;
+                t->movementClips[i].y =1;
+                t->movementClips[i].w =80;
+                t->movementClips[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jump.png", t, renderer,"J"))
         {
-            printf( "Failed to load sprite sheet texture! horus_jump_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_jump.png\n" );
             return false;
         }
         else
         {
-            t->jumpingClips[0].x =1;
-            t->jumpingClips[0].y =1;
-            t->jumpingClips[0].w =80;
-            t->jumpingClips[0].h =65;
-
-            t->jumpingClips[1].x =81;
-            t->jumpingClips[1].y =1;
-            t->jumpingClips[1].w =80;
-            t->jumpingClips[1].h =65;
-
-            t->jumpingClips[2].x =161;
-            t->jumpingClips[2].y =1;
-            t->jumpingClips[2].w =80;
-            t->jumpingClips[2].h =65;
-
-            t->jumpingClips[3].x =241;
-            t->jumpingClips[3].y =1;
-            t->jumpingClips[3].w =80;
-            t->jumpingClips[3].h =65;
-
-            t->jumpingClips[4].x =321;
-            t->jumpingClips[4].y =1;
-            t->jumpingClips[4].w =80;
-            t->jumpingClips[4].h =65;
-
-            t->jumpingClips[5].x =401;
-            t->jumpingClips[5].y =1;
-            t->jumpingClips[5].w =80;
-            t->jumpingClips[5].h =65;
-
-            t->jumpingClips[6].x =481;
-            t->jumpingClips[6].y =1;
-            t->jumpingClips[6].w =80;
-            t->jumpingClips[6].h =65;
-
-            t->jumpingClips[7].x =561;
-            t->jumpingClips[7].y =1;
-            t->jumpingClips[7].w =80;
-            t->jumpingClips[7].h =65;
-
-            t->jumpingClips[8].x =641;
-            t->jumpingClips[8].y =1;
-            t->jumpingClips[8].w =80;
-            t->jumpingClips[8].h =65;
-
-            t->jumpingClips[9].x =721;
-            t->jumpingClips[9].y =1;
-            t->jumpingClips[9].w =80;
-            t->jumpingClips[9].h =65;
-
-            t->jumpingClips[10].x =801;
-            t->jumpingClips[10].y =1;
-            t->jumpingClips[10].w =80;
-            t->jumpingClips[10].h =65;
+            int width = 80;
+            int x_pos = 1;
+            for (int i = 0; i<11; i++)
+            {
+                t->jumpingClips[i].x = x_pos;
+                t->jumpingClips[i].y =1;
+                t->jumpingClips[i].w =80;
+                t->jumpingClips[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_falling.png", t, renderer, "F"))
         {
-            printf( "Failed to load sprite sheet texture! horus_falling_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_falling.png\n" );
             return false;
         }
         else
         {
-            t->fallingClips[0].x =1;
-            t->fallingClips[0].y =1;
-            t->fallingClips[0].w =85;
-            t->fallingClips[0].h =65;
-
-            t->fallingClips[1].x =86;
-            t->fallingClips[1].y =1;
-            t->fallingClips[1].w =85;
-            t->fallingClips[1].h =65;
-
-            t->fallingClips[2].x =171;
-            t->fallingClips[2].y =1;
-            t->fallingClips[2].w =85;
-            t->fallingClips[2].h =65;
-
-            t->fallingClips[3].x =256;
-            t->fallingClips[3].y =1;
-            t->fallingClips[3].w =85;
-            t->fallingClips[3].h =65;
-
-            t->fallingClips[4].x =341;
-            t->fallingClips[4].y =1;
-            t->fallingClips[4].w =85;
-            t->fallingClips[4].h =65;
-
-            t->fallingClips[5].x =426;
-            t->fallingClips[5].y =1;
-            t->fallingClips[5].w =85;
-            t->fallingClips[5].h =65;
+            int width = 85;
+            int x_pos = 1;
+            for (int i = 0; i<6; i++)
+            {
+                t->fallingClips[i].x = x_pos;
+                t->fallingClips[i].y =1;
+                t->fallingClips[i].w =85;
+                t->fallingClips[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_1.png", t, renderer, "A"))
         {
-            printf( "Failed to load sprite sheet texture! horus_reg_attack_1_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_reg_attack_1.png\n" );
             return false;
         }
         else
         {
-            t->attackRegularClips[0].x =1;
-            t->attackRegularClips[0].y =1;
-            t->attackRegularClips[0].w =85;
-            t->attackRegularClips[0].h =65;
 
-            t->attackRegularClips[1].x =86;
-            t->attackRegularClips[1].y =1;
-            t->attackRegularClips[1].w =85;
-            t->attackRegularClips[1].h =65;
-
-            t->attackRegularClips[2].x =171;
-            t->attackRegularClips[2].y =1;
-            t->attackRegularClips[2].w =85;
-            t->attackRegularClips[2].h =65;
-
-            t->attackRegularClips[3].x =256;
-            t->attackRegularClips[3].y =1;
-            t->attackRegularClips[3].w =85;
-            t->attackRegularClips[3].h =65;
-
-            t->attackRegularClips[4].x =341;
-            t->attackRegularClips[4].y =1;
-            t->attackRegularClips[4].w =85;
-            t->attackRegularClips[4].h =65;
-
-            t->attackRegularClips[5].x =426;
-            t->attackRegularClips[5].y =1;
-            t->attackRegularClips[5].w =85;
-            t->attackRegularClips[5].h =65;
-
-            t->attackRegularClips[6].x =511;
-            t->attackRegularClips[6].y =1;
-            t->attackRegularClips[6].w =85;
-            t->attackRegularClips[6].h =65;
-
-            t->attackRegularClips[7].x =596;
-            t->attackRegularClips[7].y =1;
-            t->attackRegularClips[7].w =85;
-            t->attackRegularClips[7].h =65;
-
-            t->attackRegularClips[8].x =681;
-            t->attackRegularClips[8].y =1;
-            t->attackRegularClips[8].w =85;
-            t->attackRegularClips[8].h =65;
-
-            t->attackRegularClips[9].x =766;
-            t->attackRegularClips[9].y =1;
-            t->attackRegularClips[9].w =85;
-            t->attackRegularClips[9].h =65;
-
-            t->attackRegularClips[10].x =851;
-            t->attackRegularClips[10].y =1;
-            t->attackRegularClips[10].w =85;
-            t->attackRegularClips[10].h =65;
-
-            t->attackRegularClips[11].x =936;
-            t->attackRegularClips[11].y =1;
-            t->attackRegularClips[11].w =85;
-            t->attackRegularClips[11].h =65;
-
-            t->attackRegularClips[12].x =1021;
-            t->attackRegularClips[12].y =1;
-            t->attackRegularClips[12].w =85;
-            t->attackRegularClips[12].h =65;
-
-            t->attackRegularClips[13].x =1106;
-            t->attackRegularClips[13].y =1;
-            t->attackRegularClips[13].w =85;
-            t->attackRegularClips[13].h =65;
+            int width = 85;
+            int x_pos = 1;
+            for (int i = 0; i<14; i++)
+            {
+                t->attackRegularClips[i].x = x_pos;
+                t->attackRegularClips[i].y =1;
+                t->attackRegularClips[i].w =85;
+                t->attackRegularClips[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_2.png", t, renderer,"A2"))
         {
-            printf( "Failed to load sprite sheet texture! horus_reg_attack_2_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_reg_attack_2.png\n" );
             return false;
         }
         else
         {
-            t->attackRegularClips2[0].x =1;
-            t->attackRegularClips2[0].y =1;
-            t->attackRegularClips2[0].w =85;
-            t->attackRegularClips2[0].h =65;
-
-            t->attackRegularClips2[1].x =86;
-            t->attackRegularClips2[1].y =1;
-            t->attackRegularClips2[1].w =85;
-            t->attackRegularClips2[1].h =65;
-
-            t->attackRegularClips2[2].x =171;
-            t->attackRegularClips2[2].y =1;
-            t->attackRegularClips2[2].w =85;
-            t->attackRegularClips2[2].h =65;
-
-            t->attackRegularClips2[3].x =256;
-            t->attackRegularClips2[3].y =1;
-            t->attackRegularClips2[3].w =85;
-            t->attackRegularClips2[3].h =65;
-
-            t->attackRegularClips2[4].x =341;
-            t->attackRegularClips2[4].y =1;
-            t->attackRegularClips2[4].w =85;
-            t->attackRegularClips2[4].h =65;
-
-            t->attackRegularClips2[5].x =426;
-            t->attackRegularClips2[5].y =1;
-            t->attackRegularClips2[5].w =85;
-            t->attackRegularClips2[5].h =65;
-
-            t->attackRegularClips2[6].x =511;
-            t->attackRegularClips2[6].y =1;
-            t->attackRegularClips2[6].w =85;
-            t->attackRegularClips2[6].h =65;
-
-            t->attackRegularClips2[7].x =596;
-            t->attackRegularClips2[7].y =1;
-            t->attackRegularClips2[7].w =85;
-            t->attackRegularClips2[7].h =65;
-
-            t->attackRegularClips2[8].x =681;
-            t->attackRegularClips2[8].y =1;
-            t->attackRegularClips2[8].w =85;
-            t->attackRegularClips2[8].h =65;
-
-            t->attackRegularClips2[9].x =766;
-            t->attackRegularClips2[9].y =1;
-            t->attackRegularClips2[9].w =85;
-            t->attackRegularClips2[9].h =65;
-
-            t->attackRegularClips2[10].x =851;
-            t->attackRegularClips2[10].y =1;
-            t->attackRegularClips2[10].w =85;
-            t->attackRegularClips2[10].h =65;
-
-            t->attackRegularClips2[11].x =936;
-            t->attackRegularClips2[11].y =1;
-            t->attackRegularClips2[11].w =85;
-            t->attackRegularClips2[11].h =65;
-
-            t->attackRegularClips2[12].x =1021;
-            t->attackRegularClips2[12].y =1;
-            t->attackRegularClips2[12].w =85;
-            t->attackRegularClips2[12].h =65;
-
-            t->attackRegularClips2[13].x =1106;
-            t->attackRegularClips2[13].y =1;
-            t->attackRegularClips2[13].w =85;
-            t->attackRegularClips2[13].h =65;
-
-            t->attackRegularClips2[14].x =1191;
-            t->attackRegularClips2[14].y =1;
-            t->attackRegularClips2[14].w =85;
-            t->attackRegularClips2[14].h =65;
-
-            t->attackRegularClips2[15].x =1276;
-            t->attackRegularClips2[15].y =1;
-            t->attackRegularClips2[15].w =85;
-            t->attackRegularClips2[15].h =65;
+            int width = 85;
+            int x_pos = 1;
+            for (int i = 0; i<16; i++)
+            {
+                t->attackRegularClips2[i].x = x_pos;
+                t->attackRegularClips2[i].y =1;
+                t->attackRegularClips2[i].w =85;
+                t->attackRegularClips2[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jumping_regular_attack.png", t, renderer,"JA"))
         {
-            printf( "Failed to load sprite sheet texture! horus_jumping_regular_attack_prototype.png\n" );
+            printf( "Failed to load sprite sheet texture! horus_jumping_regular_attack.png\n" );
             return false;
         }
         else
         {
-            t->attackRegularJumpingClips[0].x =1;
-            t->attackRegularJumpingClips[0].y =1;
-            t->attackRegularJumpingClips[0].w =85;
-            t->attackRegularJumpingClips[0].h =65;
-
-            t->attackRegularJumpingClips[1].x =86;
-            t->attackRegularJumpingClips[1].y =1;
-            t->attackRegularJumpingClips[1].w =85;
-            t->attackRegularJumpingClips[1].h =65;
-
-            t->attackRegularJumpingClips[2].x =171;
-            t->attackRegularJumpingClips[2].y =1;
-            t->attackRegularJumpingClips[2].w =85;
-            t->attackRegularJumpingClips[2].h =65;
-
-            t->attackRegularJumpingClips[3].x =256;
-            t->attackRegularJumpingClips[3].y =1;
-            t->attackRegularJumpingClips[3].w =85;
-            t->attackRegularJumpingClips[3].h =65;
-
-            t->attackRegularJumpingClips[4].x =341;
-            t->attackRegularJumpingClips[4].y =1;
-            t->attackRegularJumpingClips[4].w =85;
-            t->attackRegularJumpingClips[4].h =65;
-
-            t->attackRegularJumpingClips[5].x =426;
-            t->attackRegularJumpingClips[5].y =1;
-            t->attackRegularJumpingClips[5].w =85;
-            t->attackRegularJumpingClips[5].h =65;
-
-            t->attackRegularJumpingClips[6].x =511;
-            t->attackRegularJumpingClips[6].y =1;
-            t->attackRegularJumpingClips[6].w =85;
-            t->attackRegularJumpingClips[6].h =65;
-
-            t->attackRegularJumpingClips[7].x =596;
-            t->attackRegularJumpingClips[7].y =1;
-            t->attackRegularJumpingClips[7].w =85;
-            t->attackRegularJumpingClips[7].h =65;
-
-            t->attackRegularJumpingClips[8].x =681;
-            t->attackRegularJumpingClips[8].y =1;
-            t->attackRegularJumpingClips[8].w =85;
-            t->attackRegularJumpingClips[8].h =65;
-
-            t->attackRegularJumpingClips[9].x =766;
-            t->attackRegularJumpingClips[9].y =1;
-            t->attackRegularJumpingClips[9].w =85;
-            t->attackRegularJumpingClips[9].h =65;
-
-            t->attackRegularJumpingClips[10].x =851;
-            t->attackRegularJumpingClips[10].y =1;
-            t->attackRegularJumpingClips[10].w =85;
-            t->attackRegularJumpingClips[10].h =65;
-
-            t->attackRegularJumpingClips[11].x =936;
-            t->attackRegularJumpingClips[11].y =1;
-            t->attackRegularJumpingClips[11].w =85;
-            t->attackRegularJumpingClips[11].h =65;
-
-            t->attackRegularJumpingClips[12].x =1021;
-            t->attackRegularJumpingClips[12].y =1;
-            t->attackRegularJumpingClips[12].w =85;
-            t->attackRegularJumpingClips[12].h =65;
+            int width = 85;
+            int x_pos = 1;
+            for (int i = 0; i<13; i++)
+            {
+                t->attackRegularJumpingClips[i].x = x_pos;
+                t->attackRegularJumpingClips[i].y =1;
+                t->attackRegularJumpingClips[i].w =85;
+                t->attackRegularJumpingClips[i].h =65;
+                x_pos = x_pos + width;
+            }
         }
         return true;
     }
@@ -746,7 +349,7 @@ int CharacterTexture::GetRegularAttackClipCount2()
     return this->attackRegularClipCount2;
 }
 
-int CharacterTexture::GetJumpingRegularAttackClickCount()
+int CharacterTexture::GetJumpingRegularAttackClipCount()
 {
     return this->attackRegularJumpingClipCount;
 }
