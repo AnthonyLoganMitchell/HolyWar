@@ -972,7 +972,7 @@ void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
         }
     }
 }
-
+//TODO: move to Portrait class(Create Portrait class).
 std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
 {
     std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
@@ -986,7 +986,7 @@ std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* rend
     }
     return NULL;
 }
-
+//TODO: move to Portrait class(Create Portrait class).
 std::vector<LevelPortrait*> *Core::InitLevelPortraits(SDL_Renderer* renderer)
 {
     std::vector<LevelPortrait*> *lp_vec = new std::vector<LevelPortrait*>;
@@ -1000,7 +1000,7 @@ std::vector<LevelPortrait*> *Core::InitLevelPortraits(SDL_Renderer* renderer)
     }
     return NULL;
 }
-
+//TODO: move to Collision class(Create collision class).
 bool Core::CollisionObjectCharacter(GeneralTexture* A, int a_scale, CharacterObject* B, int b_scale)
 {
     int rect_1_top = A->GetYPos();
@@ -1031,7 +1031,7 @@ bool Core::CollisionObjectCharacter(GeneralTexture* A, int a_scale, CharacterObj
     }
     return true;
 }
-
+//TODO: move to Collision class(Create collision class).
 bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
 {
     int rect_1_top = A->PosY+2;
@@ -1063,7 +1063,7 @@ bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
     return true;
 
 }
-
+//TODO: move to Event class
 int Core::EventHandler(void* data)
 {
     SDL_Event event;
