@@ -43,12 +43,6 @@ public:
     void RunMatch(SDL_mutex*);
     void RunCharacters(int,int,int);
     void RunCollisionModule(int,int, Level*);
-    void RunRegularAttackModule(CharacterObject*,int,int);
-    void RunIdleModule(CharacterObject*,int,int);
-    void RunMoveModule(CharacterObject*,int,int);
-    void RunFallingModule(CharacterObject*,int,int);
-    void RunJumpingModule(CharacterObject*,int,int);
-    void RunJumpFallTransitionModule(CharacterObject*,int,int);
     void SetInitialCharacterPositions(Level*);
 
     void ParseEvents(ThreadData* data,SDL_mutex*);
