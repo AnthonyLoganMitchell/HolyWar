@@ -45,7 +45,6 @@ public:
     void RunCollisionModule(int,int, Level*);
     void SetInitialCharacterPositions(Level*);
 
-    void ParseEvents(ThreadData* data,SDL_mutex*);
     bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
     bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
     static int EventHandler(void*);
@@ -55,7 +54,6 @@ public:
 
     SDL_Window* window;
     SDL_Renderer* renderer;
-    bool quit_program;
     int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;

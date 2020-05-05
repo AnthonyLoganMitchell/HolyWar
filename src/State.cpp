@@ -13,6 +13,7 @@ State::State()
 {
     //cto
     this->levelName="";
+    this->quit_program=false;
 }
 
 State::~State()

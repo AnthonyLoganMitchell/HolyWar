@@ -239,3 +239,26 @@ void CharacterModules::RunJumpFallTransitionModule(CharacterObject* p, int CharS
     }
     p->Move(Tick);
 }
+
+void CharacterModules::SetInitialCharacterPositions(Level* stage, std::vector<PlayerObject*>* players)
+{
+    for(std::vector<PlayerObject*>::iterator i = players->begin(); i!= players->end(); i++)
+    {
+        for (std::vector<GeneralTexture*>::iterator j = stage->platforms->begin(); j != stage->platforms->end(); j++)
+        {
+            if(!(*j)->isOccupied && (*j)->isStartingPlatform)
+            {
+                (*i)->character->posX = (*j)->xposition;
+                (*i)->character->posY = (*j)->yposition - (*i)->character->char_textures->GetHeight();
+                (*j)->isOccupied = true;
+                break;
+            }
+            if(j == stage->platforms->end())
+            {
+                (*i)->character->posX = 0;
+                (*i)->character->posY = 0;
+                break;
+            }
+        }
+    }
+}

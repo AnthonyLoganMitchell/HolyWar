@@ -9,6 +9,7 @@
 #include "Core.h"
 #include "MainMenuOptions.h"
 #include "CharacterModules.h"
+#include "Event.h"
 #include "Level.h"
 #include <vector>
 #include <string>
@@ -20,7 +21,6 @@ Core::Core()
 {
     this->window = NULL;
     this->renderer = NULL;
-    this->quit_program =NULL;
     this->state = new(State);
     this->state->onMainMenuStart = true;
     this->state->onOptionSelection = false;
@@ -185,13 +185,13 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
     int logoXPos = 0;
     logoXPos = this->SCREEN_WIDTH/2-430;
     bool alphaFlag = true;
-    while ((this->state->onMainMenuStart || this->state->onOptionSelection) && !this->quit_program)
+    while ((this->state->onMainMenuStart || this->state->onOptionSelection) && !this->state->quit_program)
     {
         if (alphaFlag)  //TODO: add short circuit here for user pressing start to skip into Alpha blend.
         {
             for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
-                this->ParseEvents(this->data,mutex);
+                Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
                 background->SetAlpha(i);
@@ -201,7 +201,7 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
                 SDL_Delay(20);
             }
         }
-        this->ParseEvents(this->data,mutex);
+        Event::ParseEvents(this->data,mutex,this->state,this->players);
         alphaFlag = false;
         this->renderClear();
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -239,7 +239,7 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
         {
             for(int i = 255; i>=0; i-=10) //TODO change back to slower value in production.
             {
-                this->ParseEvents(this->data,mutex);
+                Event::ParseEvents(this->data,mutex,this->state,this->players);
                 alphaFlag = false;
                 this->renderClear();
                 background->SetAlpha(i);
@@ -329,7 +329,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
         {
             for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
-                this->ParseEvents(this->data,mutex);
+                Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
                 background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -344,7 +344,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
 
 
         this->renderClear();
-        this->ParseEvents(this->data,mutex);
+        Event::ParseEvents(this->data,mutex,this->state,this->players);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
 
@@ -517,7 +517,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
     for (int i=255; i>=0; i-=10)
     {
-        //this->ParseEvents(this->data,mutex);
+        //Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
         background->SetAlpha(i);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -581,7 +581,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
         {
             for (int i=0; i<256; i+=10) //TODO change back to slower value in production.
             {
-                this->ParseEvents(this->data,mutex);
+                Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
                 background->SetAlpha(i);
                 background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -593,7 +593,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
             alphaFlag = false;
         }
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
-        this->ParseEvents(this->data,mutex);
+        Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
         background->render(background, this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
@@ -737,7 +737,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
     for (int i=255; i>=0; i-=10) //TODO change back to slower value in production.
     {
-        this->ParseEvents(this->data,mutex);
+        Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
         background->SetAlpha(i);
         background->render(background, this->renderer,0,0,2,0,0,NULL);
@@ -784,7 +784,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         (*i)->character = new CharacterObject((*i)->CharacterName,100,this->renderer); //TODO: delete from memory later.
     }
     //Place characters in initial positions in level.
-    this->SetInitialCharacterPositions(stage);
+    CharacterModules::SetInitialCharacterPositions(stage,this->players);
 
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
     {
@@ -802,7 +802,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         {
             for(int j = 0; j<256; j+=10)
             {
-                //this->ParseEvents(this->data,parse_mutex);
+                //Event::ParseEvents(this->data,parse_mutex,this->state,this->players);
                 this->renderClear();
                 for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
                 {
@@ -821,7 +821,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
             EntryAlphaFlag = false;
             this->state->transition = false;
         }
-        this->ParseEvents(this->data,parse_mutex);
+        Event::ParseEvents(this->data,parse_mutex,this->state,this->players);
         this->renderClear();
 
         for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++)
@@ -1062,550 +1062,6 @@ bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
     }
     return true;
 
-}
-
-void Core::SetInitialCharacterPositions(Level* stage)
-{
-    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-    {
-        for (std::vector<GeneralTexture*>::iterator j = stage->platforms->begin(); j != stage->platforms->end(); j++)
-        {
-            if(!(*j)->isOccupied && (*j)->isStartingPlatform)
-            {
-                (*i)->character->posX = (*j)->xposition;
-                (*i)->character->posY = (*j)->yposition - (*i)->character->char_textures->GetHeight();
-                (*j)->isOccupied = true;
-                break;
-            }
-            if(j == stage->platforms->end())
-            {
-                (*i)->character->posX = 0;
-                (*i)->character->posY = 0;
-                break;
-            }
-        }
-    }
-}
-
-void Core::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex)
-{
-    if (SDL_LockMutex(parse_mutex) == 0 && data->interact->size() > 0)
-    {
-        //On Main Menu states//
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if (!this->state->transition)
-        {
-            if (this->state->onMainMenuStart)
-            {
-                for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-                {
-                    if((*i)->button_event == SDL_CONTROLLER_BUTTON_START)
-                    {
-                        this->state->onMainMenuStart =false;
-                        this->state->onOptionSelection = true;
-                        this->state->mainMenuOps->menuBattle->is_highlighted = true;
-                        this->state->mainMenuOps->menuOptions->is_highlighted = false;
-                    }
-                }
-
-            }
-            else if (this->state->onOptionSelection)
-            {
-                for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-                {
-                    if((*i)->button_event == SDL_CONTROLLER_BUTTON_B)
-                    {
-                        this->state->onMainMenuStart = true;
-                        this->state->onOptionSelection = false;
-                        this->state->mainMenuOps->menuStart->is_highlighted = true;
-                        this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                        this->state->mainMenuOps->menuOptions->is_highlighted = false;
-                        this->state->mainMenuOps->menuQuit->is_highlighted = false;
-
-                    }
-                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
-                    {
-                        if(this->state->mainMenuOps->menuBattle->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= true;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-                        }
-                        else if(this->state->mainMenuOps->menuOptions->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = true;
-                        }
-                        else if(this->state->mainMenuOps->menuQuit->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = true;
-                        }
-                    }
-                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
-                    {
-                        if(this->state->mainMenuOps->menuBattle->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = true;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-                        }
-                        else if(this->state->mainMenuOps->menuOptions->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = true;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-                        }
-                        else if(this->state->mainMenuOps->menuQuit->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= true;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-                        }
-                    }
-                    else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
-                    {
-                        if(this->state->mainMenuOps->menuBattle->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = true;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-                            this->state->transition=true;
-
-
-                        }
-                        else if(this->state->mainMenuOps->menuOptions->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= true;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = false;
-
-                        }
-                        else if(this->state->mainMenuOps->menuQuit->is_highlighted)
-                        {
-                            this->state->mainMenuOps->menuBattle->is_highlighted = false;
-                            this->state->mainMenuOps->menuOptions->is_highlighted= false;
-                            this->state->mainMenuOps->menuQuit->is_highlighted = true;
-                            this->quit_program = true;
-                        }
-                    }
-                }
-            }
-            //CharacterSelection stat//
-            /////////////////////////////////////////////////////////////////////////////////////////
-            else if ( this->state->onCharacterSelection)
-            {
-                for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-                {
-                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-                    {
-                        if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = (*j)->cursor->CURSOR_VEL;
-                            }
-
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = -(*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = -(*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = (*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller && (*j)->isActive == false)
-                            {
-                                (*j)->isActive =true;
-                            }
-                            for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-                            {
-                                if(!(*j)->isReady && (*j)->isActive)
-                                {
-                                    break;
-                                }
-                                if(j == this->players->end()-1 && (*j)->isReady)
-                                {
-                                    this->state->onCharacterSelection=false;
-                                    this->state->onLevelSelection = true;
-                                }
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->CharacterSelected = true;
-                            }
-                        }
-                        //SDL_RELEASED
-
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX =0;
-                            }
-
-                        }
-                    }
-
-                }
-            }
-            //LevelSelection state//
-            /////////////////////////////////////////////////////////////////////////////////////////
-            else if (this->state->onLevelSelection)
-            {
-                for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-                {
-                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-                    {
-                        if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = (*j)->cursor->CURSOR_VEL;
-                            }
-
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = -(*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = -(*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = (*j)->cursor->CURSOR_VEL;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller && (*j)->isActive == false)
-                            {
-                                (*j)->isActive =true;
-                            }
-                            if (this->state->levelName!="")
-                            {
-                                this->state->onLevelSelection =false;
-                                this->state->onRunningMatch = true;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->levelSelected = true;
-                            }
-                        }
-                        //SDL_RELEASED
-
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelY = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->cursor->VelX =0;
-                            }
-
-                        }
-                    }
-
-                }
-            }
-            //RunningMatch state//
-            /////////////////////////////////////////////////////////////////////////////////////////
-            else if (this->state->onRunningMatch)
-            {
-                for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++)
-                {
-                    for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-                    {
-                        if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                //(*j)->character->fluct_vely = (*j)->character->moveVelX;
-                            }
-
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                /*(*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                                (*j)->character->char_textures->SetFrameCount(0);*/
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->character->isMovingLeft = true;
-                                (*j)->character->isAttackingReg = false;
-                                (*j)->character->lastDirection = "LEFT";
-                                (*j)->character->fluct_velx = -(*j)->character->moveVelX;
-                                (*j)->character->char_textures->SetFrameCount(0);
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->character->isMovingRight = true;
-                                (*j)->character->isAttackingReg = false;
-                                (*j)->character->lastDirection = "RIGHT";
-                                (*j)->character->fluct_velx = (*j)->character->moveVelX;
-                                (*j)->character->char_textures->SetFrameCount(0);
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED)
-                        {
-                            this->quit_program=true;
-                            this->state->onRunningMatch=false;
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg))
-                                {
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    Uint32 now = SDL_GetTicks();
-                                    if ( (now - (*j)->character->regAttackLastPress) <= 750)
-                                    {
-                                        (*j)->character->regAttackCount++;
-                                        (*j)->character->regAttackLastPress = now;
-                                    }
-                                    else
-                                    {
-                                        (*j)->character->regAttackCount = 0;
-                                        (*j)->character->regAttackLastPress = now;
-                                    }
-                                    //TODO:// This is a temporary block To reset counter if it goes over amount Attack count.
-                                    ////////////////////////////////////////////
-                                    if ((*j)->character->regAttackCount > 1)  //
-                                    {
-                                        //
-                                        (*j)->character->regAttackCount =0;   //
-                                    }                                         //
-                                    ////////////////////////////////////////////
-
-                                }
-                                (*j)->character->isAttackingReg = true;
-                                //(*j)->character->char_textures->SetFrameCount(0);
-                            }
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_B && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                if((*j)->character->jumpBlock < 2)
-                                {
-                                    (*j)->character->isJumping = true;
-                                    (*j)->character->isColliding = false;
-                                    (*j)->character->isFalling = false;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                                    (*j)->character->jumpBlock++;
-                                }
-                            }
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_X && (*i)->pressed == SDL_PRESSED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-
-                            }
-                        }
-
-                        //SDL_RELEASED
-
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                //(*j)->character->fluct_vely = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                //(*j)->character->fluct_vely = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->character->isMovingLeft = false;
-                                (*j)->character->fluct_velx = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED)
-                        {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->character->isMovingRight = false;
-                                (*j)->character->fluct_velx = 0;
-                            }
-
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_RELEASED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-
-                            }
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_B && (*i)->pressed == SDL_RELEASED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-                                (*j)->character->isJumping = false;
-                                if(!(*j)->character->isColliding)
-                                {
-                                    (*j)->character->isFalling = true;
-                                }
-                            }
-                        }
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_X && (*i)->pressed == SDL_RELEASED)
-                        {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
-                            {
-
-                            }
-                        }
-                    }
-                }
-            }
-
-            //Clear interactions off of the heap
-            for (Interaction* i : *data->interact)
-            {
-                delete (i);
-            }
-            data->interact->clear();
-        }
-    }
-    SDL_UnlockMutex(parse_mutex);
 }
 
 int Core::EventHandler(void* data)

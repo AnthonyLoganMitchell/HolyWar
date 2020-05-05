@@ -9,6 +9,9 @@
 #ifndef   CHARACTERMODULES_H
 #define   CHARACTERMODULES_H
 #include "CharacterObject.h"
+#include "Level.h"
+#include <vector>
+#include "PlayerObject.h"
 class CharacterModules {
 
 public:
@@ -18,6 +21,7 @@ public:
    static void RunFallingModule(CharacterObject*,int,int,SDL_Renderer*);
    static void RunJumpingModule(CharacterObject*,int,int,SDL_Renderer*);
    static void RunJumpFallTransitionModule(CharacterObject*,int,int,SDL_Renderer*);
+   static void SetInitialCharacterPositions(Level*,std::vector<PlayerObject*>*);
 private:
 
 };
