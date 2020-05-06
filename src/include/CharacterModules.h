@@ -18,7 +18,7 @@ public:
     static void RunCharacters(int,int,int,std::vector<PlayerObject*>*,SDL_Renderer*);
     static void RunRegularAttackModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunIdleModule(CharacterObject*,int,int,SDL_Renderer*);
-    static void RunMoveModule(CharacterObject*,int,int,SDL_Renderer*);
+    static void RunMoveWalkModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunFallingModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunJumpingModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunJumpFallTransitionModule(CharacterObject*,int,int,SDL_Renderer*);

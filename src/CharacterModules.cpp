@@ -43,31 +43,34 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
                                                (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+
+        //IDLE
+        if(!p->isJumping && !p->isFalling && !p->isWalkingLeft && !p->isWalkingRight && !p->isRunningLeft && !p->isRunningRight && !p->isAttackingReg)
         {
             CharacterModules::RunIdleModule(p,CharScale,Tick,renderer);
         }
-        else if(!p->isJumping && !p->isFalling && (p->isMovingRight || p->isMovingLeft) && !p->isAttackingReg)
+        //Walk/Run
+        else if(!p->isJumping && !p->isFalling && (p->isWalkingLeft || p->isWalkingRight || p->isRunningLeft || p->isRunningRight) && !p->isAttackingReg)
         {
-            CharacterModules::RunMoveModule(p,CharScale,Tick,renderer);
+            //TODO: Add condition here the determines run or walk modules.
+            CharacterModules::RunMoveWalkModule(p,CharScale,Tick,renderer);
         }
-        else if(!p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
-        {
-            CharacterModules::RunFallingModule(p,CharScale,Tick,renderer);
-        }
-        else if(p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
+        //Jump
+        else if((p->isJumping && !p->isFalling) && !p->isAttackingReg)
         {
             CharacterModules::RunJumpingModule(p,CharScale,Tick,renderer);
         }
-        else if((p->isJumping || p->isFalling) && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        //FallTransition
+        else if((p->isJumping && p->isFalling) && !p->isAttackingReg)
         {
             CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,renderer);
         }
-        else if(p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
+        //Fall
+        else if((!p->isJumping && p->isFalling) && !p->isAttackingReg)
         {
-            CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,renderer);
+            CharacterModules::RunFallingModule(p,CharScale,Tick,renderer);
         }
-        //Attacking animations.
+        //(up/down/left/right) Stationary/Jumping/Falling/Running Regular Attacks.
         else if(p->isAttackingReg)
         {
             CharacterModules::RunRegularAttackModule(p,CharScale,Tick,renderer);
@@ -205,18 +208,18 @@ void CharacterModules::RunIdleModule(CharacterObject* p,int CharScale,int Tick,S
     p->Move(Tick);
 }
 
-void CharacterModules::RunMoveModule(CharacterObject* p, int CharScale, int Tick,SDL_Renderer* renderer)
+void CharacterModules::RunMoveWalkModule(CharacterObject* p, int CharScale, int Tick,SDL_Renderer* renderer)
 {
     if(p->char_textures->GetFrameCount() >= p->char_textures->GetMoveingClipCount())
     {
         p->char_textures->SetFrameCount(0);
     }
-    if(p->isMovingLeft)
+    if(p->isWalkingLeft)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_NONE);
     }
-    else if (p->isMovingRight)
+    else if (p->isWalkingRight)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_HORIZONTAL);
@@ -257,17 +260,17 @@ void CharacterModules::RunJumpingModule(CharacterObject *p, int CharScale, int T
     {
         p->char_textures->SetFrameCount(p->char_textures->GetJumpingClipCount()/2);
     }
-    if(p->isMovingLeft)
+    if(p->isWalkingLeft || p->isRunningLeft)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_NONE);
     }
-    else if(p->isMovingRight)
+    else if(p->isWalkingRight || p->isRunningRight)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->jumpingClips[p->char_textures->GetFrameCount()],"J",SDL_FLIP_HORIZONTAL);
     }
-    else if(!p->isMovingLeft && !p->isMovingRight)
+    else if(!p->isWalkingLeft && !p->isWalkingRight && !p->isRunningLeft && !p->isRunningRight)
     {
         if(p->lastDirection == "RIGHT")
         {
@@ -293,17 +296,17 @@ void CharacterModules::RunJumpFallTransitionModule(CharacterObject* p, int CharS
         p->char_textures->SetFrameCount(0);
     }
 
-    if (p->isMovingLeft)
+    if (p->isWalkingLeft || p->isRunningLeft)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_NONE);
     }
-    else if(p->isMovingRight)
+    else if(p->isWalkingRight || p->isRunningRight)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
                                  p->posY,CharScale,0,0,&p->char_textures->fallingClips[p->char_textures->GetFrameCount()],"F",SDL_FLIP_HORIZONTAL);
     }
-    else if(!p->isMovingLeft && !p->isMovingRight)
+    else if(!p->isWalkingLeft && !p->isWalkingRight && !p->isRunningLeft && !p->isRunningRight)
     {
         if (p->lastDirection == "LEFT")
         {

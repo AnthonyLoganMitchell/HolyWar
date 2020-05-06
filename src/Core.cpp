@@ -278,7 +278,7 @@ void  Core::RunMainMenu(SDL_mutex* mutex)
 
 void Core::RunCharacterSelect(SDL_mutex* mutex)
 {
-
+    //NOTE: FOR FUTURE DEVELOPMENT SANITY. ALL CHARACTER AVATARS/IDLE ANIMATIONS HAVE TO FIT INTO A 80W/65H SQUARE!!
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
@@ -298,17 +298,17 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
     int def_y_pos = 500;
     int char_box_y_pos = 125;
 
-    SDL_Rect *exp_rec = new (SDL_Rect);
-    exp_rec->h= 85;
-    exp_rec->w= 120;
-    exp_rec->x= def_x_pos;
-    exp_rec->y= def_y_pos;
+    SDL_Rect *character_rec = new (SDL_Rect);
+    character_rec->h= 85;
+    character_rec->w= 120;
+    character_rec->x= def_x_pos;
+    character_rec->y= def_y_pos;
 
-    SDL_Rect *CharBox = new (SDL_Rect);
-    CharBox->h = 270;
-    CharBox->w = 300;
-    CharBox->x = def_x_pos;
-    CharBox->y = char_box_y_pos;
+    SDL_Rect *Portrait = new (SDL_Rect);
+    Portrait->h = 270;
+    Portrait->w = 300;
+    Portrait->x = def_x_pos;
+    Portrait->y = char_box_y_pos;
 
     while(this->state->onCharacterSelection)
     {
@@ -339,41 +339,41 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
         for(std::vector<CharacterPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++)
         {
             //This section aligns the characterPortrait with its encapsulating square position.
-            if(exp_rec->x+ exp_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth())
+            if(character_rec->x+ character_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth())
             {
-                SDL_RenderDrawRect(this->renderer,exp_rec);
-                int offset_x= ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
-                int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
-                (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                SDL_RenderDrawRect(this->renderer,character_rec);
+                int offset_x= ((character_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
+                int offset_y=   character_rec->h-(*i)->avatar->GetHeight()-10;
+                (*i)->avatar->render((*i)->avatar,this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
                 {
                     if ((*j)->isActive)
                     {
-                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,character_rec))
                         {
 
                             if((*j)->ID+1 == 1)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 2)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 3)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 4)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->CharacterSelected)
@@ -393,44 +393,44 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
 
 
                 }
-                exp_rec->x = exp_rec->x+exp_rec->w+30;
+                character_rec->x = character_rec->x+character_rec->w+30;
             }
             else
             {
-                exp_rec->x=def_x_pos;
-                exp_rec->y= exp_rec->y+exp_rec->h+50;
-                SDL_RenderDrawRect(this->renderer,exp_rec);
-                int offset_x = ((exp_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
-                int offset_y=   exp_rec->h-(*i)->avatar->GetHeight()-10;
-                (*i)->avatar->render((*i)->avatar,this->renderer,exp_rec->x,exp_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                character_rec->x=def_x_pos;
+                character_rec->y= character_rec->y+character_rec->h+50;
+                SDL_RenderDrawRect(this->renderer,character_rec);
+                int offset_x = ((character_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
+                int offset_y=   character_rec->h-(*i)->avatar->GetHeight()-10;
+                (*i)->avatar->render((*i)->avatar,this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
                 {
                     if ((*j)->isActive)
                     {
-                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,character_rec))
                         {
                             if((*j)->ID+1 == 1)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 2)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 3)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 4)
                             {
                                 SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,character_rec);
                                 (*j)->cursor->isColliding = true;
                             }
 
@@ -454,14 +454,14 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
             for(int j = 0; j<4; j++)
             {
 
-                SDL_RenderDrawRect(this->renderer, CharBox);
+                SDL_RenderDrawRect(this->renderer, Portrait);
                 for(std::vector<PlayerObject*>::iterator k = this->players->begin(); k!= this->players->end(); k++)
                 {
                     if ((*k)->CharacterName == (*i)->CharacterName && j == (*k)->ID)
                     {
-                        int offset_x = ((CharBox->w-((((*i)->avatar->GetWidth()*3))/(*i)->avatar->textureClipCount+1))/2)+10;
-                        int offset_y =   CharBox->h-(((*i)->avatar->GetHeight()*3))-15;
-                        (*i)->avatar->render((*i)->avatar,this->renderer,CharBox->x,CharBox->y,3,offset_x,offset_y, &(*i)->avatar->animation[(*i)->avatar->GetFrameCount()]);
+                        int offset_x = ((Portrait->w-((((*i)->avatar->GetWidth()*3))/(*i)->avatar->textureClipCount+1))/2)+10;
+                        int offset_y =   Portrait->h-(((*i)->avatar->GetHeight()*3))-15;
+                        (*i)->avatar->render((*i)->avatar,this->renderer,Portrait->x,Portrait->y,3,offset_x,offset_y, &(*i)->avatar->animation[(*i)->avatar->GetFrameCount()]);
                         if(idleMod % 7 == 0)
                         {
                             (*i)->avatar->TickFrameCount();
@@ -472,7 +472,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
                         }
                     }
                 }
-                CharBox->x = CharBox->x+CharBox->w+100;
+                Portrait->x = Portrait->x+Portrait->w+100;
 
             }
 
@@ -491,9 +491,9 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
         }
 
         this->renderPresent();
-        exp_rec->x = def_x_pos;
-        exp_rec->y = def_y_pos;
-        CharBox->x = def_x_pos;
+        character_rec->x = def_x_pos;
+        character_rec->y = def_y_pos;
+        Portrait->x = def_x_pos;
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
         idleMod++;
         if (idleMod == 20000)
@@ -516,8 +516,8 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
     }
     playerNumber->Free_Texture();
     cs_menu_midground->Free_Texture();
-    delete(exp_rec);
-    delete(CharBox);
+    delete(character_rec);
+    delete(Portrait);
     for(CharacterPortrait* i : *avatars)
     {
         delete(i);

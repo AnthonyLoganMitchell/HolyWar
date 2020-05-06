@@ -367,7 +367,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
 
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                             {
-                                (*j)->character->isMovingLeft = true;
+                                (*j)->character->isWalkingLeft = true;
                                 (*j)->character->isAttackingReg = false;
                                 (*j)->character->lastDirection = "LEFT";
                                 (*j)->character->fluct_velx = -(*j)->character->moveVelX;
@@ -380,7 +380,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
 
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                             {
-                                (*j)->character->isMovingRight = true;
+                                (*j)->character->isWalkingRight = true;
                                 (*j)->character->isAttackingReg = false;
                                 (*j)->character->lastDirection = "RIGHT";
                                 (*j)->character->fluct_velx = (*j)->character->moveVelX;
@@ -474,7 +474,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
 
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                             {
-                                (*j)->character->isMovingLeft = false;
+                                (*j)->character->isWalkingLeft = false;
                                 (*j)->character->fluct_velx = 0;
                             }
 
@@ -484,7 +484,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
 
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller)
                             {
-                                (*j)->character->isMovingRight = false;
+                                (*j)->character->isWalkingRight = false;
                                 (*j)->character->fluct_velx = 0;
                             }
 
