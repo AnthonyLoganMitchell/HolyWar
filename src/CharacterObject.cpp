@@ -86,18 +86,27 @@ void CharacterObject::InitializeHitBoxes(int scale)
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer)
 {
     //NOTE:// For future development, remember that attackHitBoxOffsetX and
-    //selfHitBoxOffsetX are both controlled within the Core::RunCharacters function.
+    //selfHitBoxOffsetX are both controlled within the CharacterModules::RunCharacters function.
 
 
     //For Sanities sake while doing these.
-    //(IdleClips,JumpingClips,FallingClips,MovementClips,RegularAttackClips,RegularAttackClips2,RegularJumpingAttackclips,StrongAttackClips,Name,renderer)
+    //(IdleClips,JumpingClips,FallingClips,WalkingClips,RegularAttackClips,RegularAttackClips2,RegularJumpingAttackclips,StrongAttackClips,Name,renderer)
     if(Name == "Horus")
     {
-        CharacterTexture* char_ptr = new CharacterTexture(18,11,6,17,14,16,13,0,Name,renderer);
+        int idle = 18;
+        int jumping = 11;
+        int falling = 6;
+        int walking = 17;
+        int regAttack1= 14;
+        int regAttack2= 16;
+        int regJumpAttack = 13;
+        int strongAttack1 = 0;
+
+        CharacterTexture* char_ptr = new CharacterTexture(idle,jumping,falling,walking,regAttack1,regAttack2,regJumpAttack,strongAttack1,Name,renderer);
         this->char_textures = char_ptr;
 
+        //Modulation adjustments for frame speeds.
         ////////////////////////////////////////////
-
         this->char_textures->idleMod = 50;
         this->char_textures->jumpingMod = 20;
         this->char_textures->moveMod = 30;
@@ -105,14 +114,18 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 11;
         this->char_textures->fallingMod = 40;
         this->char_textures->attackRegJumpingMod=20;
-
         /////////////////////////////////////////////
 
+        //Grounded attack/self hitbox offsets.
+        ///////////////////////////////////
         this->right_x_offset_attack = 75;
         this->left_x_offset_attack = 5;
         this->right_x_offset_self = 45;
         this->left_x_offset_self = 15;
-        //TODO:// These are for jumping attacks/self
+        ///////////////////////////////////
+
+        //TODO://
+        //These are for jumping attacks/self
         // Add up_y_offset_attack/self
         // Add down_y_offset_attack/self
 

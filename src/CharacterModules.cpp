@@ -15,25 +15,6 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
     {
         CharacterObject* p = (*i)->character;
 
-        //Test block for visualizing hit boxes.
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if((*i)->character->selfBox->isAlpha)
-        {
-            (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                                 (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-            SDL_SetRenderDrawColor(renderer,0,0,0xFF,0);
-            SDL_RenderDrawRect(renderer,(*i)->character->selfBox->rect);
-            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-        }
-        if((*i)->character->attackBox->isAlpha)
-        {
-            (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                                   (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-            SDL_SetRenderDrawColor(renderer,0xFF,0,0,0);
-            SDL_RenderDrawRect(renderer,(*i)->character->attackBox->rect);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF );
-        }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //This block will reposition hitboxs every iteration.
         //This will remain here for now.
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +23,22 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
         (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
                                                (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Test block for visualizing hit boxes for testing.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if((*i)->character->selfBox->isAlpha)
+        {
+            SDL_SetRenderDrawColor(renderer,0,0,0xFF,0);
+            SDL_RenderDrawRect(renderer,(*i)->character->selfBox->rect);
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+        }
+        if((*i)->character->attackBox->isAlpha)
+        {
+            SDL_SetRenderDrawColor(renderer,0xFF,0,0,0);
+            SDL_RenderDrawRect(renderer,(*i)->character->attackBox->rect);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF );
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         //IDLE
