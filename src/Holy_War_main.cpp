@@ -6,11 +6,7 @@
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */////
-#define  SDL_MAIN_HANDLED
-#include <SDL.h>
 #include "Core.h"
-#include <SDL_thread.h>
-#include <vector>
 SDL_mutex* parse_mutex;
 
 int main( int argc, char* args[] )
@@ -27,7 +23,7 @@ int main( int argc, char* args[] )
 
     else
     {
-        SDL_Thread* EventThread = SDL_CreateThread(CoreGame->EventHandler, "EventThread", (void*)CoreGame->data);
+        SDL_Thread* EventThread = SDL_CreateThread(Event::EventHandler, "EventThread", (void*)CoreGame->data);
         //While application is running
         SDL_SetRenderDrawColor(CoreGame->renderer, 0x00, 0x00, 0x00, 0x00);
         CoreGame->renderClear();

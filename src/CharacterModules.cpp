@@ -8,6 +8,89 @@
 *///
 #include "CharacterModules.h"
 
+
+void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,std::vector<PlayerObject*>* players, SDL_Renderer* renderer)
+{
+    for(std::vector<PlayerObject*>::iterator i = players->begin(); i!= players->end(); i++)
+    {
+        CharacterObject* p = (*i)->character;
+
+        //Test block for visualizing hit boxes.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if((*i)->character->selfBox->isAlpha)
+        {
+            (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                                 (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+            SDL_SetRenderDrawColor(renderer,0,0,0xFF,0);
+            SDL_RenderDrawRect(renderer,(*i)->character->selfBox->rect);
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+        }
+        if((*i)->character->attackBox->isAlpha)
+        {
+            (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                                   (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+            SDL_SetRenderDrawColor(renderer,0xFF,0,0,0);
+            SDL_RenderDrawRect(renderer,(*i)->character->attackBox->rect);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF );
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //This block will reposition hitboxs every iteration.
+        //This will remain here for now.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
+                                             (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
+        (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
+                                               (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        {
+            CharacterModules::RunIdleModule(p,CharScale,Tick,renderer);
+        }
+        else if(!p->isJumping && !p->isFalling && (p->isMovingRight || p->isMovingLeft) && !p->isAttackingReg)
+        {
+            CharacterModules::RunMoveModule(p,CharScale,Tick,renderer);
+        }
+        else if(!p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
+        {
+            CharacterModules::RunFallingModule(p,CharScale,Tick,renderer);
+        }
+        else if(p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
+        {
+            CharacterModules::RunJumpingModule(p,CharScale,Tick,renderer);
+        }
+        else if((p->isJumping || p->isFalling) && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
+        {
+            CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,renderer);
+        }
+        else if(p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
+        {
+            CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,renderer);
+        }
+        //Attacking animations.
+        else if(p->isAttackingReg)
+        {
+            CharacterModules::RunRegularAttackModule(p,CharScale,Tick,renderer);
+        }
+        //TODO:// Add Strong attack animation section here.
+
+
+
+
+        //Logic for controlling hitbox offsets based on last direction faced
+        if(p->lastDirection == "LEFT")
+        {
+            p->attackHitBoxOffsetX=p->left_x_offset_attack;
+            p->selfHitBoxOffsetX = p->left_x_offset_self;
+        }
+        else if (p->lastDirection == "RIGHT")
+        {
+            p->attackHitBoxOffsetX = p->right_x_offset_attack;
+            p->selfHitBoxOffsetX = p->right_x_offset_self;
+        }
+    }
+}
+
 void CharacterModules::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick,SDL_Renderer* renderer)
 {
     if(!p->isFalling && !p->isFalling)

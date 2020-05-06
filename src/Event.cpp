@@ -1,3 +1,11 @@
+/* *CopyRight 2018, Anthony Logan Mitchell, All rights reserved.
+   *Holy war is my personal programming project and all artwork
+   *and high level programming outside of SDL2 framework, openGL,
+   *and c++ api are my original work in progress.
+   *Unauthorized copying of this file, via any medium is strictly prohibited
+   *Proprietary and confidential
+   *Written by Logan Mitchell <loganmitchell2011@gmail.com>
+*///
 #include "Event.h"
 
 void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std::vector<PlayerObject*>* players)
@@ -519,4 +527,34 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
         }
     }
     SDL_UnlockMutex(parse_mutex);
+}
+
+int Event::EventHandler(void* data)
+{
+    SDL_Event event;
+    ThreadData *channel = (ThreadData*)data;
+    bool quit = false;
+    while (!quit)
+    {
+        while( SDL_WaitEvent(&event) != 0)
+        {
+            Interaction *inter = new Interaction();
+            if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
+            {
+                if (SDL_LockMutex(channel->parse_mutex) == 0)
+                {
+                    inter->button_event = event.cbutton.button;
+                    inter->controller_id = event.cbutton.which;
+                    inter->pressed = event.cbutton.state;
+                    channel->interact->push_back(inter);
+                    SDL_UnlockMutex(channel->parse_mutex);
+                }
+                else
+                {
+                    std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
+                }
+            }
+        }
+    }
+    return 0;
 }

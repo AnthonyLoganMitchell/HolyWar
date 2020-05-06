@@ -14,6 +14,21 @@ LevelPortrait::LevelPortrait(std::string small,std::string big, std::string leve
     this->level_avatar_big = new GeneralTexture(1,big,renderer);
     this->LevelName = level_name;
 }
+
+std::vector<LevelPortrait*>* LevelPortrait::InitLevelPortraits(SDL_Renderer* renderer)
+{
+    std::vector<LevelPortrait*> *lp_vec = new std::vector<LevelPortrait*>;
+    LevelPortrait *lp = new LevelPortrait("MountainPrototypeSmall","MountainPrototypeBig","mountain_top",renderer);
+    lp_vec->push_back(lp);
+    lp = NULL;
+    delete(lp);
+    if (sizeof(lp_vec)>0)
+    {
+        return lp_vec;
+    }
+    return NULL;
+}
+
 LevelPortrait::~LevelPortrait()
 {
     this->level_avatar_small->Free_Texture();

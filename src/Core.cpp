@@ -9,13 +9,9 @@
 #include "Core.h"
 #include "MainMenuOptions.h"
 #include "CharacterModules.h"
-#include "Event.h"
+#include "Collision.h"
 #include "Level.h"
-#include <vector>
 #include <string>
-#include "Timer.h"
-#include <SDL.h>
-
 
 Core::Core()
 {
@@ -30,14 +26,6 @@ Core::Core()
     this->data= new(ThreadData);
     this->data->interact = new(std::vector<Interaction*>);
     this->players = new(std::vector<PlayerObject*>);
-}
-void Core::renderPresent()
-{
-    SDL_RenderPresent(renderer);
-}
-void Core::renderClear()
-{
-    SDL_RenderClear(renderer);
 }
 
 bool Core::CoreInit()
@@ -294,7 +282,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
-    std::vector<CharacterPortrait*> *avatars = this->InitCharacterPortraits(this->renderer);
+    std::vector<CharacterPortrait*> *avatars = CharacterPortrait::InitCharacterPortraits(this->renderer);
     int idleMod =0;
     if(sizeof(avatars) > 0)
     {
@@ -361,7 +349,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
 
                             if((*j)->ID+1 == 1)
@@ -419,7 +407,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
                             if((*j)->ID+1 == 1)
                             {
@@ -545,7 +533,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
     GeneralTexture* cs_menu_midground = new GeneralTexture(1,"CharacterSelectMenu",this->renderer);
     GeneralTexture* playerNumber = new GeneralTexture(10,"NumberStrip",this->renderer);
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
-    std::vector<LevelPortrait*> *avatars = this->InitLevelPortraits(this->renderer);
+    std::vector<LevelPortrait*> *avatars = LevelPortrait::InitLevelPortraits(this->renderer);
     if (sizeof(avatars) > 0)
     {
         std::cout<<"Succesfully loaded Level avatars."<<std::endl;
@@ -607,7 +595,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
 
                             if((*j)->ID+1 == 1)
@@ -664,7 +652,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex)
                 {
                     if ((*j)->isActive)
                     {
-                        if(this->CursorCollisionDetect((*j)->cursor,exp_rec))
+                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec))
                         {
                             if((*j)->ID+1 == 1)
                             {
@@ -837,9 +825,9 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
         while (updateIterations > UPDATE_INTERVAL) {
             updateIterations -= UPDATE_INTERVAL;
             //This part controls the collision detection between characters and platform objects.
-            this->RunCollisionModule(CharScale,PlatformScale,stage);
+            Collision::RunCollisionModule(CharScale,PlatformScale,this->SCREEN_WIDTH,stage,this->players);
             //This part runs the entire physics and rendering systems for characters.
-            this->RunCharacters(CharScale,PlatformScale,Tick);
+            CharacterModules::RunCharacters(CharScale,PlatformScale,Tick,this->players,this->renderer);
 
         }
         cyclesLeftOver = updateIterations;
@@ -854,244 +842,13 @@ void Core::RunMatch(SDL_mutex* parse_mutex)
     }
 }
 
-//void Core::RunCombatCollisionModule()
-
-void Core::RunCollisionModule(int CharScale,int PlatformScale, Level* stage)
+void Core::renderPresent()
 {
-    for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++)
-    {
-        for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++)
-        {
-            if(this->CollisionObjectCharacter((*i),PlatformScale,(*j)->character,CharScale))
-            {
-                (*j)->character->isColliding = true;
-                (*j)->character->isFalling = false;
-                (*j)->character->isJumping = false;
-                (*j)->character->fluct_vely =0;
-                (*j)->character->posY = (*i)->GetYPos()- (*j)->character->char_textures->idleClips[0].h*CharScale;
-                (*j)->character->jumpBlock = 0;
-
-            }
-            else if (!(*j)->character->isColliding)
-            {
-                (*j)->character->isFalling = true;
-                (*j)->character->isColliding = false;
-            }
-            //Could cause issues in the future with combat collision momentum, need bools here
-            //to determine weather or not the character has been struck by another player and is riding the momentum.
-            //This is temporary hack to keep from going off screen.
-            if((*j)->character->posX <= -((*j)->character->char_textures->idleClips[0].w))
-            {
-                (*j)->character->posX = this->SCREEN_WIDTH - ((*j)->character->char_textures->idleClips[0].w/2);
-            }
-            else if ((*j)->character->posX+(*j)->character->char_textures->idleClips[0].w >= this->SCREEN_WIDTH+(*j)->character->char_textures->idleClips[0].w)
-            {
-                (*j)->character->posX = 0-(*j)->character->char_textures->idleClips[0].w/2-35;
-            }
-        }
-    }
+    SDL_RenderPresent(renderer);
 }
-void Core::RunCharacters(int CharScale,int PlatformScale,int Tick)
+void Core::renderClear()
 {
-    for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++)
-    {
-        CharacterObject* p = (*i)->character;
-
-        //Test block for visualizing hit boxes.
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if((*i)->character->selfBox->isAlpha)
-        {
-            (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                                 (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-            SDL_SetRenderDrawColor(this->renderer,0,0,0xFF,0);
-            SDL_RenderDrawRect(this->renderer,(*i)->character->selfBox->rect);
-            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-        }
-        if((*i)->character->attackBox->isAlpha)
-        {
-            (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                                   (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-            SDL_SetRenderDrawColor(this->renderer,0xFF,0,0,0);
-            SDL_RenderDrawRect(this->renderer,(*i)->character->attackBox->rect);
-            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-        }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //This block will reposition hitboxs every iteration.
-        //This will remain here for now.
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                             (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-        (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                               (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        if(!p->isJumping && !p->isFalling && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            CharacterModules::RunIdleModule(p,CharScale,Tick,this->renderer);
-        }
-        else if(!p->isJumping && !p->isFalling && (p->isMovingRight || p->isMovingLeft) && !p->isAttackingReg)
-        {
-            CharacterModules::RunMoveModule(p,CharScale,Tick,this->renderer);
-        }
-        else if(!p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
-        {
-            CharacterModules::RunFallingModule(p,CharScale,Tick,this->renderer);
-        }
-        else if(p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
-        {
-            CharacterModules::RunJumpingModule(p,CharScale,Tick,this->renderer);
-        }
-        else if((p->isJumping || p->isFalling) && !p->isMovingLeft && !p->isMovingRight && !p->isAttackingReg)
-        {
-            CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,this->renderer);
-        }
-        else if(p->isJumping && p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg)
-        {
-            CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,this->renderer);
-        }
-        //Attacking animations.
-        else if(p->isAttackingReg)
-        {
-            CharacterModules::RunRegularAttackModule(p,CharScale,Tick,this->renderer);
-        }
-        //TODO:// Add Strong attack animation section here.
-
-
-
-
-        //Logic for controlling hitbox offsets based on last direction faced
-        if(p->lastDirection == "LEFT")
-        {
-            p->attackHitBoxOffsetX=p->left_x_offset_attack;
-            p->selfHitBoxOffsetX = p->left_x_offset_self;
-        }
-        else if (p->lastDirection == "RIGHT")
-        {
-            p->attackHitBoxOffsetX = p->right_x_offset_attack;
-            p->selfHitBoxOffsetX = p->right_x_offset_self;
-        }
-    }
-}
-//TODO: move to Portrait class(Create Portrait class).
-std::vector<CharacterPortrait*> *Core::InitCharacterPortraits(SDL_Renderer* renderer)
-{
-    std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
-    CharacterPortrait *cp = new CharacterPortrait(18,"HorusCharacterSelect","Horus",renderer);
-    cp_vec->push_back(cp);
-    cp = NULL;
-    delete(cp);
-    if (sizeof(cp_vec) > 0)
-    {
-        return cp_vec;
-    }
-    return NULL;
-}
-//TODO: move to Portrait class(Create Portrait class).
-std::vector<LevelPortrait*> *Core::InitLevelPortraits(SDL_Renderer* renderer)
-{
-    std::vector<LevelPortrait*> *lp_vec = new std::vector<LevelPortrait*>;
-    LevelPortrait *lp = new LevelPortrait("MountainPrototypeSmall","MountainPrototypeBig","mountain_top",renderer);
-    lp_vec->push_back(lp);
-    lp = NULL;
-    delete(lp);
-    if (sizeof(lp_vec)>0)
-    {
-        return lp_vec;
-    }
-    return NULL;
-}
-//TODO: move to Collision class(Create collision class).
-bool Core::CollisionObjectCharacter(GeneralTexture* A, int a_scale, CharacterObject* B, int b_scale)
-{
-    int rect_1_top = A->GetYPos();
-    int rect_1_bottom = A->GetYPos()+A->GetHeight()*a_scale;
-    int rect_1_left = A->GetXPos();
-    int rect_1_right = A->GetXPos()+A->GetWidth()*a_scale;
-
-    int rect_2_top = B->posY;
-    int rect_2_bottom = B->posY+B->char_textures->idleClips[0].h*b_scale;
-    int rect_2_left = B->posX;
-    int rect_2_right = B->posX+B->char_textures->idleClips[0].w*b_scale;
-
-    if (rect_1_bottom <= rect_2_top)
-    {
-        return false;
-    }
-    if (rect_1_top >= rect_2_bottom)
-    {
-        return false;
-    }
-    if (rect_1_right <= rect_2_left)
-    {
-        return false;
-    }
-    if (rect_1_left >= rect_2_right)
-    {
-        return false;
-    }
-    return true;
-}
-//TODO: move to Collision class(Create collision class).
-bool Core::CursorCollisionDetect(PlayerCursor* A,SDL_Rect* B)
-{
-    int rect_1_top = A->PosY+2;
-    int rect_1_bottom = A->PosY+A->Texture->GetHeight()+2;
-    int rect_1_left = A->PosX+2;
-    int rect_1_right = A->PosX+A->Texture->GetWidth()+2;
-
-    int rect_2_top = B->y;
-    int rect_2_bottom = B->y+B->h;
-    int rect_2_left = B->x;
-    int rect_2_right = B->x+B->w;
-
-    if (rect_1_bottom <= rect_2_top)
-    {
-        return false;
-    }
-    if (rect_1_top >= rect_2_bottom)
-    {
-        return false;
-    }
-    if (rect_1_right <= rect_2_left)
-    {
-        return false;
-    }
-    if (rect_1_left >= rect_2_right)
-    {
-        return false;
-    }
-    return true;
-
-}
-//TODO: move to Event class
-int Core::EventHandler(void* data)
-{
-    SDL_Event event;
-    ThreadData *channel = (ThreadData*)data;
-    bool quit = false;
-    while (!quit)
-    {
-        while( SDL_WaitEvent(&event) != 0)
-        {
-            Interaction *inter = new Interaction();
-            if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP)
-            {
-                if (SDL_LockMutex(channel->parse_mutex) == 0)
-                {
-                    inter->button_event = event.cbutton.button;
-                    inter->controller_id = event.cbutton.which;
-                    inter->pressed = event.cbutton.state;
-                    channel->interact->push_back(inter);
-                    SDL_UnlockMutex(channel->parse_mutex);
-                }
-                else
-                {
-                    std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
-                }
-            }// BUTTONDOWN
-        }
-    }
-    return 0;
+    SDL_RenderClear(renderer);
 }
 
 void Core::CoreShutdown()
