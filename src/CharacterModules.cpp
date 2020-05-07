@@ -15,32 +15,6 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
     {
         CharacterObject* p = (*i)->character;
 
-        //This block will reposition hitboxs every iteration.
-        //This will remain here for now.
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        (*i)->character->selfBox->RePosition((*i)->character->posX+(*i)->character->selfHitBoxOffsetX,\
-                                             (*i)->character->posY+(*i)->character->selfHitBoxOffsetY);
-        (*i)->character->attackBox->RePosition((*i)->character->posX+(*i)->character->attackHitBoxOffsetX,\
-                                               (*i)->character->posY+(*i)->character->attackHitBoxOffsetY);
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //Test block for visualizing hit boxes for testing.
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if((*i)->character->selfBox->isAlpha)
-        {
-            SDL_SetRenderDrawColor(renderer,0,0,0xFF,0);
-            SDL_RenderDrawRect(renderer,(*i)->character->selfBox->rect);
-            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
-        }
-        if((*i)->character->attackBox->isAlpha)
-        {
-            SDL_SetRenderDrawColor(renderer,0xFF,0,0,0);
-            SDL_RenderDrawRect(renderer,(*i)->character->attackBox->rect);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF );
-        }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
         //IDLE
         if(!p->isJumping && !p->isFalling && !p->isWalkingLeft && !p->isWalkingRight && !p->isRunningLeft && !p->isRunningRight && !p->isAttackingReg)
         {
@@ -73,21 +47,11 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
             CharacterModules::RunRegularAttackModule(p,CharScale,Tick,renderer);
         }
         //TODO:// Add Strong attack animation section here.
+        //TODO:// Special attacks animations
+        //TODO:// Damage taken animations
 
-
-
-
-        //Logic for controlling hitbox offsets based on last direction faced
-        if(p->lastDirection == "LEFT")
-        {
-            p->attackHitBoxOffsetX=p->left_x_offset_attack;
-            p->selfHitBoxOffsetX = p->left_x_offset_self;
-        }
-        else if (p->lastDirection == "RIGHT")
-        {
-            p->attackHitBoxOffsetX = p->right_x_offset_attack;
-            p->selfHitBoxOffsetX = p->right_x_offset_self;
-        }
+        //Position Character HitBoxes.
+        CharacterModules::PositionHitBoxes(p,renderer);
     }
 }
 
@@ -207,25 +171,30 @@ void CharacterModules::RunIdleModule(CharacterObject* p,int CharScale,int Tick,S
 
 void CharacterModules::RunMoveWalkModule(CharacterObject* p, int CharScale, int Tick,SDL_Renderer* renderer)
 {
-    if(p->char_textures->GetFrameCount() >= p->char_textures->GetMoveingClipCount())
+    if(p->char_textures->GetFrameCount() >= p->char_textures->GetWalkingClipCount())
     {
         p->char_textures->SetFrameCount(0);
     }
     if(p->isWalkingLeft)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
-                                 p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_NONE);
+                                 p->posY,CharScale,0,0,&p->char_textures->walkingClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_NONE);
     }
     else if (p->isWalkingRight)
     {
         p->char_textures->render(p->char_textures,renderer,p->posX, \
-                                 p->posY,CharScale,0,0,&p->char_textures->movementClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_HORIZONTAL);
+                                 p->posY,CharScale,0,0,&p->char_textures->walkingClips[p->char_textures->GetFrameCount()],"M",SDL_FLIP_HORIZONTAL);
     }
-    if(Tick%p->char_textures->moveMod == 0)
+    if(Tick%p->char_textures->walkMod == 0)
     {
         p->char_textures->TickFrameCount();
     }
     p->Move(Tick);
+}
+
+void CharacterModules::RunMoveRunningModule(CharacterObject* p, int CharScale, int Tick, SDL_Renderer* renderer)
+{
+
 }
 
 void CharacterModules::RunFallingModule(CharacterObject* p, int CharScale, int Tick,SDL_Renderer* renderer)
@@ -344,4 +313,41 @@ void CharacterModules::SetInitialCharacterPositions(Level* stage, std::vector<Pl
             }
         }
     }
+}
+
+void CharacterModules::PositionHitBoxes(CharacterObject* p,SDL_Renderer* renderer)
+{
+    //Logic for controlling hitbox offsets based on last direction faced
+    if(p->lastDirection == "LEFT")
+    {
+        p->attackHitBoxOffsetX=p->left_x_offset_attack;
+        p->selfHitBoxOffsetX = p->left_x_offset_self;
+    }
+    else if (p->lastDirection == "RIGHT")
+    {
+        p->attackHitBoxOffsetX = p->right_x_offset_attack;
+        p->selfHitBoxOffsetX = p->right_x_offset_self;
+    }
+    //This block will reposition hitboxs every iteration.
+    //This will remain here for now.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    p->selfBox->RePosition(p->posX+p->selfHitBoxOffsetX,p->posY+p->selfHitBoxOffsetY);
+    p->attackBox->RePosition(p->posX+p->attackHitBoxOffsetX,p->posY+p->attackHitBoxOffsetY);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Test block for visualizing hit boxes for testing.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if(p->selfBox->isAlpha)
+    {
+        SDL_SetRenderDrawColor(renderer,0,0,0xFF,0);
+        SDL_RenderDrawRect(renderer,p->selfBox->rect);
+        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
+    }
+    if(p->attackBox->isAlpha)
+    {
+        SDL_SetRenderDrawColor(renderer,0xFF,0,0,0);
+        SDL_RenderDrawRect(renderer,p->attackBox->rect);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF );
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

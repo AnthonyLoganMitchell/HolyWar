@@ -97,19 +97,24 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         int jumping = 11;
         int falling = 6;
         int walking = 17;
+        int running = 0;
         int regAttack1= 14;
         int regAttack2= 16;
         int regJumpAttack = 13;
         int strongAttack1 = 0;
 
-        CharacterTexture* char_ptr = new CharacterTexture(idle,jumping,falling,walking,regAttack1,regAttack2,regJumpAttack,strongAttack1,Name,renderer);
+        CharacterTexture* char_ptr = new CharacterTexture(idle,jumping,falling,\
+                                                          walking,running,regAttack1,\
+                                                          regAttack2,regJumpAttack,strongAttack1,\
+                                                          Name,renderer);
         this->char_textures = char_ptr;
 
         //Modulation adjustments for frame speeds.
         ////////////////////////////////////////////
         this->char_textures->idleMod = 50;
         this->char_textures->jumpingMod = 20;
-        this->char_textures->moveMod = 30;
+        this->char_textures->walkMod = 30;
+        this->char_textures->runMod = 1;
         this->char_textures->attackRegMod = 11;
         this->char_textures->attackRegMod2 = 11;
         this->char_textures->fallingMod = 40;

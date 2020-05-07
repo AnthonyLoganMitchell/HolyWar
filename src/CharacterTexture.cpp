@@ -8,12 +8,12 @@
 *///
 #include "CharacterTexture.h"
 
-CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalMovementClips,int totalRegularAttackClips,\
+CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalWalkingClips,int totalRunningClips,int totalRegularAttackClips,\
                                    int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture()
 {
     this->idleTexture = NULL;
     this->attackRegularTexture = NULL;
-    this->movementTexture = NULL;
+    this->walkingTexture = NULL;
     this->fallingTexture = NULL;
     this->attackStrongTexture = NULL;
     this->attackRegularJumpingTexture = NULL;
@@ -31,8 +31,11 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->fallingClipCount = totalFallingClips-1;
     this->fallingClips = new SDL_Rect[totalFallingClips];
 
-    this->movementClipCount = totalMovementClips-1;
-    this->movementClips = new SDL_Rect[totalMovementClips];
+    this->walkingClipCount = totalWalkingClips-1;
+    this->walkingClips = new SDL_Rect[totalWalkingClips];
+
+    this->runningClipCount =  totalRunningClips -1;
+    this->RunningClips = new SDL_Rect[totalRunningClips];
 
     this->attackRegularClipCount = totalRegularAttackClips-1;
     this->attackRegularClips = new SDL_Rect[totalRegularAttackClips];
@@ -49,7 +52,8 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     //Cant divide by zero....
     this->idleMod =1;
     this->jumpingMod =1;
-    this->moveMod = 1;
+    this->walkMod = 1;
+    this->runMod = 1;
     this->fallingMod = 1;
     this->attackRegMod =1;
     this->attackRegMod2 =1;
@@ -104,9 +108,14 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
         t->fallingTexture = newTexture;
         load_flag = true;
     }
-    else if(t_type == "M")
+    else if(t_type == "W")
     {
-        t->movementTexture = newTexture;
+        t->walkingTexture = newTexture;
+        load_flag = true;
+    }
+    else if(t_type == "R")
+    {
+        t->runningTexture = newTexture;
         load_flag = true;
     }
     else if(t_type == "A")
@@ -124,7 +133,7 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
         t->attackRegularJumpingTexture = newTexture;
         load_flag = true;
     }
-    else if(t_type == "S")
+    else if(t_type == "S1")
     {
         t->attackStrongTexture = newTexture;
         load_flag = true;
@@ -210,7 +219,7 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
                 x_pos = x_pos + width + 1;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_walk.png", t, renderer,"M"))
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_walk.png", t, renderer,"W"))
         {
             printf( "Failed to load sprite sheet texture! horus_walk.png\n" );
             return false;
@@ -221,10 +230,10 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             int x_pos = 1;
             for (int i = 0; i<17; i++)
             {
-                t->movementClips[i].x = x_pos;
-                t->movementClips[i].y =1;
-                t->movementClips[i].w =80;
-                t->movementClips[i].h =65;
+                t->walkingClips[i].x = x_pos;
+                t->walkingClips[i].y =1;
+                t->walkingClips[i].w =80;
+                t->walkingClips[i].h =65;
                 x_pos = x_pos + width;
             }
         }
@@ -336,9 +345,13 @@ int CharacterTexture::GetFallingClipCount()
 {
     return this->fallingClipCount;
 }
-int CharacterTexture::GetMoveingClipCount()
+int CharacterTexture::GetWalkingClipCount()
 {
-    return this->movementClipCount;
+    return this->walkingClipCount;
+}
+int CharacterTexture::GetRunningClipCount()
+{
+    return this->runningClipCount;
 }
 int CharacterTexture::GetRegularAttackClipCount()
 {
@@ -433,7 +446,11 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         }
         else if(t_type == "M")
         {
-            SDL_RenderCopyEx(renderer,t->movementTexture,clip,&renderQuad,0.0,NULL,flip);
+            SDL_RenderCopyEx(renderer,t->walkingTexture,clip,&renderQuad,0.0,NULL,flip);
+        }
+        else if(t_type == "R")
+        {
+            SDL_RenderCopyEx(renderer,t->runningTexture,clip,&renderQuad,0.0,NULL,flip);
         }
         else if(t_type == "A")
         {
@@ -447,7 +464,7 @@ void CharacterTexture::render(CharacterTexture *t,SDL_Renderer* renderer, int x,
         {
             SDL_RenderCopyEx(renderer,t->attackRegularJumpingTexture,clip,&renderQuad,0.0,NULL,flip);
         }
-        else if(t_type == "S")
+        else if(t_type == "S1")
         {
             SDL_RenderCopyEx(renderer,t->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
         }

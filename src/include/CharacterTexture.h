@@ -17,9 +17,9 @@ class CharacterTexture : public Texture
 {
 public:
     //Constructors
-    //totalIdleClips, totalJumpingClips, totalFallingClips, totalMovementClips, totalRegularAttackClips, totalStrongAttackClips
+    //totalIdleClips, totalJumpingClips, totalFallingClips, totalWalkingClips, totalRegularAttackClips, totalStrongAttackClips
     //^^^The six int's at beginning of CharacterTexture();^^^
-    CharacterTexture(int,int,int,int,int,int,int,int,std::string,SDL_Renderer*);
+    CharacterTexture(int,int,int,int,int,int,int,int,int,std::string,SDL_Renderer*);
     //////////////////////////////////////////
     ~CharacterTexture();
     //These functions are not derived
@@ -29,7 +29,8 @@ public:
     int  GetIdleClipCount();
     int  GetJumpingClipCount();
     int  GetFallingClipCount();
-    int  GetMoveingClipCount();
+    int  GetWalkingClipCount();
+    int  GetRunningClipCount();
     int  GetRegularAttackClipCount();
     int  GetRegularAttackClipCount2();
     int  GetJumpingRegularAttackClipCount();
@@ -52,7 +53,8 @@ public:
     SDL_Texture*    idleTexture;
     SDL_Texture*    jumpingTexture;
     SDL_Texture*    fallingTexture;
-    SDL_Texture*    movementTexture;
+    SDL_Texture*    walkingTexture;
+    SDL_Texture*    runningTexture;
     SDL_Texture*    attackRegularTexture;
     SDL_Texture*    attackRegularTexture2;
     SDL_Texture*    attackStrongTexture;
@@ -62,7 +64,8 @@ public:
     SDL_Rect*    idleClips;
     SDL_Rect*    jumpingClips;
     SDL_Rect*    fallingClips;
-    SDL_Rect*    movementClips;
+    SDL_Rect*    walkingClips;
+    SDL_Rect*    RunningClips;
     SDL_Rect*    attackRegularClips;
     SDL_Rect*    attackRegularClips2;
     SDL_Rect*    attackRegularJumpingClips;
@@ -71,7 +74,8 @@ public:
     int idleMod;
     int jumpingMod;
     int fallingMod;
-    int moveMod;
+    int walkMod;
+    int runMod;
     int attackRegMod;
     int attackRegMod2;
     int attackRegJumpingMod;
@@ -91,7 +95,8 @@ private:
     int idleClipCount;
     int jumpingClipCount;
     int fallingClipCount;
-    int movementClipCount;
+    int walkingClipCount;
+    int runningClipCount;
     int attackRegularClipCount;
     int attackRegularClipCount2;
     int attackRegularJumpingClipCount;
