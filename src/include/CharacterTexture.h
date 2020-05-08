@@ -13,6 +13,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Texture.h"
+#include <iostream>
 class CharacterTexture : public Texture
 {
 public:
@@ -25,7 +26,7 @@ public:
     //These functions are not derived
     bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*,std::string);
     bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);
-    void render(CharacterTexture*, SDL_Renderer*, int, int, int, int, int, SDL_Rect*,std::string,SDL_RendererFlip);
+    void render(SDL_Renderer*, int, int, int, int, int, SDL_Rect*,std::string,SDL_RendererFlip);
     int  GetIdleClipCount();
     int  GetJumpingClipCount();
     int  GetFallingClipCount();
@@ -65,7 +66,7 @@ public:
     SDL_Rect*    jumpingClips;
     SDL_Rect*    fallingClips;
     SDL_Rect*    walkingClips;
-    SDL_Rect*    RunningClips;
+    SDL_Rect*    runningClips;
     SDL_Rect*    attackRegularClips;
     SDL_Rect*    attackRegularClips2;
     SDL_Rect*    attackRegularJumpingClips;

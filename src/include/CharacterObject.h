@@ -46,10 +46,12 @@ public:
     //////////////////////////////////
     bool isJumping;
     bool isFalling;
-    bool isWalkingLeft;
-    bool isWalkingRight;
-    bool isRunningLeft;
-    bool isRunningRight;
+
+    bool isWalking;
+    bool isRunning;
+    bool isMovingLeft;
+    bool isMovingRight;
+
     bool isColliding;
     bool isAttackingReg;
     bool isHoldingReg;

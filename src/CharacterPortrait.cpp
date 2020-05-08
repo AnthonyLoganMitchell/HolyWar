@@ -8,28 +8,24 @@
 */
 #include "CharacterPortrait.h"
 
-CharacterPortrait::CharacterPortrait(int clip_no,std::string id_name,std::string char_name,SDL_Renderer* renderer)
-{
+CharacterPortrait::CharacterPortrait(int clip_no,std::string id_name,std::string char_name,SDL_Renderer* renderer) {
     //ctor
     this->avatar = new GeneralTexture(clip_no,id_name,renderer);
     this->CharacterName = char_name;
 }
 
-std::vector<CharacterPortrait*>* CharacterPortrait::InitCharacterPortraits(SDL_Renderer* renderer)
-{
+std::vector<CharacterPortrait*>* CharacterPortrait::InitCharacterPortraits(SDL_Renderer* renderer) {
     std::vector<CharacterPortrait*> *cp_vec = new std::vector<CharacterPortrait*>;
     CharacterPortrait *cp = new CharacterPortrait(18,"HorusCharacterSelect","Horus",renderer);
     cp_vec->push_back(cp);
     cp = NULL;
     delete(cp);
-    if (sizeof(cp_vec) > 0)
-    {
+    if (sizeof(cp_vec) > 0) {
         return cp_vec;
     }
     return NULL;
 }
 
-CharacterPortrait::~CharacterPortrait()
-{
+CharacterPortrait::~CharacterPortrait() {
     this->avatar->Free_Texture();
 }

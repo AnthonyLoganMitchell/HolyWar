@@ -8,13 +8,11 @@
 */
 #include "Interaction.h"
 
-Interaction::Interaction()
-{
+Interaction::Interaction() {
     //ctor
 }
 
-Interaction::~Interaction()
-{
+Interaction::~Interaction() {
     //dtor
 }
 
