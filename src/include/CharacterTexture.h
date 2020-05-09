@@ -24,8 +24,8 @@ public:
     //////////////////////////////////////////
     ~CharacterTexture();
     //These functions are not derived
-    bool loadCharacterFromFile( std::string, CharacterTexture*, SDL_Renderer*,std::string);
-    bool loadCharacterMedia(CharacterTexture*, SDL_Renderer*);
+    bool loadCharacterFromFile( std::string,SDL_Renderer*,std::string);
+    bool loadCharacterMedia(SDL_Renderer*);
     void render(SDL_Renderer*, int, int, int, int, int, SDL_Rect*,std::string,SDL_RendererFlip);
     int  GetIdleClipCount();
     int  GetJumpingClipCount();

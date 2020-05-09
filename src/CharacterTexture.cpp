@@ -59,14 +59,14 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackRegMod2 =1;
     this->attackRegJumpingMod=1;
     this->attackStrongMod =1;
-    this->loadCharacterMedia(this,rend);
+    this->loadCharacterMedia(rend);
 }
 CharacterTexture::~CharacterTexture() {
     //TODO: Delete all textures on the heap.
 
 }
 
-bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture* t, SDL_Renderer* renderer,std::string t_type) {
+bool CharacterTexture::loadCharacterFromFile(std::string path,SDL_Renderer* renderer,std::string t_type) {
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
     bool load_flag = false;
@@ -78,171 +78,171 @@ bool CharacterTexture::loadCharacterFromFile(std::string path, CharacterTexture*
             printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
         } else {
             //Get image dimensions
-            t->SetWidth(loadedSurface->w);
-            t->SetHeight(loadedSurface->h);
+            this->SetWidth(loadedSurface->w);
+            this->SetHeight(loadedSurface->h);
         }
         //Get rid of old loaded surface
         SDL_FreeSurface( loadedSurface );
     }
     //Return success
     if(t_type == "I") {
-        t->idleTexture = newTexture;
+        this->idleTexture = newTexture;
         load_flag = true;
     } else if( t_type == "J") {
-        t->jumpingTexture = newTexture;
+        this->jumpingTexture = newTexture;
         load_flag = true;
     } else if(t_type =="F") {
-        t->fallingTexture = newTexture;
+        this->fallingTexture = newTexture;
         load_flag = true;
     } else if(t_type == "W") {
-        t->walkingTexture = newTexture;
+        this->walkingTexture = newTexture;
         load_flag = true;
     } else if(t_type == "R") {
-        t->runningTexture = newTexture;
+        this->runningTexture = newTexture;
         load_flag = true;
     } else if(t_type == "A") {
-        t->attackRegularTexture = newTexture;
+        this->attackRegularTexture = newTexture;
         load_flag = true;
     } else if(t_type == "A2") {
-        t->attackRegularTexture2 = newTexture;
+        this->attackRegularTexture2 = newTexture;
         load_flag = true;
     } else if (t_type == "JA") {
-        t->attackRegularJumpingTexture = newTexture;
+        this->attackRegularJumpingTexture = newTexture;
         load_flag = true;
     } else if(t_type == "S1") {
-        t->attackStrongTexture = newTexture;
+        this->attackStrongTexture = newTexture;
         load_flag = true;
     }
     return load_flag;
 }
 
-bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* renderer) {
+bool CharacterTexture::loadCharacterMedia(SDL_Renderer* renderer) {
     //Loading success flag
     //Load sprite sheet texture
-    if(t->name == "jesus") {
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/jesus/jesus-idle.png", t, renderer,"I")) {
+    if(this->name == "jesus") {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/jesus/jesus-idle.png",renderer,"I")) {
             printf( "Failed to load sprite sheet texture! jesus-idle.png\n" );
             return false;
         } else {
             //Set top left sprite
-            t-> idleClips[ 0 ].x = 2;
-            t-> idleClips[ 0 ].y = 0;
-            t-> idleClips[ 0 ].w = 38;
-            t-> idleClips[ 0 ].h = 40;
+            this-> idleClips[ 0 ].x = 2;
+            this-> idleClips[ 0 ].y = 0;
+            this-> idleClips[ 0 ].w = 38;
+            this-> idleClips[ 0 ].h = 40;
 
-            t-> idleClips[1].x = 43;
-            t-> idleClips[1].y = 0;
-            t-> idleClips[1].w = 38;
-            t-> idleClips[1].h = 40;
+            this-> idleClips[1].x = 43;
+            this-> idleClips[1].y = 0;
+            this-> idleClips[1].w = 38;
+            this-> idleClips[1].h = 40;
 
-            t-> idleClips[2].x = 84;
-            t-> idleClips[2].y = 0;
-            t-> idleClips[2].w = 38;
-            t-> idleClips[2].h = 40;
+            this-> idleClips[2].x = 84;
+            this-> idleClips[2].y = 0;
+            this-> idleClips[2].w = 38;
+            this-> idleClips[2].h = 40;
 
-            t-> idleClips[3].x = 125;
-            t-> idleClips[3].y = 0;
-            t-> idleClips[3].w = 38;
-            t-> idleClips[3].h = 40;
+            this-> idleClips[3].x = 125;
+            this-> idleClips[3].y = 0;
+            this-> idleClips[3].w = 38;
+            this-> idleClips[3].h = 40;
 
-            t-> idleClips[4].x = 166;
-            t-> idleClips[4].y = 0;
-            t-> idleClips[4].w = 38;
-            t-> idleClips[4].h = 40;
+            this-> idleClips[4].x = 166;
+            this-> idleClips[4].y = 0;
+            this-> idleClips[4].w = 38;
+            this-> idleClips[4].h = 40;
 
-            t-> idleClips[5].x = 207;
-            t-> idleClips[5].y = 0;
-            t-> idleClips[5].w = 38;
-            t-> idleClips[5].h = 40;
+            this-> idleClips[5].x = 207;
+            this-> idleClips[5].y = 0;
+            this-> idleClips[5].w = 38;
+            this-> idleClips[5].h = 40;
 
-            t-> idleClips[6].x = 248;
-            t-> idleClips[6].y = 0;
-            t-> idleClips[6].w = 38;
-            t-> idleClips[6].h = 40;
+            this-> idleClips[6].x = 248;
+            this-> idleClips[6].y = 0;
+            this-> idleClips[6].w = 38;
+            this-> idleClips[6].h = 40;
 
-            t-> idleClips[7].x = 289;
-            t-> idleClips[7].y = 0;
-            t-> idleClips[7].w = 38;
-            t-> idleClips[7].h = 40;
+            this-> idleClips[7].x = 289;
+            this-> idleClips[7].y = 0;
+            this-> idleClips[7].w = 38;
+            this-> idleClips[7].h = 40;
         }
 
         //TODO: Load more of jesus's textures here before return. (movement,attacking,jumping,falling,ect...)
         return true;
     }//End of jesus textures.
-    if(t->name == "Horus") {
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_idle.png", t, renderer,"I")) {
+    if(this->name == "Horus") {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_idle.png",renderer,"I")) {
             printf( "Failed to load sprite sheet texture! horus_idle.png\n" );
             return false;
         } else {
             int width = 79;
             int x_pos = 1;
             for (int i =0; i<18; i++) {
-                t->idleClips[i].x = x_pos;
-                t->idleClips[i].y =1;
-                t->idleClips[i].w =79;
-                t->idleClips[i].h =65;
+                this->idleClips[i].x = x_pos;
+                this->idleClips[i].y =1;
+                this->idleClips[i].w =79;
+                this->idleClips[i].h =65;
                 x_pos = x_pos + width + 1;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_walk.png", t, renderer,"W")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_walk.png",renderer,"W")) {
             printf( "Failed to load sprite sheet texture! horus_walk.png\n" );
             return false;
         } else {
             int width = 80;
             int x_pos = 1;
             for (int i = 0; i<17; i++) {
-                t->walkingClips[i].x = x_pos;
-                t->walkingClips[i].y = 1;
-                t->walkingClips[i].w = 80;
-                t->walkingClips[i].h = 65;
+                this->walkingClips[i].x = x_pos;
+                this->walkingClips[i].y = 1;
+                this->walkingClips[i].w = 80;
+                this->walkingClips[i].h = 65;
                 x_pos = x_pos + width;
             }
         }
 
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_run.png", t, renderer,"R")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_run.png",renderer,"R")) {
             printf( "Failed to load sprite sheet texture! horus_run.png\n" );
             return false;
         } else {
             int width = 80;
             int x_pos = 1;
             for (int i = 0; i<13; i++) {
-                t->runningClips[i].x = x_pos;
-                t->runningClips[i].y = 1;
-                t->runningClips[i].w = 80;
-                t->runningClips[i].h = 65;
+                this->runningClips[i].x = x_pos;
+                this->runningClips[i].y = 1;
+                this->runningClips[i].w = 80;
+                this->runningClips[i].h = 65;
                 x_pos = x_pos + width;
             }
         }
 
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jump.png", t, renderer,"J")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jump.png", renderer,"J")) {
             printf( "Failed to load sprite sheet texture! horus_jump.png\n" );
             return false;
         } else {
             int width = 80;
             int x_pos = 1;
             for (int i = 0; i<11; i++) {
-                t->jumpingClips[i].x = x_pos;
-                t->jumpingClips[i].y =1;
-                t->jumpingClips[i].w =80;
-                t->jumpingClips[i].h =65;
+                this->jumpingClips[i].x = x_pos;
+                this->jumpingClips[i].y =1;
+                this->jumpingClips[i].w =80;
+                this->jumpingClips[i].h =65;
                 x_pos = x_pos + width;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_falling.png", t, renderer, "F")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_falling.png",renderer, "F")) {
             printf( "Failed to load sprite sheet texture! horus_falling.png\n" );
             return false;
         } else {
             int width = 85;
             int x_pos = 1;
             for (int i = 0; i<6; i++) {
-                t->fallingClips[i].x = x_pos;
-                t->fallingClips[i].y =1;
-                t->fallingClips[i].w =85;
-                t->fallingClips[i].h =65;
+                this->fallingClips[i].x = x_pos;
+                this->fallingClips[i].y =1;
+                this->fallingClips[i].w =85;
+                this->fallingClips[i].h =65;
                 x_pos = x_pos + width;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_1.png", t, renderer, "A")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_1.png",renderer, "A")) {
             printf( "Failed to load sprite sheet texture! horus_reg_attack_1.png\n" );
             return false;
         } else {
@@ -250,38 +250,38 @@ bool CharacterTexture::loadCharacterMedia(CharacterTexture *t, SDL_Renderer* ren
             int width = 85;
             int x_pos = 1;
             for (int i = 0; i<14; i++) {
-                t->attackRegularClips[i].x = x_pos;
-                t->attackRegularClips[i].y =1;
-                t->attackRegularClips[i].w =85;
-                t->attackRegularClips[i].h =65;
+                this->attackRegularClips[i].x = x_pos;
+                this->attackRegularClips[i].y =1;
+                this->attackRegularClips[i].w =85;
+                this->attackRegularClips[i].h =65;
                 x_pos = x_pos + width;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_2.png", t, renderer,"A2")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_reg_attack_2.png",renderer,"A2")) {
             printf( "Failed to load sprite sheet texture! horus_reg_attack_2.png\n" );
             return false;
         } else {
             int width = 85;
             int x_pos = 1;
             for (int i = 0; i<16; i++) {
-                t->attackRegularClips2[i].x = x_pos;
-                t->attackRegularClips2[i].y =1;
-                t->attackRegularClips2[i].w =85;
-                t->attackRegularClips2[i].h =65;
+                this->attackRegularClips2[i].x = x_pos;
+                this->attackRegularClips2[i].y =1;
+                this->attackRegularClips2[i].w =85;
+                this->attackRegularClips2[i].h =65;
                 x_pos = x_pos + width;
             }
         }
-        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jumping_regular_attack.png", t, renderer,"JA")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_jumping_regular_attack.png",renderer,"JA")) {
             printf( "Failed to load sprite sheet texture! horus_jumping_regular_attack.png\n" );
             return false;
         } else {
             int width = 85;
             int x_pos = 1;
             for (int i = 0; i<13; i++) {
-                t->attackRegularJumpingClips[i].x = x_pos;
-                t->attackRegularJumpingClips[i].y =1;
-                t->attackRegularJumpingClips[i].w =85;
-                t->attackRegularJumpingClips[i].h =65;
+                this->attackRegularJumpingClips[i].x = x_pos;
+                this->attackRegularJumpingClips[i].y =1;
+                this->attackRegularJumpingClips[i].w =85;
+                this->attackRegularJumpingClips[i].h =65;
                 x_pos = x_pos + width;
             }
         }

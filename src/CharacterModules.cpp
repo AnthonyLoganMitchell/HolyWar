@@ -44,7 +44,6 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
         //TODO:// Add Strong attack animation section here.
         //TODO:// Special attacks animations
         //TODO:// Damage taken animations
-
         //Position Character HitBoxes.
         CharacterModules::PositionHitBoxes(p,renderer);
     }

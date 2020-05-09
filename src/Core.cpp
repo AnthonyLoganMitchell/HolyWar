@@ -125,10 +125,10 @@ void  Core::RunMainMenu(SDL_mutex* mutex) {
     this->state->mainMenuOps = new MainMenuOptions(this->renderer);
 
     //Textures
-    GeneralTexture* logo       = this->state->mainMenuOps->menuLogo;
-    logo->loadMedia(logo,this->renderer);
+    GeneralTexture* logo = this->state->mainMenuOps->menuLogo;
+    logo->loadMedia(this->renderer);
     GeneralTexture* background = this->state->mainMenuOps->menuBackground;
-    background->loadMedia(background,this->renderer);
+    background->loadMedia(this->renderer);
 
 
     //Buttons
@@ -140,10 +140,10 @@ void  Core::RunMainMenu(SDL_mutex* mutex) {
     MenuButton* QuitButton = this->state->mainMenuOps->menuQuit;
     QuitButton->is_highlighted=false;
 
-    StartButton->texture->loadMedia(StartButton->texture, this->renderer);
-    BattleButton->texture->loadMedia(BattleButton->texture,this->renderer);
-    OptionsButton->texture->loadMedia(OptionsButton->texture,this->renderer);
-    QuitButton->texture->loadMedia(QuitButton->texture, this->renderer);
+    StartButton->texture->loadMedia(this->renderer);
+    BattleButton->texture->loadMedia(this->renderer);
+    OptionsButton->texture->loadMedia(this->renderer);
+    QuitButton->texture->loadMedia(this->renderer);
 
 
 
@@ -155,9 +155,9 @@ void  Core::RunMainMenu(SDL_mutex* mutex) {
             for (int i=0; i<256; i+=10) { //TODO change back to slower value in production.
                 Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
-                background->render(background, this->renderer,0,0,2,0,0,NULL);
+                background->render(this->renderer,0,0,2,0,0,NULL);
                 background->SetAlpha(i);
-                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
+                logo->render(this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
                 logo->SetAlpha(i);
                 this->renderPresent();
                 SDL_Delay(20);
@@ -166,26 +166,26 @@ void  Core::RunMainMenu(SDL_mutex* mutex) {
         Event::ParseEvents(this->data,mutex,this->state,this->players);
         alphaFlag = false;
         this->renderClear();
-        background->render(background, this->renderer,0,0,2,0,0,NULL);
-        logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
+        background->render(this->renderer,0,0,2,0,0,NULL);
+        logo->render(this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
         if(this->state->onMainMenuStart) {
-            StartButton->texture->render(StartButton->texture,this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
+            StartButton->texture->render(this->renderer,logoXPos+320,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
         }
         if (this->state->onOptionSelection) {
             if(BattleButton->is_highlighted) {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,0,0,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
+                BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,0,0,NULL);
+                OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
+                QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
             }
             if (OptionsButton->is_highlighted) {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,0,0,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
+                BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
+                OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,0,0,NULL);
+                QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
             }
             if (QuitButton->is_highlighted) {
-                BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
-                OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
-                QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,0,0,NULL);
+                BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
+                OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
+                QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,0,0,NULL);
             }
 
         }
@@ -198,32 +198,32 @@ void  Core::RunMainMenu(SDL_mutex* mutex) {
                 alphaFlag = false;
                 this->renderClear();
                 background->SetAlpha(i);
-                background->render(this->state->mainMenuOps->menuBackground, this->renderer,0,0,2,0,0,NULL);
+                background->render(this->renderer,0,0,2,0,0,NULL);
                 logo->SetAlpha(i);
-                logo->render(logo,this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
+                logo->render(this->renderer,logoXPos,this->SCREEN_HEIGHT/4-100,1,0,0,NULL);
                 if (this->state->onOptionSelection) {
                     if(BattleButton->is_highlighted) {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,0,0,NULL);
+                        BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,5,0,0,NULL);
                         BattleButton->texture->SetAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
+                        OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
                         OptionsButton->texture->SetAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
+                        QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
                         QuitButton->texture->SetAlpha(i);
                     }
                     if (OptionsButton->is_highlighted) {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
+                        BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
                         BattleButton->texture->SetAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,0,0,NULL);
+                        OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,5,0,0,NULL);
                         OptionsButton->texture->SetAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
+                        QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,4,0,0,NULL);
                         QuitButton->texture->SetAlpha(i);
                     }
                     if (QuitButton->is_highlighted) {
-                        BattleButton->texture->render(BattleButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
+                        BattleButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+150,4,0,0,NULL);
                         BattleButton->texture->SetAlpha(i);
-                        OptionsButton->texture->render(OptionsButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
+                        OptionsButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+200,4,0,0,NULL);
                         OptionsButton->texture->SetAlpha(i);
-                        QuitButton->texture->render(QuitButton->texture,this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,0,0,NULL);
+                        QuitButton->texture->render(this->renderer,logoXPos+300,(this->SCREEN_HEIGHT/2)+250,5,0,0,NULL);
                         QuitButton->texture->SetAlpha(i);
                     }
 
@@ -276,9 +276,9 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
                 Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
                 background->SetAlpha(i);
-                background->render(background, this->renderer,0,0,2,0,0,NULL);
+                background->render(this->renderer,0,0,2,0,0,NULL);
                 cs_menu_midground->SetAlpha(i);
-                cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+                cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
                 this->renderPresent();
                 SDL_Delay(1);
             }
@@ -289,8 +289,8 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
 
         this->renderClear();
         Event::ParseEvents(this->data,mutex,this->state,this->players);
-        background->render(background, this->renderer,0,0,2,0,0,NULL);
-        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        background->render(this->renderer,0,0,2,0,0,NULL);
+        cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
 
         for(std::vector<CharacterPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++) {
             //This section aligns the characterPortrait with its encapsulating square position.
@@ -298,7 +298,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
                 SDL_RenderDrawRect(this->renderer,character_rec);
                 int offset_x= ((character_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
                 int offset_y=   character_rec->h-(*i)->avatar->GetHeight()-10;
-                (*i)->avatar->render((*i)->avatar,this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                (*i)->avatar->render(this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++) {
                     if ((*j)->isActive) {
                         if(Collision::CursorCollisionDetect((*j)->cursor,character_rec)) {
@@ -344,7 +344,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
                 SDL_RenderDrawRect(this->renderer,character_rec);
                 int offset_x = ((character_rec->w-((*i)->avatar->GetWidth()/(*i)->avatar->textureClipCount+1))/2)+5;
                 int offset_y=   character_rec->h-(*i)->avatar->GetHeight()-10;
-                (*i)->avatar->render((*i)->avatar,this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
+                (*i)->avatar->render(this->renderer,character_rec->x,character_rec->y,1,offset_x,offset_y, &(*i)->avatar->animation[0]);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++) {
                     if ((*j)->isActive) {
                         if(Collision::CursorCollisionDetect((*j)->cursor,character_rec)) {
@@ -390,7 +390,7 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
                     if ((*k)->CharacterName == (*i)->CharacterName && j == (*k)->ID) {
                         int offset_x = ((Portrait->w-((((*i)->avatar->GetWidth()*3))/(*i)->avatar->textureClipCount+1))/2)+10;
                         int offset_y =   Portrait->h-(((*i)->avatar->GetHeight()*3))-15;
-                        (*i)->avatar->render((*i)->avatar,this->renderer,Portrait->x,Portrait->y,3,offset_x,offset_y, &(*i)->avatar->animation[(*i)->avatar->GetFrameCount()]);
+                        (*i)->avatar->render(this->renderer,Portrait->x,Portrait->y,3,offset_x,offset_y, &(*i)->avatar->animation[(*i)->avatar->GetFrameCount()]);
                         if(idleMod % 7 == 0) {
                             (*i)->avatar->TickFrameCount();
                         }
@@ -407,8 +407,8 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
         //Render and move players cursor texture.
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++) {
             if ((*i)->isActive) {
-                (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
-                playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
+                (*i)->cursor->Texture->render(this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
+                playerNumber->render(this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
                                      (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,0,0, &playerNumber->animation[(*i)->ID+1]);
                 (*i)->cursor->Move();
             }
@@ -431,9 +431,9 @@ void Core::RunCharacterSelect(SDL_mutex* mutex) {
         //Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
         background->SetAlpha(i);
-        background->render(background, this->renderer,0,0,2,0,0,NULL);
+        background->render(this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->SetAlpha(i);
-        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
         this->renderPresent();
         SDL_Delay(5);
     }
@@ -468,11 +468,11 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
     int def_x_pos = 200;
     int def_y_pos = 500;
     int level_box_y_pos = 115;
-    SDL_Rect *exp_rec = new (SDL_Rect);
-    exp_rec->h= 85;
-    exp_rec->w= 120;
-    exp_rec->x= def_x_pos;
-    exp_rec->y= def_y_pos;
+    SDL_Rect *level_rec = new (SDL_Rect);
+    level_rec->h= 85;
+    level_rec->w= 120;
+    level_rec->x= def_x_pos;
+    level_rec->y= def_y_pos;
 
     SDL_Rect *LevelBox = new (SDL_Rect);
     LevelBox->h = 275;
@@ -485,9 +485,9 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
                 Event::ParseEvents(this->data,mutex,this->state,this->players);
                 this->renderClear();
                 background->SetAlpha(i);
-                background->render(background, this->renderer,0,0,2,0,0,NULL);
+                background->render(this->renderer,0,0,2,0,0,NULL);
                 cs_menu_midground->SetAlpha(i);
-                cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+                cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
                 this->renderPresent();
                 SDL_Delay(1);
             }
@@ -496,34 +496,34 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
         Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
-        background->render(background, this->renderer,0,0,2,0,0,NULL);
-        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        background->render(this->renderer,0,0,2,0,0,NULL);
+        cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
         for(std::vector<LevelPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++) {
-            if(exp_rec->x+ exp_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth()) {
-                SDL_RenderDrawRect(this->renderer,exp_rec);
-                (*i)->level_avatar_small->render((*i)->level_avatar_small,this->renderer,exp_rec->x,exp_rec->y,1,0,0, NULL);
+            if(level_rec->x+ level_rec->w <= cs_menu_midground->GetXPos()+cs_menu_midground->GetWidth()) {
+                SDL_RenderDrawRect(this->renderer,level_rec);
+                (*i)->level_avatar_small->render(this->renderer,level_rec->x,level_rec->y,1,0,0, NULL);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++) {
                     if ((*j)->isActive) {
-                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec)) {
+                        if(Collision::CursorCollisionDetect((*j)->cursor,level_rec)) {
 
                             if((*j)->ID+1 == 1) {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 2) {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 3) {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 4) {
                                 SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->levelSelected) {
@@ -540,33 +540,33 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
 
                     }
                 }
-                exp_rec->x = exp_rec->x+exp_rec->w+30;
+                level_rec->x = level_rec->x+level_rec->w+30;
             } else {
-                exp_rec->x=def_x_pos;
-                exp_rec->y= exp_rec->y+exp_rec->h+50;
-                SDL_RenderDrawRect(this->renderer,exp_rec);
-                (*i)->level_avatar_small->render((*i)->level_avatar_small,this->renderer,exp_rec->x,exp_rec->y,1,0,0, NULL);
+                level_rec->x=def_x_pos;
+                level_rec->y= level_rec->y+level_rec->h+50;
+                SDL_RenderDrawRect(this->renderer,level_rec);
+                (*i)->level_avatar_small->render(this->renderer,level_rec->x,level_rec->y,1,0,0, NULL);
                 for(std::vector<PlayerObject*>::iterator j = this->players->begin(); j!= this->players->end(); j++) {
                     if ((*j)->isActive) {
-                        if(Collision::CursorCollisionDetect((*j)->cursor,exp_rec)) {
+                        if(Collision::CursorCollisionDetect((*j)->cursor,level_rec)) {
                             if((*j)->ID+1 == 1) {
                                 SDL_SetRenderDrawColor(this->renderer,255,0,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 2) {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 3) {
                                 SDL_SetRenderDrawColor(this->renderer,0,0,255,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->ID+1 == 4) {
                                 SDL_SetRenderDrawColor(this->renderer,204,204,0,0);
-                                SDL_RenderDrawRect(this->renderer,exp_rec);
+                                SDL_RenderDrawRect(this->renderer,level_rec);
                                 (*j)->cursor->isColliding = true;
                             }
                             if ((*j)->levelSelected) {
@@ -585,15 +585,15 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
         }
         for(std::vector<LevelPortrait*>::iterator i = avatars->begin(); i!= avatars->end(); i++) {
             if(this->state->levelName == (*i)->LevelName) {
-                (*i)->level_avatar_big->render((*i)->level_avatar_big,this->renderer,LevelBox->x,LevelBox->y,1,0,0,NULL);
+                (*i)->level_avatar_big->render(this->renderer,LevelBox->x,LevelBox->y,1,0,0,NULL);
             }
         }
         SDL_SetRenderDrawColor( this->renderer, 119, 119, 119, 0);
         SDL_RenderDrawRect(this->renderer, LevelBox);
         for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++) {
             if ((*i)->isActive) {
-                (*i)->cursor->Texture->render((*i)->cursor->Texture,this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
-                playerNumber->render(playerNumber,this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
+                (*i)->cursor->Texture->render(this->renderer,(*i)->cursor->PosX,(*i)->cursor->PosY,3,0,0,NULL);
+                playerNumber->render(this->renderer,(*i)->cursor->PosX+(*i)->cursor->Texture->GetWidth()*3, \
                                      (*i)->cursor->PosY+(*i)->cursor->Texture->GetHeight()*3,2,0,0, &playerNumber->animation[(*i)->ID+1]);
                 (*i)->cursor->Move();
             }
@@ -601,8 +601,8 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
         }
         this->renderPresent();
         SDL_Delay(25);
-        exp_rec->x = def_x_pos;
-        exp_rec->y = def_y_pos;
+        level_rec->x = def_x_pos;
+        level_rec->y = def_y_pos;
     }
     this->state->transition = true;
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0xFF );
@@ -610,15 +610,15 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
         Event::ParseEvents(this->data,mutex,this->state,this->players);
         this->renderClear();
         background->SetAlpha(i);
-        background->render(background, this->renderer,0,0,2,0,0,NULL);
+        background->render(this->renderer,0,0,2,0,0,NULL);
         cs_menu_midground->SetAlpha(i);
-        cs_menu_midground->render(cs_menu_midground,this->renderer,100,100,1,0,0,NULL);
+        cs_menu_midground->render(this->renderer,100,100,1,0,0,NULL);
         this->renderPresent();
         SDL_Delay(5);
     }
     playerNumber->Free_Texture();
     cs_menu_midground->Free_Texture();
-    delete(exp_rec);
+    delete(level_rec);
     delete(LevelBox);
     for(LevelPortrait* i : *avatars) {
         delete(i);
@@ -667,11 +667,11 @@ void Core::RunMatch(SDL_mutex* parse_mutex) {
                 this->renderClear();
                 for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++) {
                     (*i)->SetAlpha(j);
-                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+                    (*i)->render(this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
                 }
                 for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++) {
                     (*i)->SetAlpha(j);
-                    (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
+                    (*i)->render(this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
                 }
                 this->renderPresent();
                 SDL_Delay(5);
@@ -684,10 +684,10 @@ void Core::RunMatch(SDL_mutex* parse_mutex) {
         this->renderClear();
 
         for(std::vector<GeneralTexture*>::iterator i = stage->textures->begin(); i!= stage->textures->end(); i++) {
-            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
+            (*i)->render(this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),2,0,0,NULL);
         }
         for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++) {
-            (*i)->render((*i),this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
+            (*i)->render(this->renderer,(*i)->GetXPos(),(*i)->GetYPos(),PlatformScale,0,0,NULL);
         }
 
         //TODO:// Will run collision detection between character combat here.
