@@ -8,8 +8,7 @@
 */
 #include "MainMenuOptions.h"
 
-MainMenuOptions::MainMenuOptions(SDL_Renderer* renderer)
-{
+MainMenuOptions::MainMenuOptions(SDL_Renderer* renderer) {
     this->menuBackground = new GeneralTexture(1,"SplashBackground",renderer);
     this->menuLogo = new GeneralTexture(1,"MainMenuLogo",renderer);
     this->menuStart = new MenuButton(1,"MenuStartButton",renderer);
@@ -18,8 +17,7 @@ MainMenuOptions::MainMenuOptions(SDL_Renderer* renderer)
     this->menuQuit = new MenuButton(1,"MenuQuitButton",renderer);
 }
 
-MainMenuOptions::~MainMenuOptions()
-{
+MainMenuOptions::~MainMenuOptions() {
     //dtor
     this->menuBackground->Free_Texture();
     this->menuLogo->Free_Texture();

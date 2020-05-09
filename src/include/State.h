@@ -22,6 +22,7 @@ public:
     bool onCharacterSelection;
     bool onRunningMatch;
     bool transition;
+    bool quit_program;
     MainMenuOptions* mainMenuOps;
     std::string levelName;
 

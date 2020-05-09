@@ -8,25 +8,20 @@
 *///
 #ifndef CORE_H
 #define CORE_H
+#define  SDL_MAIN_HANDLED
+#include <SDL_thread.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <vector>
 #include <iostream>
-#include "Texture.h"
-#include "GeneralTexture.h"
-#include "Interaction.h"
+#include <vector>
+#include <stdlib.h>
+#include "Event.h"
 #include "ThreadData.h"
-#include "MenuButton.h"
 #include "State.h"
 #include "PlayerObject.h"
-#include <map>
-#include <vector>
 #include "CharacterPortrait.h"
-#include <stdlib.h>
-#include "PlayerCursor.h"
 #include "LevelPortrait.h"
-#include "CharacterObject.h"
-#include "Level.h"
+
 //
 class Core
 {
@@ -42,26 +37,10 @@ public:
     void RunLevelSelect(SDL_mutex*);
     void RunMatch(SDL_mutex*);
     void RunCharacters(int,int,int);
-    void RunCollisionModule(int,int, Level*);
-    void RunRegularAttackModule(CharacterObject*,int,int);
-    void RunIdleModule(CharacterObject*,int,int);
-    void RunMoveModule(CharacterObject*,int,int);
-    void RunFallingModule(CharacterObject*,int,int);
-    void RunJumpingModule(CharacterObject*,int,int);
-    void RunJumpFallTransitionModule(CharacterObject*,int,int);
-    void SetInitialCharacterPositions(Level*);
-
-    void ParseEvents(ThreadData* data,SDL_mutex*);
-    bool CursorCollisionDetect(PlayerCursor*,SDL_Rect*);
-    bool CollisionObjectCharacter(GeneralTexture* A, int, CharacterObject* B, int);
-    static int EventHandler(void*);
-    std::vector<CharacterPortrait*> *InitCharacterPortraits(SDL_Renderer*);
-    std::vector<LevelPortrait*> *InitLevelPortraits(SDL_Renderer*);
 
 
     SDL_Window* window;
     SDL_Renderer* renderer;
-    bool quit_program;
     int tick;
     ThreadData *data;
     SDL_mutex* parse_mutex;

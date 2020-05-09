@@ -11,13 +11,16 @@
 #include <string>
 #include "SDL.h"
 #include "GeneralTexture.h"
+#include <vector>
 class LevelPortrait
 {
     public:
         LevelPortrait(std::string,std::string, std::string, SDL_Renderer*);
+        static std::vector<LevelPortrait*>* InitLevelPortraits(SDL_Renderer*);
+        virtual ~LevelPortrait();
+
         GeneralTexture *level_avatar_small;
         GeneralTexture *level_avatar_big;
         std::string LevelName;
-        virtual ~LevelPortrait();
 };
 #endif // LEVELPORTRAIT_H

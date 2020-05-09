@@ -9,8 +9,7 @@
 #include "PlayerCursor.h"
 
 
-PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer)
-{
+PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer) {
     this->PosX = x;
     this->PosY = y;
     this->default_x = x;
@@ -23,20 +22,17 @@ PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer)
 }
 
 
-PlayerCursor::~PlayerCursor()
-{
+PlayerCursor::~PlayerCursor() {
     //dtor
     this->Texture->Free_Texture();
 }
 
-void PlayerCursor::Move()
-{
+void PlayerCursor::Move() {
     this->PosX += this->VelX;
     this->PosY += this->VelY;
 
 }
 
-void PlayerCursor::ResetPos()
-{
+void PlayerCursor::ResetPos() {
 
 }

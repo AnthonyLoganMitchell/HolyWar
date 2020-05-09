@@ -9,22 +9,18 @@
 #include "Level.h"
 
 
-Level::Level(std::string name,SDL_Renderer* renderer)
-{
+Level::Level(std::string name,SDL_Renderer* renderer) {
     this->textures = new std::vector<GeneralTexture*>;
     this->platforms = new std::vector<GeneralTexture*>;
     this->InitLevelObjects(name,renderer);
 }
 
-Level::~Level()
-{
+Level::~Level() {
 
 }
-void Level::InitLevelObjects(std::string name,SDL_Renderer* renderer)
-{
+void Level::InitLevelObjects(std::string name,SDL_Renderer* renderer) {
     //TODO:// this is the prototyping level for testing.
-    if(name == "mountain_top")
-    {
+    if(name == "mountain_top") {
         GeneralTexture* background = new GeneralTexture(1,"BlankNightSky",renderer);
         background->SetXPos(0);
         background->SetYPos(0);

@@ -10,12 +10,16 @@
 #define CHARACTERPORTRAIT_H
 #include "GeneralTexture.h"
 #include "string"
+#include <vector>
 
 class CharacterPortrait
 {
     public:
         CharacterPortrait(int,std::string,std::string,SDL_Renderer*);
+        static std::vector<CharacterPortrait*>* InitCharacterPortraits(SDL_Renderer*);
         virtual ~CharacterPortrait();
+
+
         GeneralTexture* avatar;
         std::string CharacterName;
 

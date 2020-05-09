@@ -1,7 +1,6 @@
 #include "Hitbox.h"
 //TODO:// Start here on hitboxes
-Hitbox::Hitbox(int x,int y,int W,int H)
-{
+Hitbox::Hitbox(int x,int y,int W,int H) {
     //ctor
     this->direction="";
     this->posX=x;
@@ -20,22 +19,18 @@ Hitbox::Hitbox(int x,int y,int W,int H)
     this->rect->h=this->height;
 }
 
-Hitbox::~Hitbox()
-{
+Hitbox::~Hitbox() {
 
 }
 
-void Hitbox::RePosition(int X, int Y)
-{
-this->rect->x=X;
-this->rect->y=Y;
+void Hitbox::RePosition(int X, int Y) {
+    this->rect->x=X;
+    this->rect->y=Y;
 }
-int Hitbox::GetHeight()
-{
- return this->height;
+int Hitbox::GetHeight() {
+    return this->height;
 }
 
-int Hitbox::GetWidth()
-{
+int Hitbox::GetWidth() {
     return this->width;
 }

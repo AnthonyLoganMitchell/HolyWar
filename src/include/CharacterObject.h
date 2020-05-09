@@ -20,8 +20,11 @@ public:
     void Move(int);
     void CalculateGravity();
     void InitializeHitBoxes(int);
-    const int moveVelX = 2;
+    const int moveVelX = 1;
+    const int runMoveVelX = 2;
     const int moveVelY = 5;
+
+
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
@@ -43,12 +46,18 @@ public:
     //////////////////////////////////
     bool isJumping;
     bool isFalling;
+
+    bool isWalking;
+    bool isRunning;
     bool isMovingLeft;
     bool isMovingRight;
+
     bool isColliding;
     bool isAttackingReg;
     bool isHoldingReg;
     bool isHoldingStrong;
+    bool wasRunningWhenJump;
+
     int  regAttackCount;
     int  StrongAttackCount;
     int  jumpBlock;

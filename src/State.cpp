@@ -9,14 +9,13 @@
 #include "State.h"
 #include "MainMenuOptions.h"
 
-State::State()
-{
+State::State() {
     //cto
     this->levelName="";
+    this->quit_program=false;
 }
 
-State::~State()
-{
+State::~State() {
     //dtor
     delete(this->mainMenuOps);
 }
