@@ -120,6 +120,20 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             return true;
         }
     }
+
+    if (this->name == "RockMidground") {
+        if(!this->loadGeneralTextureFromFile("../../rec/midgrounds/rock_midground.png",renderer)) {
+            printf("Failed to load sprite sheet texture: rock_midground.png\n");
+            return false;
+        } else {
+            this->animation[0].x = 1;
+            this->animation[0].y = 1;
+            this->animation[0].w = 960;
+            this->animation[0].h = 97;
+            return true;
+        }
+    }
+
     if (this->name == "MidGroundBush") {
         if (!this->loadGeneralTextureFromFile("../../rec/midgrounds/bush_midground.png",renderer)) {
             printf( "Failed to load sprite sheet texture: bush_midground\n" );
@@ -152,7 +166,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 1920;
-            this->animation[0].y = 1080;
+            this->animation[0].h = 1080;
             return true;
 
         }
@@ -166,7 +180,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 960;
-            this->animation[0].y = 25;
+            this->animation[0].h = 25;
             return true;
 
         }
@@ -179,7 +193,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 49;
-            this->animation[0].y = 10;
+            this->animation[0].h = 10;
             return true;
 
         }
@@ -192,7 +206,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 45;
-            this->animation[0].y = 10;
+            this->animation[0].h = 10;
             return true;
 
         }
@@ -205,7 +219,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 55;
-            this->animation[0].y = 10;
+            this->animation[0].h = 10;
             return true;
 
         }
@@ -218,7 +232,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 32;
-            this->animation[0].y = 9;
+            this->animation[0].h = 9;
             return true;
         }
     }
@@ -230,7 +244,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 159;
-            this->animation[0].y = 159;
+            this->animation[0].h = 159;
             return true;
         }
     }
@@ -242,7 +256,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 1701;
-            this->animation[0].y = 901;
+            this->animation[0].h = 901;
             return true;
         }
     }
@@ -254,7 +268,7 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 120;
-            this->animation[0].y = 85;
+            this->animation[0].h = 85;
             return true;
         }
     }
@@ -266,12 +280,10 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             this->animation[0].x = 1;
             this->animation[0].y = 1;
             this->animation[0].w = 600;
-            this->animation[0].y = 275;
+            this->animation[0].h = 275;
             return true;
         }
     }
-
-
 
     if (this->name == "WoodTorch") {
         if (!this->loadGeneralTextureFromFile("../../rec/animations/torch_wood.png",renderer)) {
@@ -472,95 +484,15 @@ bool GeneralTexture::loadMedia(SDL_Renderer* renderer) {
             printf( "Failed to load sprite sheet texture! GeneralTexture.cpp :horus_idle.png\n" );
             return false;
         } else {
-            this->animation[0].x =1;
-            this->animation[0].y =1;
-            this->animation[0].w =79;
-            this->animation[0].h =65;
-
-            this->animation[1].x =81;
-            this->animation[1].y =1;
-            this->animation[1].w =79;
-            this->animation[1].h =65;
-
-            this->animation[2].x =161;
-            this->animation[2].y =1;
-            this->animation[2].w =79;
-            this->animation[2].h =65;
-
-            this->animation[3].x =241;
-            this->animation[3].y =1;
-            this->animation[3].w =79;
-            this->animation[3].h =65;
-
-            this->animation[4].x =321;
-            this->animation[4].y =1;
-            this->animation[4].w =79;
-            this->animation[4].h =65;
-
-            this->animation[5].x =401;
-            this->animation[5].y =1;
-            this->animation[5].w =79;
-            this->animation[5].h =65;
-
-            this->animation[6].x =481;
-            this->animation[6].y =1;
-            this->animation[6].w =79;
-            this->animation[6].h =65;
-
-            this->animation[7].x =561;
-            this->animation[7].y =1;
-            this->animation[7].w =79;
-            this->animation[7].h =65;
-
-            this->animation[8].x =641;
-            this->animation[8].y =1;
-            this->animation[8].w =79;
-            this->animation[8].h =65;
-
-            this->animation[9].x =721;
-            this->animation[9].y =1;
-            this->animation[9].w =79;
-            this->animation[9].h =65;
-
-            this->animation[10].x =801;
-            this->animation[10].y =1;
-            this->animation[10].w =79;
-            this->animation[10].h =65;
-
-            this->animation[11].x =881;
-            this->animation[11].y =1;
-            this->animation[11].w =79;
-            this->animation[11].h =65;
-
-            this->animation[12].x =961;
-            this->animation[12].y =1;
-            this->animation[12].w =79;
-            this->animation[12].h =65;
-
-            this->animation[13].x =1041;
-            this->animation[13].y =1;
-            this->animation[13].w =79;
-            this->animation[13].h =65;
-
-            this->animation[14].x =1121;
-            this->animation[14].y =1;
-            this->animation[14].w =79;
-            this->animation[14].h =65;
-
-            this->animation[15].x =1201;
-            this->animation[15].y =1;
-            this->animation[15].w =79;
-            this->animation[15].h =65;
-
-            this->animation[16].x =1281;
-            this->animation[16].y =1;
-            this->animation[16].w =79;
-            this->animation[16].h =65;
-
-            this->animation[17].x =1361;
-            this->animation[17].y =1;
-            this->animation[17].w =79;
-            this->animation[17].h =65;
+            int width = 79;
+            int x_pos = 1;
+            for (int i =0; i<18; i++) {
+                this->animation[i].x = x_pos;
+                this->animation[i].y =1;
+                this->animation[i].w =79;
+                this->animation[i].h =65;
+                x_pos = x_pos + width + 1;
+            }
             return true;
         }
     }

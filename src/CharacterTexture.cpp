@@ -116,6 +116,40 @@ bool CharacterTexture::loadCharacterFromFile(std::string path,SDL_Renderer* rend
     return load_flag;
 }
 
+
+void CharacterTexture::render(SDL_Renderer* renderer, int x, int y,int scale, int offset_width, int offset_height, SDL_Rect* clip, std::string t_type, SDL_RendererFlip flip) {
+    if (scale < 1) {
+        scale = 1;
+    }
+    //Set rendering space and render to screen
+    SDL_Rect renderQuad = { x, y, this->GetWidth(), this->GetHeight() };
+    //Set clip rendering dimensions
+    if( clip != NULL ) {
+        renderQuad.w = (clip->w*scale)+offset_width;
+        renderQuad.h = (clip->h*scale)+offset_height;
+    }
+    //Render to screen
+    if(t_type == "I") {
+        SDL_RenderCopyEx(renderer,this->idleTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "J") {
+        SDL_RenderCopyEx(renderer,this->jumpingTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "F") {
+        SDL_RenderCopyEx(renderer,this->fallingTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "W") {
+        SDL_RenderCopyEx(renderer,this->walkingTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "R") {
+        SDL_RenderCopyEx(renderer,this->runningTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "A") {
+        SDL_RenderCopyEx(renderer,this->attackRegularTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "A2") {
+        SDL_RenderCopyEx(renderer,this->attackRegularTexture2,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "JA") {
+        SDL_RenderCopyEx(renderer,this->attackRegularJumpingTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "S1") {
+        SDL_RenderCopyEx(renderer,this->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
+    }
+}
+
 bool CharacterTexture::loadCharacterMedia(SDL_Renderer* renderer) {
     //Loading success flag
     //Load sprite sheet texture
@@ -290,6 +324,7 @@ bool CharacterTexture::loadCharacterMedia(SDL_Renderer* renderer) {
     return false;
 }
 
+
 int CharacterTexture::GetIdleClipCount() {
     return this->idleClipCount;
 }
@@ -353,39 +388,6 @@ void CharacterTexture::Free_Texture() {
     if( this->idleTexture != NULL ) {
         this->idleTexture = NULL;
         SDL_DestroyTexture( this->idleTexture);
-    }
-}
-
-void CharacterTexture::render(SDL_Renderer* renderer, int x, int y,int scale, int offset_width, int offset_height, SDL_Rect* clip, std::string t_type, SDL_RendererFlip flip) {
-    if (scale < 1) {
-        scale = 1;
-    }
-    //Set rendering space and render to screen
-    SDL_Rect renderQuad = { x, y, this->GetWidth(), this->GetHeight() };
-    //Set clip rendering dimensions
-    if( clip != NULL ) {
-        renderQuad.w = (clip->w*scale)+offset_width;
-        renderQuad.h = (clip->h*scale)+offset_height;
-    }
-    //Render to screen
-    if(t_type == "I") {
-        SDL_RenderCopyEx(renderer,this->idleTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "J") {
-        SDL_RenderCopyEx(renderer,this->jumpingTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "F") {
-        SDL_RenderCopyEx(renderer,this->fallingTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "W") {
-        SDL_RenderCopyEx(renderer,this->walkingTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "R") {
-        SDL_RenderCopyEx(renderer,this->runningTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "A") {
-        SDL_RenderCopyEx(renderer,this->attackRegularTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "A2") {
-        SDL_RenderCopyEx(renderer,this->attackRegularTexture2,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "JA") {
-        SDL_RenderCopyEx(renderer,this->attackRegularJumpingTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "S1") {
-        SDL_RenderCopyEx(renderer,this->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
     }
 }
 
