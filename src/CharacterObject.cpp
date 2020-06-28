@@ -40,6 +40,7 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isHoldingReg = false;
     this->isHoldingStrong =false;
     this->isColliding = false;
+    this->isSpecialAttackOpen = false;
     this->isAttackingReg = false;
     this->wasRunningWhenJump = false;
     this->regAttackCount = 0;
