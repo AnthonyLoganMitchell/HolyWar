@@ -53,6 +53,7 @@ public:
     bool isMovingRight;
 
     bool isColliding;
+    bool isSpecialAttackOpen;
     bool isAttackingReg;
     bool isHoldingReg;
     bool isHoldingStrong;

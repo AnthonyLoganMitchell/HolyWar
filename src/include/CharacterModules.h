@@ -16,6 +16,7 @@ class CharacterModules {
 
 public:
     static void RunCharacters(int,int,int,std::vector<PlayerObject*>*,SDL_Renderer*);
+    static void RunSpecialOpenAttackModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunRegularAttackModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunIdleModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunMoveWalkModule(CharacterObject*,int,int,SDL_Renderer*);
@@ -26,6 +27,7 @@ public:
 
     static void PositionHitBoxes(CharacterObject*,SDL_Renderer*);
     static void SetInitialCharacterPositions(Level*,std::vector<PlayerObject*>*);
+    
 private:
 
 };
