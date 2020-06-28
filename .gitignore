@@ -1,0 +1,4 @@
+src/bin/Release/HolyWar.exe
+src/obj/Release/CharacterModules.o
+src/obj/Release/CharacterObject.o
+src/obj/Release/Event.o
