@@ -627,7 +627,7 @@ void Core::RunLevelSelect(SDL_mutex* mutex) {
 }//
 
 void Core::RunMatch(SDL_mutex* parse_mutex) {
-    int Tick =0;
+    int Tick = 0;
     int CharScale = 2;
     int PlatformScale = 2;
 
