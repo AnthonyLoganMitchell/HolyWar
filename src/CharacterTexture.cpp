@@ -9,7 +9,7 @@
 #include "CharacterTexture.h"
 
 CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalWalkingClips,int totalRunningClips,int totalRegularAttackClips,\
-                                   int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,std::string n,SDL_Renderer* rend) : Texture() {
+                                   int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,int totalSpecialOpen, int totalSpecialOpenCharacter, std::string n,SDL_Renderer* rend) : Texture() {
     this->idleTexture = NULL;
     this->attackRegularTexture = NULL;
     this->walkingTexture = NULL;
@@ -48,6 +48,12 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
 
     this->attackStrongClipCount = totalStrongAttackClips-1;
     this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
+
+    this->attackSpecialOpenClipCount = totalSpecialOpen-1;
+    this->attackSpecialOpenClips = new SDL_Rect[totalSpecialOpen];
+
+    this->attackSpecialOpenCharacterClipCount = totalSpecialOpenCharacter-1;
+    this->attackSpecialOpenCharacterClips = new SDL_Rect[totalSpecialOpenCharacter];
     //THESE HAVE TO BE == 1
     //Cant divide by zero....
     this->idleMod =1;
@@ -59,6 +65,8 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackRegMod2 =1;
     this->attackRegJumpingMod=1;
     this->attackStrongMod =1;
+    this->attackSpecialOpenMod = 1;
+    this->attackSpecialOpenCharacterMod = 1;
     this->loadCharacterMedia(rend);
 }
 CharacterTexture::~CharacterTexture() {
@@ -112,6 +120,12 @@ bool CharacterTexture::loadCharacterFromFile(std::string path,SDL_Renderer* rend
     } else if(t_type == "S1") {
         this->attackStrongTexture = newTexture;
         load_flag = true;
+    } else if(t_type == "SAO") {
+        this->attackSpecialOpenTexture = newTexture;
+        load_flag = true;
+    } else if (t_type == "SAOC") {
+        this->attackSpecialOpenCharacterTexture = newTexture;
+        load_flag = true;
     }
     return load_flag;
 }
@@ -147,6 +161,10 @@ void CharacterTexture::render(SDL_Renderer* renderer, int x, int y,int scale, in
         SDL_RenderCopyEx(renderer,this->attackRegularJumpingTexture,clip,&renderQuad,0.0,NULL,flip);
     } else if(t_type == "S1") {
         SDL_RenderCopyEx(renderer,this->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "SAO") {
+        SDL_RenderCopyEx(renderer,this->attackSpecialOpenTexture,clip,&renderQuad,0.0,NULL,flip);
+    } else if(t_type == "SAOC") {
+        SDL_RenderCopyEx(renderer,this->attackSpecialOpenCharacterTexture,clip,&renderQuad,0.0,NULL,flip);
     }
 }
 
@@ -318,6 +336,42 @@ bool CharacterTexture::loadCharacterMedia(SDL_Renderer* renderer) {
                 this->attackRegularJumpingClips[i].h =65;
                 x_pos = x_pos + width;
             }
+        } 
+        if(!this->loadCharacterFromFile("../../rec/animations/character/horus/horus_special_open.png",renderer,"SAO")) {
+             printf( "Failed to load sprite sheet texture! horus_special_open.png\n" );
+             return false;
+        } else {
+            int width = 16;
+            int height= 16;
+            int x_pos = 1;
+            int y_pos = 1;
+
+            for (int j = 0; j<28; j++) {
+                this->attackSpecialOpenClips[j].x = x_pos;
+                this->attackSpecialOpenClips[j].y = y_pos;
+                this->attackSpecialOpenClips[j].w = width;
+                this->attackSpecialOpenClips[j].h = height; 
+                x_pos = x_pos  +  width;
+                if(j%4) {
+                    x_pos = 1;  
+                    y_pos = y_pos + height; 
+                }
+            }
+            
+        }
+        if(!this->loadCharacterFromFile("../../rec/animations/character/horus/horus_special_open_character.png",renderer,"SAOC")) {
+            printf("Failed to load sprite sheet texture! horus_special_open_character.png\n");
+            return false;
+        } else {
+            int width = 80;
+            int x_pos = 1;
+            for (int i = 0; i<9; i++) {
+                this->attackSpecialOpenCharacterClips[i].x = x_pos;
+                this->attackSpecialOpenCharacterClips[i].y = 1;
+                this->attackSpecialOpenCharacterClips[i].w = width;
+                this->attackSpecialOpenCharacterClips[i].h = 65;    
+                x_pos = x_pos + width;            
+            }
         }
         return true;
     }
@@ -353,7 +407,12 @@ int CharacterTexture::GetJumpingRegularAttackClipCount() {
 int CharacterTexture::GetStrongClipCount() {
     return this->attackStrongClipCount;
 }
-
+int CharacterTexture::GetSpecialOpenAttackClipCount() {
+    return this->attackSpecialOpenClipCount;
+}
+int CharacterTexture::GetSpecialOpenAttackCharacterClipCount() {
+    return this->attackSpecialOpenCharacterClipCount;
+}
 
 void CharacterTexture::SetFrameCount(int x) {
     this->frameCount = x;

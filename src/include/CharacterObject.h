@@ -44,6 +44,7 @@ public:
     int attackHitBoxOffsetWidth;   ///
     int attackHitBoxOffsetHeight;  ///
     //////////////////////////////////
+    
     bool isJumping;
     bool isFalling;
 

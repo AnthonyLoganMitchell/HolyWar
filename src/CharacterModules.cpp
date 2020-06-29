@@ -42,14 +42,20 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
             CharacterModules::RunRegularAttackModule(p,CharScale,Tick,renderer);
         }
         //TODO:// Add Strong attack animation section here.
+
         //TODO:// Special attacks animations
         else if (p->isSpecialAttackOpen) {
-            
+
         }
+
         //TODO:// Damage taken animations
         //Position Character HitBoxes.
         CharacterModules::PositionHitBoxes(p,renderer);
     }
+}
+
+void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, SDL_Renderer* renderer) {
+    
 }
 
 

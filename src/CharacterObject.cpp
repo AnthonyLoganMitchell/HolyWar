@@ -100,11 +100,13 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         int regAttack2= 16;
         int regJumpAttack = 13;
         int strongAttack1 = 0;
+        int specialOpenAttack = 28;
+        int specialOpenAttackCharacter = 9;
 
         CharacterTexture* char_ptr = new CharacterTexture(idle,jumping,falling,\
-                walking,running,regAttack1,\
-                regAttack2,regJumpAttack,strongAttack1,\
-                Name,renderer);
+                walking, running, regAttack1,\
+                regAttack2, regJumpAttack, strongAttack1,\
+                specialOpenAttack, specialOpenAttackCharacter, Name, renderer);
         this->char_textures = char_ptr;
 
         //Modulation adjustments for frame speeds.
@@ -117,6 +119,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 11;
         this->char_textures->fallingMod = 40;
         this->char_textures->attackRegJumpingMod=20;
+        this->char_textures->attackSpecialOpenMod = 8;
         /////////////////////////////////////////////
 
         //Grounded attack/self hitbox offsets.
