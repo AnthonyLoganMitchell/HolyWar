@@ -45,7 +45,8 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
 
         //TODO:// Special attacks animations
         else if (p->isSpecialAttackOpen) {
-
+            //TODO:Actually call RunSpecialOpenAttack
+            CharacterModules::RunSpecialOpenAttack(p,CharScale,Tick,renderer);
         }
 
         //TODO:// Damage taken animations
@@ -55,24 +56,34 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
 }
 
 void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, SDL_Renderer* renderer) {
-    
+    if(!p->isFalling && !p->isJumping) {
+        if(p->char_textures->GetFrameCount() > p->char_textures->GetSpecialOpenAttackClipCount() && !p->isHolding) {
+            p->char_textures->SetFrameCount(0);
+        }
+        
+
+
+
+    } else {
+        //We might allow jumping/falling special attacks one day...
+    }
 }
 
 
 
 void CharacterModules::RunRegularAttackModule(CharacterObject* p,int CharScale,int Tick,SDL_Renderer* renderer) {
-    if(!p->isFalling && !p->isFalling) {
-        if(p->regAttackCount == 0) {
-            if(p->char_textures->GetFrameCount() > p->char_textures->GetRegularAttackClipCount()) {
-                p->char_textures->SetFrameCount(0);
-                p->isAttackingReg = false;
-            }
-        } else if(p->regAttackCount == 1) {
-            if(p->char_textures->GetFrameCount() > p->char_textures->GetRegularAttackClipCount2()) {
-                p->char_textures->SetFrameCount(0);
-                p->isAttackingReg = false;
-            }
+    if(p->regAttackCount == 0) {
+        if(p->char_textures->GetFrameCount() > p->char_textures->GetRegularAttackClipCount()) {
+            p->char_textures->SetFrameCount(0);
+            p->isAttackingReg = false;
         }
+    } else if(p->regAttackCount == 1) {
+        if(p->char_textures->GetFrameCount() > p->char_textures->GetRegularAttackClipCount2()) {
+            p->char_textures->SetFrameCount(0);
+            p->isAttackingReg = false;
+        }
+    }
+    if(!p->isFalling && !p->isJumping) {
 
         if(p->regAttackCount == 0) {
 

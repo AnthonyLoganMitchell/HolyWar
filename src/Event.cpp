@@ -309,7 +309,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                             state->onRunningMatch=false;
                         } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED) {
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingReg)) {
+                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHolding)) {
                                     (*j)->character->char_textures->SetFrameCount(0);
                                     Uint32 now = SDL_GetTicks();
                                     if ( (now - (*j)->character->regAttackLastPress) <= 750) {

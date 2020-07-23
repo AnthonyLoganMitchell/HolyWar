@@ -5,7 +5,8 @@
    *Unauthorized copying of this file, via any medium is strictly prohibited
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
-*///
+*/
+
 #ifndef CHARACTEROBJECT_H
 #define CHARACTEROBJECT_H
 #include "CharacterTexture.h"
@@ -28,6 +29,8 @@ public:
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
+    //TODO: ADD projectile textures here.
+    //TODO: create derived Projectile Textures
     //////////////////////////////////{Hitbox objects and offsets}
     Hitbox* selfBox;               ///
     Hitbox* attackBox;             ///
@@ -56,13 +59,15 @@ public:
     bool isColliding;
     bool isSpecialAttackOpen;
     bool isAttackingReg;
-    bool isHoldingReg;
-    bool isHoldingStrong;
+    bool isSpecialOpen;
+    bool isHolding;
+
     bool wasRunningWhenJump;
 
     int  regAttackCount;
     int  StrongAttackCount;
     int  jumpBlock;
+
 
     //Timing variables
     ///////////////////////////////
@@ -74,9 +79,11 @@ public:
     Uint32 downPress;            //
     ///////////////////////////////
     std::string lastDirection;
+
     //TODO: Future bools to add.
-    //isJumpingAttackReg/isJumpingAttackStrong/isJumpingDownAttack/IsJumpingUpAttack
+    //isJumpingAttackStrong/isJumpingDownAttackReg/IsJumpingUpAttackReg
     //Have to create textures for each of these...
+
     int8_t health;
     std::string name;
 

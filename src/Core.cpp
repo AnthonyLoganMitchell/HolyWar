@@ -697,6 +697,7 @@ void Core::RunMatch(SDL_mutex* parse_mutex) {
             Collision::RunCollisionModule(CharScale,PlatformScale,this->SCREEN_WIDTH,stage,this->players);
             //This part runs the entire physics and rendering systems for characters.
             CharacterModules::RunCharacters(CharScale,PlatformScale,Tick,this->players,this->renderer);
+            //TODO:// Will run movement for projectiles here in core.
 
         }
         cyclesLeftOver = updateIterations;

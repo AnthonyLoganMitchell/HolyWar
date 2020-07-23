@@ -37,11 +37,12 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isMovingRight = false;
 
     this->isFalling = true;
-    this->isHoldingReg = false;
-    this->isHoldingStrong =false;
+    this->isHolding = false;
+
     this->isColliding = false;
     this->isSpecialAttackOpen = false;
     this->isAttackingReg = false;
+    this->isSpecialOpen = false;
     this->wasRunningWhenJump = false;
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
@@ -84,6 +85,7 @@ void CharacterObject::InitializeHitBoxes(int scale) {
 }
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer) {
+    //TODO:// In future this all needs moved out to json||xml and read in from disk.
     //NOTE:// For future development, remember that attackHitBoxOffsetX and
     //selfHitBoxOffsetX are both controlled within the CharacterModules::RunCharacters function.
 
@@ -143,6 +145,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->selfHitBoxOffsetHeight = -25;
         this->selfHitBoxOffsetY = 25;
         this->selfHitBoxOffsetWidth = -60;
+
 
         /////////////////////////////////////////////
         char_ptr->SetWidth(90);
