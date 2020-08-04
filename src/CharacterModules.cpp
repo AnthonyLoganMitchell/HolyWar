@@ -273,11 +273,11 @@ void CharacterModules::SetInitialCharacterPositions(Level* stage, std::vector<Pl
 void CharacterModules::PositionHitBoxes(CharacterObject* p,SDL_Renderer* renderer) {
     //Logic for controlling hitbox offsets based on last direction faced
     if(p->lastDirection == "LEFT") {
-        p->attackHitBoxOffsetX=p->left_x_offset_attack;
-        p->selfHitBoxOffsetX = p->left_x_offset_self;
+        p->selfBox->RePosition(p->posX+p->selfHitBoxOffXL,p->posY+p->selfHitBoxOffY);
+        p->attackBox->RePosition(p->posX+p->attackHitBoxOffXL,p->posY+p->attackHitBoxOffY);
     } else if (p->lastDirection == "RIGHT") {
-        p->attackHitBoxOffsetX = p->right_x_offset_attack;
-        p->selfHitBoxOffsetX = p->right_x_offset_self;
+        p->selfBox->RePosition(p->posX+p->selfHitBoxOffXR,p->posY+p->selfHitBoxOffY);
+        p->attackBox->RePosition(p->posX+p->attackHitBoxOffXR,p->posY+p->attackHitBoxOffY);
     }
     //This block will reposition hitboxs every iteration.
     //This will remain here for now.
