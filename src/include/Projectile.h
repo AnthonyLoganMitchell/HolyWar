@@ -13,11 +13,17 @@
 #include <iostream>
 class Projectile {
     public:
-        Projectile(std::string, std::string, std::string);
+        Projectile(std::string, std::string);
         ProjectileTexture* moving_texture;
         ProjectileTexture* hit_texture;
+        void Move(int);
+        bool InitializeProjectile();
         std::string owner_name;
         std::string projectile_name;
+        bool isGravity;
+        bool isHeadLink;
+        bool hasLinks;
+        int chargeTime;
         int projMod;
         int posX, fluct_velx;
         int posY,fluct_vely;
