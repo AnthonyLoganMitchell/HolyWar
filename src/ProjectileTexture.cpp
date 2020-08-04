@@ -10,9 +10,41 @@
 
 #include "ProjectileTexture.h"
 //TODO LoadMedia for Projectiles.
-bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
-    if (this->name == "TODO SOMETHING") {
+ProjectileTexture::ProjectileTexture(int clip_count,std::string n,SDL_Renderer* renderer){
+    this->texture = NULL;
+    this->name = n ;
+    this->clipCount = clip_count-1;
+    this->clips = new SDL_Rect[clip_count];
+    
+    //This has to be at least 1
+    this->ClipMod = 1;
 
+    this->loadProjectileMedia(renderer);
+}
+bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
+    if (this->name == "horus_beam") {
+        if(!this->loadProjectileFromFile("../../rec/animations/character/horus/horus_special_open.png",renderer)) {
+             printf( "ProjectileTexture::loadProjectileMedia - Failed to load sprite sheet texture! horus_special_open.png\n" );
+             return false;
+        } else {
+            
+            int width = 15;
+            int height = 15;
+            int x_pos = 1;
+            int y_pos = 1;
+            for (int i = 0; i<28; i++ ) {
+                this->clips[i].x = x_pos;
+                this->clips[i].y = y_pos;
+                this->clips[i].w = width;
+                this->clips[i].h = height;
+                x_pos = x_pos + width;
+                if(i%4 == 0) {
+                    x_pos = 1;
+                    y_pos = y_pos + height;
+                }
+            }
+            
+        }
         return true;
     }
     return false;
