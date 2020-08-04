@@ -158,8 +158,6 @@ void CharacterTexture::render(SDL_Renderer* renderer, int x, int y,int scale, in
         SDL_RenderCopyEx(renderer,this->attackStrongTexture,clip,&renderQuad,0.0,NULL,flip);
     } else if(t_type == "SAO") {
         SDL_RenderCopyEx(renderer,this->attackSpecialOpenTexture,clip,&renderQuad,0.0,NULL,flip);
-    } else if(t_type == "SAOC") {
-        SDL_RenderCopyEx(renderer,this->attackSpecialOpenCharacterTexture,clip,&renderQuad,0.0,NULL,flip);
     }
 }
 
