@@ -97,8 +97,6 @@ void CharacterObject::InitializeHitBoxes(int scale) {
 
 void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* renderer) {
     //TODO:// In future this all needs moved out to json||xml and read in from disk.
-    //NOTE:// For future development, remember that attackHitBoxOffsetX and
-    //selfHitBoxOffsetX are both controlled within the CharacterModules::RunCharacters function.
 
 
     //For Sanities sake while doing these.
@@ -113,49 +111,39 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         int regAttack2= 16;
         int regJumpAttack = 13;
         int strongAttack1 = 0;
-        int specialOpenAttack = 28;
-        int specialOpenAttackCharacter = 9;
+        int specialOpenAttack = 9;
 
         CharacterTexture* char_ptr = new CharacterTexture(idle,jumping,falling,\
                 walking, running, regAttack1,\
                 regAttack2, regJumpAttack, strongAttack1,\
-                specialOpenAttack, specialOpenAttackCharacter, Name, renderer);
+                specialOpenAttack, Name, renderer);
         this->char_textures = char_ptr;
 
         //Modulation adjustments for frame speeds.
         ////////////////////////////////////////////
         this->char_textures->idleMod = 50;
         this->char_textures->jumpingMod = 20;
+        this->char_textures->fallingMod = 40;
         this->char_textures->walkMod = 30;
         this->char_textures->runMod = 25;
         this->char_textures->attackRegMod = 11;
         this->char_textures->attackRegMod2 = 11;
-        this->char_textures->fallingMod = 40;
         this->char_textures->attackRegJumpingMod=20;
+        this->char_textures->attackStrongMod=1;
         this->char_textures->attackSpecialOpenMod = 8;
-        /////////////////////////////////////////////
 
-        //Grounded attack/self hitbox offsets.
-        ///////////////////////////////////
-        this->right_x_offset_attack = 75;
-        this->left_x_offset_attack = 5;
-        this->right_x_offset_self = 45;
-        this->left_x_offset_self = 15;
-        ///////////////////////////////////
-
-        //TODO://
-        //These are for jumping attacks/self
-        // Add up_y_offset_attack/self
-        // Add down_y_offset_attack/self
-
-        /////////////////////////////////////////////
-
-        this->attackHitBoxOffsetHeight = -50;
-        this->attackHitBoxOffsetY = 40;
-        this->attackHitBoxOffsetWidth = -76;
-        this->selfHitBoxOffsetHeight = -25;
-        this->selfHitBoxOffsetY = 25;
-        this->selfHitBoxOffsetWidth = -60;
+        //These are used for dynamic offsetting attack hitbox
+        this->attackHitBoxOffHeight = -50;
+        this->attackHitBoxOffWidth = -76;    
+        this->attackHitBoxOffY = 40;
+        this->attackHitBoxOffXL = 5;
+        this->attackHitBoxOffXR = 75;
+        //These are used for dynamic offsetting self hitbox
+        this->selfHitBoxOffWidth = -60;
+        this->selfHitBoxOffHeight = -25;
+        this->selfHitBoxOffY = 25;
+        this->selfHitBoxOffXL = 15;
+        this->selfHitBoxOffXR = 45;
 
 
         /////////////////////////////////////////////
