@@ -1,0 +1,39 @@
+<root>
+	<character>
+		<!-- Clips -->
+		<name>Horus</name>
+		<idle_clips>18</idle_clips>
+		<jumping_clips>11</jumping_clips>
+		<falling_clips>6</falling_clips>
+		<walking_clips>17</walking_clips>
+		<running_clips>12</running_clips>
+		<reg_attack_1_clips>14</reg_attack_1_clips>
+		<reg_attack_2_clips>16</reg_attack_2_clips>
+		<reg_jump_attack_clips>13</reg_jump_attack_clips>
+		<strong_attack_1_clips>0</strong_attack_1_clips>
+		<special_open_clips>9</special_open_clips>
+		<!-- MODS-->
+		<idle_mod>50</idle_mod>
+		<jumping_mod>20</jumping_mod>
+		<falling_mod>40</falling_mod>
+		<walking_mod>30</walking_mod>
+		<running_mod>25</running_mod>
+		<reg1_attack_mod>11</reg1_attack_mod>
+		<reg2_attack_mod>11</reg2_attack_mod>
+		<reg_jump_attack_mod>20</reg_jump_attack_mod>
+		<strong1_attack_mod>1</strong1_attack_mod>
+		<special_open_mod>8</special_open_mod>
+		<!-- Self/Attack hit box offsets grounded -->
+		<attack_hb_off_h>-50</attack_hb_off_h>
+		<attack_hb_off_w>-76</attack_hb_off_w>
+		<attack_hb_off_y>40</attack_hb_off_y>
+		<attack_hb_off_xl>15</attack_hb_off_xl>
+		<attack_hb_off_xr>45</attack_hb_off_xr>
+		<self_hb_off_h>-60</self_hb_off_h>
+		<self_hb_off_w>-25</self_hb_off_w>
+		<self_hb_off_y>25</self_hb_off_y>
+		<self_hb_off_xl>15</self_hb_off_xl>
+		<self_hb_off_xr>45</self_hb_off_xr>
+
+	</character>
+</root>
