@@ -12,18 +12,17 @@
 CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* renderer) {
     this->name=Name;
     this->health = Health;
-    this->selfHitBoxOffsetX = 0;
-    this->selfHitBoxOffsetY = 0;
-    this->selfHitBoxOffsetWidth = 0;
-    this->selfHitBoxOffsetHeight = 0;
-    this->attackHitBoxOffsetX = 0;
-    this->attackHitBoxOffsetY = 0;
-    this->attackHitBoxOffsetWidth = 0;
-    this->attackHitBoxOffsetHeight = 0;
-    this->right_x_offset_attack = 0;
-    this->left_x_offset_attack = 0;
-    this->right_x_offset_self = 0;
-    this->left_x_offset_self = 0;
+    this->selfHitBoxOffXL = 0;
+    this->selfHitBoxOffXR = 0;
+    this->selfHitBoxOffY = 0;
+    this->selfHitBoxOffWidth = 0;
+    this->selfHitBoxOffHeight = 0;
+    this->attackHitBoxOffXL = 0;
+    this->attackHitBoxOffXR = 0;
+    this->attackHitBoxOffY = 0;
+    this->attackHitBoxOffWidth = 0;
+    this->attackHitBoxOffHeight = 0;
+
     this->InitializeCharacter(Name,renderer);
     this->fluct_velx = 0;
     this->fluct_vely = 0;
