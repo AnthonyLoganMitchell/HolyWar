@@ -34,14 +34,25 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->isRunning = false;
     this->isMovingLeft = false;
     this->isMovingRight = false;
-
     this->isFalling = true;
-    this->isHolding = false;
+
+    this->isHoldingRegAttack = false;
+    this->isHoldingStrongAttack = false;
+
+    this->isHoldingSpecialOpen = false;
+    this->isHoldingSpecialLeft = false;
+    this->isHoldingSpecialRight = false;
+    this->isHoldingSpecialDown = false;
+    this->isHoldingSpecialUp = false;
+
+    this->isHoldingDPadLeft = false;
+    this->isHoldingDPadRight = false;
+    this->isHoldingDPadUp = false;
+    this->isHoldingDPadDown = false;
 
     this->isColliding = false;
-    this->isSpecialAttackOpen = false;
     this->isAttackingReg = false;
-    this->isSpecialOpen = false;
+    this->isSpecialAttackOpen = false;
     this->wasRunningWhenJump = false;
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
@@ -49,10 +60,11 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
 
     this->regAttackLastPress = 0;
     this->strongAttackLastPress = 0;
-    this->upPress = 0;
-    this->downPress = 0;
-    this->leftPress = 0;
-    this->rightPress = 0;
+    this->specialAttackLastPress = 0;
+    this->upLastPress = 0;
+    this->downLastPress = 0;
+    this->leftLastPress = 0;
+    this->rightLastPress = 0;
 
 
     this->lastDirection = "LEFT";
