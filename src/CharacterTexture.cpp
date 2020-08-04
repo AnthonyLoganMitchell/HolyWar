@@ -382,9 +382,6 @@ int CharacterTexture::GetStrongClipCount() {
 int CharacterTexture::GetSpecialOpenAttackClipCount() {
     return this->attackSpecialOpenClipCount;
 }
-int CharacterTexture::GetSpecialOpenAttackCharacterClipCount() {
-    return this->attackSpecialOpenCharacterClipCount;
-}
 
 void CharacterTexture::SetFrameCount(int x) {
     this->frameCount = x;
