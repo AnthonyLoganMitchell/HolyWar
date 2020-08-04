@@ -282,8 +282,6 @@ void CharacterModules::PositionHitBoxes(CharacterObject* p,SDL_Renderer* rendere
     //This block will reposition hitboxs every iteration.
     //This will remain here for now.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    p->selfBox->RePosition(p->posX+p->selfHitBoxOffsetX,p->posY+p->selfHitBoxOffsetY);
-    p->attackBox->RePosition(p->posX+p->attackHitBoxOffsetX,p->posY+p->attackHitBoxOffsetY);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Test block for visualizing hit boxes for testing.
