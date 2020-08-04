@@ -651,7 +651,6 @@ void Core::RunMatch(SDL_mutex* parse_mutex) {
     }
     //Place characters in initial positions in level.
     CharacterModules::SetInitialCharacterPositions(stage,this->players);
-
     for(std::vector<PlayerObject*>::iterator i = this->players->begin(); i!= this->players->end(); i++) {
         (*i)->character->InitializeHitBoxes(CharScale);
     }
