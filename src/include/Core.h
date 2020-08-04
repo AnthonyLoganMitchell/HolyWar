@@ -21,7 +21,6 @@
 #include "PlayerObject.h"
 #include "CharacterPortrait.h"
 #include "LevelPortrait.h"
-
 //
 class Core
 {

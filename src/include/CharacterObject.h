@@ -29,23 +29,19 @@ public:
     int posX, fluct_velx;
     int posY,fluct_vely;
     CharacterTexture* char_textures;
-    //TODO: ADD projectile textures here.
-    //TODO: create derived Projectile Textures
     //////////////////////////////////{Hitbox objects and offsets}
     Hitbox* selfBox;               ///
     Hitbox* attackBox;             ///
-    int right_x_offset_attack;     ///
-    int left_x_offset_attack;      ///
-    int right_x_offset_self;       ///
-    int left_x_offset_self;        ///
-    int selfHitBoxOffsetX;         ///
-    int selfHitBoxOffsetY;         ///
-    int selfHitBoxOffsetWidth;     ///
-    int selfHitBoxOffsetHeight;    ///
-    int attackHitBoxOffsetX;       ///
-    int attackHitBoxOffsetY;       ///
-    int attackHitBoxOffsetWidth;   ///
-    int attackHitBoxOffsetHeight;  ///
+    int selfHitBoxOffXL;           ///
+    int selfHitBoxOffXR;           ///
+    int selfHitBoxOffY;            ///
+    int selfHitBoxOffWidth;        ///
+    int selfHitBoxOffHeight;       ///
+    int attackHitBoxOffXL;         ///
+    int attackHitBoxOffXR;         ///
+    int attackHitBoxOffY;          ///
+    int attackHitBoxOffWidth;      ///
+    int attackHitBoxOffHeight;     ///
     //////////////////////////////////
     
     bool isJumping;
@@ -57,10 +53,23 @@ public:
     bool isMovingRight;
 
     bool isColliding;
-    bool isSpecialAttackOpen;
     bool isAttackingReg;
-    bool isSpecialOpen;
-    bool isHolding;
+    bool isAttackingStrong;
+    bool isSpecialAttackOpen;
+
+    bool isHoldingRegAttack;
+    bool isHoldingStrongAttack;
+    
+    bool isHoldingSpecialOpen;
+    bool isHoldingSpecialLeft;
+    bool isHoldingSpecialRight;
+    bool isHoldingSpecialUp;
+    bool isHoldingSpecialDown;
+
+    bool isHoldingDPadLeft;
+    bool isHoldingDPadRight;
+    bool isHoldingDPadUp;
+    bool isHoldingDPadDown;
 
     bool wasRunningWhenJump;
 
@@ -71,12 +80,13 @@ public:
 
     //Timing variables
     ///////////////////////////////
-    Uint32 regAttackLastPress;   //
-    Uint32 strongAttackLastPress;//
-    Uint32 leftPress;            //
-    Uint32 rightPress;           //
-    Uint32 upPress;              //
-    Uint32 downPress;            //
+    Uint32 regAttackLastPress;    //
+    Uint32 strongAttackLastPress; //
+    Uint32 specialAttackLastPress;//
+    Uint32 leftLastPress;         //
+    Uint32 rightLastPress;        //
+    Uint32 upLastPress;           //
+    Uint32 downLastPress;         //
     ///////////////////////////////
     std::string lastDirection;
 

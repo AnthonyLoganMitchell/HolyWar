@@ -18,6 +18,7 @@
     class ProjectileTexture : public Texture {
         
         public: 
+            ProjectileTexture(int,std::string,SDL_Renderer*);
             void Free_Texture();
             int  GetWidth();
             int  GetHeight();
@@ -35,6 +36,10 @@
 
             SDL_Texture* texture;
             SDL_Rect* clips;
+            int ClipMod;
+            bool isMultiClip; //TODO: do things with this.
+
+            
         private:
             std::string name;
             int width;
@@ -42,5 +47,6 @@
             int xposition;
             int yposition;
             int frameCount;
+            int clipCount;
     };
 #endif

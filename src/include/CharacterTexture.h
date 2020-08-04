@@ -20,7 +20,7 @@ public:
     //Constructors
     //int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalWalkingClips,int totalRunningClips,int totalRegularAttackClips,
     //int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,int totalSpecialOpen, int totalSpecialOpenCharacter
-    CharacterTexture(int,int,int,int,int,int,int,int,int,int,int,std::string,SDL_Renderer*);
+    CharacterTexture(int,int,int,int,int,int,int,int,int,int,std::string,SDL_Renderer*);
     //////////////////////////////////////////
     ~CharacterTexture();
     //These functions are not derived
@@ -37,7 +37,6 @@ public:
     int  GetJumpingRegularAttackClipCount();
     int  GetStrongClipCount();
     int  GetSpecialOpenAttackClipCount();
-    int  GetSpecialOpenAttackCharacterClipCount();
     //These functions are generic and abstract in base class//
     int  GetWidth();
     int  GetHeight();
@@ -63,7 +62,6 @@ public:
     SDL_Texture*    attackStrongTexture;
     SDL_Texture*    attackRegularJumpingTexture;
     SDL_Texture*    attackSpecialOpenTexture;
-    SDL_Texture*    attackSpecialOpenCharacterTexture;
 
 
     SDL_Rect*    idleClips;
@@ -76,7 +74,6 @@ public:
     SDL_Rect*    attackRegularJumpingClips;
     SDL_Rect*    attackStrongClips;
     SDL_Rect*    attackSpecialOpenClips;
-    SDL_Rect*    attackSpecialOpenCharacterClips;
 
     int idleMod;
     int jumpingMod;
@@ -88,7 +85,6 @@ public:
     int attackRegJumpingMod;
     int attackStrongMod;
     int attackSpecialOpenMod;
-    int attackSpecialOpenCharacterMod;
 
 private:
     //Common Across all derived
@@ -111,7 +107,6 @@ private:
     int attackRegularJumpingClipCount;
     int attackStrongClipCount;
     int attackSpecialOpenClipCount;
-    int attackSpecialOpenCharacterClipCount;
     ////////////////////////////////
 };
 #endif
