@@ -121,9 +121,6 @@ bool CharacterTexture::loadCharacterFromFile(std::string path,SDL_Renderer* rend
     } else if(t_type == "SAO") {
         this->attackSpecialOpenTexture = newTexture;
         load_flag = true;
-    } else if (t_type == "SAOC") {
-        this->attackSpecialOpenCharacterTexture = newTexture;
-        load_flag = true;
     }
     return load_flag;
 }
