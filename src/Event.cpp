@@ -259,7 +259,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                         } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED) {
                             Uint32 now = SDL_GetTicks();
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if (now -(*j)->character->leftPress < 250) {
+                                if (now -(*j)->character->leftLastPress < 250) {
                                     (*j)->character->isRunning = true;
                                     (*j)->character->isMovingLeft = true;
                                     (*j)->character->isWalking = false;
@@ -275,7 +275,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                                     (*j)->character->lastDirection = "LEFT";
                                     (*j)->character->fluct_velx = -(*j)->character->moveVelX;
                                     (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->leftPress = now;
+                                    (*j)->character->leftLastPress = now;
                                 }
 
                             }
@@ -283,7 +283,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                         } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED) {
                             Uint32 now = SDL_GetTicks();
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if (now -(*j)->character->rightPress < 250) {
+                                if (now -(*j)->character->rightLastPress < 250) {
                                     (*j)->character->isRunning = true;
                                     (*j)->character->isMovingRight = true;
                                     (*j)->character->isWalking = false;
@@ -291,7 +291,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                                     (*j)->character->lastDirection = "RIGHT";
                                     (*j)->character->fluct_velx = (*j)->character->runMoveVelX;
                                     (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->rightPress = now;
+                                    (*j)->character->rightLastPress = now;
                                 } else {
                                     (*j)->character->isRunning = false;
                                     (*j)->character->isMovingRight = true;
@@ -300,7 +300,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                                     (*j)->character->lastDirection = "RIGHT";
                                     (*j)->character->fluct_velx = (*j)->character->moveVelX;
                                     (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->rightPress = now;
+                                    (*j)->character->rightLastPress = now;
                                 }
                             }
 
@@ -309,7 +309,7 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
                             state->onRunningMatch=false;
                         } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED) {
                             if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHolding)) {
+                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingRegAttack)) {
                                     (*j)->character->char_textures->SetFrameCount(0);
                                     Uint32 now = SDL_GetTicks();
                                     if ( (now - (*j)->character->regAttackLastPress) <= 750) {
@@ -426,7 +426,7 @@ int Event::EventHandler(void* data) {
                     channel->interact->push_back(inter);
                     SDL_UnlockMutex(channel->parse_mutex);
                 } else {
-                    std::cout << "Event_4: Error() => "<<SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
+                    std::cout << "Event::ParseEvents() - "<< SDL_TryLockMutex(channel->parse_mutex) <<std::endl;
                 }
             }
         }
