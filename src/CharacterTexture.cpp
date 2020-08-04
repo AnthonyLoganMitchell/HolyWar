@@ -330,41 +330,20 @@ bool CharacterTexture::loadCharacterMedia(SDL_Renderer* renderer) {
                 x_pos = x_pos + width;
             }
         } 
-        if(!this->loadCharacterFromFile("../../rec/animations/character/horus/horus_special_open.png",renderer,"SAO")) {
+        if(!this->loadCharacterFromFile("../../rec/animations/characters/horus/horus_special_open.png",renderer,"SAO")) {
              printf( "Failed to load sprite sheet texture! horus_special_open.png\n" );
              return false;
         } else {
-            int width = 16;
-            int height= 16;
-            int x_pos = 1;
-            int y_pos = 1;
-
-            for (int j = 0; j<28; j++) {
-                this->attackSpecialOpenClips[j].x = x_pos;
-                this->attackSpecialOpenClips[j].y = y_pos;
-                this->attackSpecialOpenClips[j].w = width;
-                this->attackSpecialOpenClips[j].h = height; 
-                x_pos = x_pos  +  width;
-                if(j%4) {
-                    x_pos = 1;  
-                    y_pos = y_pos + height; 
-                }
-            }
-            
-        }
-        if(!this->loadCharacterFromFile("../../rec/animations/character/horus/horus_special_open_character.png",renderer,"SAOC")) {
-            printf("Failed to load sprite sheet texture! horus_special_open_character.png\n");
-            return false;
-        } else {
             int width = 80;
             int x_pos = 1;
-            for (int i = 0; i<9; i++) {
-                this->attackSpecialOpenCharacterClips[i].x = x_pos;
-                this->attackSpecialOpenCharacterClips[i].y = 1;
-                this->attackSpecialOpenCharacterClips[i].w = width;
-                this->attackSpecialOpenCharacterClips[i].h = 65;    
-                x_pos = x_pos + width;            
+            for (int j = 0; j<9; j++) {
+                this->attackSpecialOpenClips[j].x = x_pos;
+                this->attackSpecialOpenClips[j].y = 1;
+                this->attackSpecialOpenClips[j].w = width;
+                this->attackSpecialOpenClips[j].h = 65; 
+                x_pos = x_pos  +  width;
             }
+            
         }
         return true;
     }
