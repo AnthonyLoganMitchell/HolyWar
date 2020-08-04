@@ -78,16 +78,16 @@ CharacterObject::~CharacterObject() {
 
 void CharacterObject::InitializeHitBoxes(int scale) {
     //TODO:// Delete from memory later
+    
     this->attackBox = new Hitbox(this->posX,\
                                  this->posY,\
-                                 (this->char_textures->idleClips[0].w*scale)+this->attackHitBoxOffsetWidth,\
-                                 (this->char_textures->idleClips[0].h*scale)+this->attackHitBoxOffsetHeight);
+                                 (this->char_textures->idleClips[0].w*scale)+this->attackHitBoxOffWidth,\
+                                 (this->char_textures->idleClips[0].h*scale)+this->attackHitBoxOffHeight);                         
     //TODO:// Delete from memory later
     this->selfBox = new Hitbox(this->posX,\
                                this->posY, \
-                               (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffsetWidth,\
-                               (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffsetHeight);
-
+                               (this->char_textures->idleClips[0].w*scale)+this->selfHitBoxOffWidth,\
+                               (this->char_textures->idleClips[0].h*scale)+this->selfHitBoxOffHeight);
 
     //TEMP://
     //This block is for testing hitboxes
