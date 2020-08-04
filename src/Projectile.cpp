@@ -8,6 +8,29 @@
 */
 #include "Projectile.h"
 #include <string.h>
-Projectile::Projectile(std::string owner, std::string projectile_name, std::string texture_name) {
-    
+Projectile::Projectile(std::string owner, std::string proj_name) {
+    this->owner_name = owner;
+    this->moving_texture = NULL;
+    this->hit_texture = NULL;
+    this->attackBox = NULL;
+    this->projectile_name = proj_name;
+    this->isGravity = false;
+    this->isHeadLink = false;
+    this->hasLinks = false;
+    this->chargeTime = 0;
+    //Mod always has to be > 0
+    this->projMod = 1;
+    this->posX = 0;
+    this->fluct_velx = 0;
+    this->posY = 0;
+    this->fluct_vely = 0;
+    this->right_x_offset= 0;
+    this->left_x_offset = 0;    
+}
+
+bool Projectile::InitializeProjectile() {
+return true;
+}
+void Projectile::Move(int Tick) {
+
 }
