@@ -9,7 +9,7 @@
 #include "CharacterTexture.h"
 
 CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int totalFallingClips,int totalWalkingClips,int totalRunningClips,int totalRegularAttackClips,\
-                                   int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,int totalSpecialOpen, int totalSpecialOpenCharacter, std::string n,SDL_Renderer* rend) : Texture() {
+                                   int totalRegularAttackClips2,int totalRegularJumpingAttackClips,int totalStrongAttackClips,int totalSpecialOpenClips, std::string n, SDL_Renderer* rend) : Texture() {
     this->idleTexture = NULL;
     this->attackRegularTexture = NULL;
     this->walkingTexture = NULL;
@@ -49,11 +49,10 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackStrongClipCount = totalStrongAttackClips-1;
     this->attackStrongClips = new SDL_Rect[totalStrongAttackClips];
 
-    this->attackSpecialOpenClipCount = totalSpecialOpen-1;
-    this->attackSpecialOpenClips = new SDL_Rect[totalSpecialOpen];
+    this->attackSpecialOpenClipCount = totalSpecialOpenClips-1;
+    this->attackSpecialOpenClips = new SDL_Rect[totalSpecialOpenClips];
 
-    this->attackSpecialOpenCharacterClipCount = totalSpecialOpenCharacter-1;
-    this->attackSpecialOpenCharacterClips = new SDL_Rect[totalSpecialOpenCharacter];
+
     //THESE HAVE TO BE == 1
     //Cant divide by zero....
     this->idleMod =1;
