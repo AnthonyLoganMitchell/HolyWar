@@ -57,7 +57,7 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
 
 void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, SDL_Renderer* renderer) {
     if(!p->isFalling && !p->isJumping) {
-        if(p->char_textures->GetFrameCount() > p->char_textures->GetSpecialOpenAttackClipCount() && !p->isHolding) {
+        if(p->char_textures->GetFrameCount() > p->char_textures->GetSpecialOpenAttackClipCount() && !p->isHoldingSpecialOpen) {
             p->char_textures->SetFrameCount(0);
         }
         
