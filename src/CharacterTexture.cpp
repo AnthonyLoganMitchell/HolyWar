@@ -65,7 +65,6 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->attackRegJumpingMod=1;
     this->attackStrongMod =1;
     this->attackSpecialOpenMod = 1;
-    this->attackSpecialOpenCharacterMod = 1;
     this->loadCharacterMedia(rend);
 }
 CharacterTexture::~CharacterTexture() {
