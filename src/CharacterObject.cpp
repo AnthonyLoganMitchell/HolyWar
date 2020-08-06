@@ -23,37 +23,59 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->attackHitBoxOffWidth = 0;
     this->attackHitBoxOffHeight = 0;
 
-    this->InitializeCharacter(Name,renderer);
     this->fluct_velx = 0;
     this->fluct_vely = 0;
     this->posX = 0;
     this->posY = 0;
     this->isJumping = false;
+    this->isFalling = true;
 
     this->isWalking = false;
     this->isRunning = false;
+
     this->isMovingLeft = false;
     this->isMovingRight = false;
-    this->isFalling = true;
+    this->isMovingUp = false;
+    this->isMovingDown = false;
 
-    this->isHoldingRegAttack = false;
-    this->isHoldingStrongAttack = false;
+    this->isHoldingRegSmashUp = false;
+    this->isHoldingRegSmashDown = false;
+    this->isHoldingRegSmashLeft = false;
+    this->isHoldingRegSmashRight = false;
+    this->isHoldingRegSmashOpen = false;
 
-    this->isHoldingSpecialOpen = false;
+    this->isHoldingStrongSmashUp = false;
+    this->isHoldingStrongSmashDown = false;
+    this->isHoldingStrongSmashLeft = false;
+    this->isHoldingStrongSmashRight = false;
+    this->isHoldingStrongSmashOpen = false;
+
     this->isHoldingSpecialLeft = false;
     this->isHoldingSpecialRight = false;
-    this->isHoldingSpecialDown = false;
     this->isHoldingSpecialUp = false;
-
-    this->isHoldingDPadLeft = false;
-    this->isHoldingDPadRight = false;
-    this->isHoldingDPadUp = false;
-    this->isHoldingDPadDown = false;
+    this->isHoldingSpecialDown = false;
+    this->isHoldingSpecialOpen = false;
 
     this->isColliding = false;
+    this->isBeingAttacked = false;
     this->isAttackingReg = false;
     this->isSpecialAttackOpen = false;
     this->wasRunningWhenJump = false;
+
+    this->isSpecialOpenChargeUp = false;
+    this->isSpecialLeftChargeUp = false;
+    this->isSpecialRightChargeUp = false;
+    this->isSpecialUpChargeUp = false;
+    this->isSpecialDownChargeUp = false;
+
+    this->moveIsCharged = false;
+    this->moveInitialRun = false;
+    this->specialOpenPauseFrame = 0;
+    this->specialLeftPauseFrame = 0;
+    this->specialRightPauseFrame =0;
+    this->specialUpPauseFrame = 0;
+    this->specialDownPauseFrame = 0;
+
     this->regAttackCount = 0;
     this->StrongAttackCount = 0;
     this->jumpBlock = 0;
@@ -70,6 +92,8 @@ CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* re
     this->lastDirection = "LEFT";
     this->attackBox = NULL;
     this->selfBox = NULL;
+
+     this->InitializeCharacter(Name,renderer);
 }
 
 CharacterObject::~CharacterObject() {
@@ -130,7 +154,7 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->char_textures->attackRegMod2 = 11;
         this->char_textures->attackRegJumpingMod=20;
         this->char_textures->attackStrongMod=1;
-        this->char_textures->attackSpecialOpenMod = 8;
+        this->char_textures->attackSpecialOpenMod = 40;
 
         //These are used for dynamic offsetting attack hitbox
         this->attackHitBoxOffHeight = -50;
@@ -144,7 +168,10 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->selfHitBoxOffY = 25;
         this->selfHitBoxOffXL = 15;
         this->selfHitBoxOffXR = 45;
-
+        //Sets charge ups for horus.
+        this->isSpecialOpenChargeUp = true;
+        //Sets Pause frames for any textures that needs pauses for charge.
+        this->specialOpenPauseFrame = 3;
 
         /////////////////////////////////////////////
         char_ptr->SetWidth(90);
@@ -153,7 +180,12 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         delete(char_ptr);
     }
 }
+void CharacterObject::LaunchSpecialOpen(std::string name) {
+    if (name == "Horus") {
+        Projectile* proj = new Projectile(name,"horus_beam");
 
+    }
+}
 void CharacterObject::Move(int Tick) {
 
     if(!this->isColliding) {

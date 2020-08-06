@@ -21,6 +21,7 @@
 #include "PlayerObject.h"
 #include "CharacterPortrait.h"
 #include "LevelPortrait.h"
+#include "Projectile.h"
 //
 class Core
 {
@@ -44,6 +45,7 @@ public:
     ThreadData *data;
     SDL_mutex* parse_mutex;
     std::vector<PlayerObject*>* players;
+    std::vector<Projectile*>* Projectiles;
     //Game State
     //////////////
     State* state;//

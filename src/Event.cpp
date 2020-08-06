@@ -243,159 +243,188 @@ void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std
             else if (state->onRunningMatch) {
                 for (std::vector<Interaction*>::iterator i = data->interact->begin(); i != data->interact->end(); i++) {
                     for(std::vector<PlayerObject*>::iterator j = players->begin(); j!= players->end(); j++) {
-                        if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_PRESSED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                //(*j)->character->fluct_vely = (*j)->character->moveVelX;
-                            }
-
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_PRESSED) {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                /*(*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                                (*j)->character->char_textures->SetFrameCount(0);*/
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_PRESSED) {
-                            Uint32 now = SDL_GetTicks();
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if (now -(*j)->character->leftLastPress < 250) {
-                                    (*j)->character->isRunning = true;
-                                    (*j)->character->isMovingLeft = true;
-                                    (*j)->character->isWalking = false;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->lastDirection = "LEFT";
-                                    (*j)->character->fluct_velx = -(*j)->character->runMoveVelX;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                } else {
-                                    (*j)->character->isRunning = false;
-                                    (*j)->character->isMovingLeft = true;
-                                    (*j)->character->isWalking = true;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->lastDirection = "LEFT";
-                                    (*j)->character->fluct_velx = -(*j)->character->moveVelX;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->leftLastPress = now;
-                                }
-
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_PRESSED) {
-                            Uint32 now = SDL_GetTicks();
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if (now -(*j)->character->rightLastPress < 250) {
-                                    (*j)->character->isRunning = true;
-                                    (*j)->character->isMovingRight = true;
-                                    (*j)->character->isWalking = false;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->lastDirection = "RIGHT";
-                                    (*j)->character->fluct_velx = (*j)->character->runMoveVelX;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->rightLastPress = now;
-                                } else {
-                                    (*j)->character->isRunning = false;
-                                    (*j)->character->isMovingRight = true;
-                                    (*j)->character->isWalking = true;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->lastDirection = "RIGHT";
-                                    (*j)->character->fluct_velx = (*j)->character->moveVelX;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->rightLastPress = now;
-                                }
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_START && (*i)->pressed == SDL_PRESSED) {
-                            state->quit_program=true;
-                            state->onRunningMatch=false;
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_PRESSED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingRegAttack)) {
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    Uint32 now = SDL_GetTicks();
-                                    if ( (now - (*j)->character->regAttackLastPress) <= 750) {
-                                        (*j)->character->regAttackCount++;
-                                        (*j)->character->regAttackLastPress = now;
-                                    } else {
-                                        (*j)->character->regAttackCount = 0;
-                                        (*j)->character->regAttackLastPress = now;
+                        switch((*i)->button_event) {
+                            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        
                                     }
-                                    //TODO:// This is a temporary block To reset counter if it goes over amount Attack count.
-                                    ////////////////////////////////////////////
-                                    if ((*j)->character->regAttackCount > 1) { //
-                                        //
-                                        (*j)->character->regAttackCount =0;   //
-                                    }                                         //
-                                    ////////////////////////////////////////////
-
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        
+                                    }
                                 }
-                                (*j)->character->isAttackingReg = true;
-                                //(*j)->character->char_textures->SetFrameCount(0);
-                            }
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_B && (*i)->pressed == SDL_PRESSED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                if((*j)->character->jumpBlock < 2) {
-                                    (*j)->character->isJumping = true;
-                                    (*j)->character->isColliding = false;
-                                    (*j)->character->isFalling = false;
-                                    (*j)->character->isAttackingReg = false;
-                                    (*j)->character->char_textures->SetFrameCount(0);
-                                    (*j)->character->fluct_vely = -(*j)->character->moveVelY;
-                                    (*j)->character->jumpBlock++;
+                            break;
+                            case SDL_CONTROLLER_BUTTON_DPAD_UP: 
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        
+                                    }
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        
+                                    }
                                 }
-                            }
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_X && (*i)->pressed == SDL_PRESSED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                            break;
+                            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                        if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                            Uint32 now = SDL_GetTicks();
+                                            if (now -(*j)->character->leftLastPress < 250) {
+                                                (*j)->character->isRunning = true;
+                                                (*j)->character->isMovingLeft = true;
+                                                (*j)->character->isWalking = false;
+                                                (*j)->character->isAttackingReg = false;
+                                                (*j)->character->lastDirection = "LEFT";
+                                                (*j)->character->fluct_velx = -(*j)->character->runMoveVelX;
+                                                (*j)->character->char_textures->SetFrameCount(0);
+                                                (*j)->character->leftLastPress = now;
 
-                            }
-                        }
-
-                        //SDL_RELEASED
-
-                        else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_DOWN && (*i)->pressed == SDL_RELEASED) {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                //(*j)->character->fluct_vely = 0;
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_UP && (*i)->pressed == SDL_RELEASED) {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                //(*j)->character->fluct_vely = 0;
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_LEFT && (*i)->pressed == SDL_RELEASED) {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                (*j)->character->isMovingLeft = false;
-                                (*j)->character->isWalking = false;
-                                (*j)->character->isRunning = false;
-                                (*j)->character->fluct_velx = 0;
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_DPAD_RIGHT && (*i)->pressed == SDL_RELEASED) {
-
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                (*j)->character->isMovingRight = false;
-                                (*j)->character->isWalking = false;
-                                (*j)->character->isRunning = false;
-                                (*j)->character->fluct_velx = 0;
-                            }
-
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_A && (*i)->pressed == SDL_RELEASED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-
-                            }
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_B && (*i)->pressed == SDL_RELEASED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
-                                (*j)->character->isJumping = false;
-                                if(!(*j)->character->isColliding) {
-                                    (*j)->character->isFalling = true;
+                                             } else {
+                                                (*j)->character->isRunning = false;
+                                                (*j)->character->isMovingLeft = true;
+                                                (*j)->character->isWalking = true;
+                                                (*j)->character->isAttackingReg = false;
+                                                (*j)->character->lastDirection = "LEFT";
+                                                (*j)->character->fluct_velx = -(*j)->character->moveVelX;
+                                                (*j)->character->char_textures->SetFrameCount(0);
+                                                (*j)->character->leftLastPress = now;
+                                            }
+                                        }
+                                    
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        (*j)->character->isMovingLeft = false;
+                                        (*j)->character->isWalking = false;
+                                        (*j)->character->isRunning = false;
+                                        (*j)->character->fluct_velx = 0;
+                                    }
                                 }
-                            }
-                        } else if ((*i)->button_event == SDL_CONTROLLER_BUTTON_X && (*i)->pressed == SDL_RELEASED) {
-                            if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                            break;
+                            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        Uint32 now = SDL_GetTicks();
+                                        if (now -(*j)->character->rightLastPress < 250) {
+                                            (*j)->character->isRunning = true;
+                                            (*j)->character->isMovingRight = true;
+                                            (*j)->character->isWalking = false;
+                                            (*j)->character->isAttackingReg = false;
+                                            (*j)->character->lastDirection = "RIGHT";
+                                            (*j)->character->fluct_velx = (*j)->character->runMoveVelX;
+                                            (*j)->character->char_textures->SetFrameCount(0);
+                                            (*j)->character->rightLastPress = now;
 
-                            }
+                                        } else {
+                                            (*j)->character->isRunning = false;
+                                            (*j)->character->isMovingRight = true;
+                                            (*j)->character->isWalking = true;
+                                            (*j)->character->isAttackingReg = false;
+                                            (*j)->character->lastDirection = "RIGHT";
+                                            (*j)->character->fluct_velx = (*j)->character->moveVelX;
+                                            (*j)->character->char_textures->SetFrameCount(0);
+                                            (*j)->character->rightLastPress = now;
+
+                                        }
+                                        
+                                    }
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        (*j)->character->isMovingRight = false;
+                                        (*j)->character->isWalking = false;
+                                        (*j)->character->isRunning = false;
+                                        (*j)->character->fluct_velx = 0;
+                                    }
+                                }
+                            break;
+                            case SDL_CONTROLLER_BUTTON_START:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    state->quit_program=true;
+                                    state->onRunningMatch=false;
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    
+                                }
+                            break;
+                            case SDL_CONTROLLER_BUTTON_A:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        if((!(*j)->character->isAttackingReg && !(*j)->character->isHoldingRegSmashOpen)) {
+                                            (*j)->character->char_textures->SetFrameCount(0);
+                                            Uint32 now = SDL_GetTicks();
+                                            if ( (now - (*j)->character->regAttackLastPress) <= 750) {
+                                                (*j)->character->regAttackCount++;
+                                                (*j)->character->regAttackLastPress = now;
+                                            } else {
+                                                (*j)->character->regAttackCount = 0;
+                                                (*j)->character->regAttackLastPress = now;
+                                            }
+                                            //TODO:// This is a temporary block To reset counter if it goes over amount Attack count.
+                                            ////////////////////////////////////////////
+                                            if ((*j)->character->regAttackCount > 1) { //
+                                                                                       //
+                                                (*j)->character->regAttackCount =0;    //
+                                            }                                          //
+                                            ////////////////////////////////////////////
+                                            (*j)->character->isAttackingReg = true;
+                                        }
+                                        //(*j)->character->char_textures->SetFrameCount(0); 
+                                    }
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        
+                                    }
+                                }
+                            break;
+                            case SDL_CONTROLLER_BUTTON_B:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        if((*j)->character->jumpBlock < 2) {
+                                            (*j)->character->isJumping = true;
+                                            (*j)->character->isColliding = false;
+                                            (*j)->character->isFalling = false;
+                                            (*j)->character->isAttackingReg = false;
+                                            (*j)->character->char_textures->SetFrameCount(0);
+                                            (*j)->character->fluct_vely = -(*j)->character->moveVelY;
+                                            (*j)->character->jumpBlock++;
+                                        }
+                                    }
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        (*j)->character->isJumping = false;
+                                        if(!(*j)->character->isColliding) {
+                                            (*j)->character->isFalling = true;
+                                        }
+                                    }
+                                }
+                            break;
+                            case SDL_CONTROLLER_BUTTON_X:
+                                if ((*i)->pressed == SDL_PRESSED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        Uint32 now = SDL_GetTicks();
+                                        if ((now - (*j)->character->leftLastPress) < 250) {
+                                            (*j)->character->isHoldingSpecialLeft = true;
+                                        } else if ((now - (*j)->character->rightLastPress) < 250) {
+                                            (*j)->character->isHoldingSpecialRight = true;
+                                        } else if ((now - (*j)->character->upLastPress) < 250) {
+                                            (*j)->character->isHoldingSpecialUp = true;
+                                        } else if ((now - (*j)->character->downLastPress) < 250) {
+                                            (*j)->character->isHoldingSpecialDown = true;
+                                        } else {
+                                            (*j)->character->isHoldingSpecialOpen = true;
+                                            (*j)->character->isSpecialAttackOpen = true;
+                                        }
+                                        (*j)->character->moveInitialRun = true;
+                                    }
+                                } else if ((*i)->pressed == SDL_RELEASED) {
+                                    if(SDL_GameControllerFromInstanceID((*i)->controller_id) == (*j)->controller) {
+                                        (*j)->character->isHoldingSpecialLeft = false;
+                                        (*j)->character->isHoldingSpecialRight = false;
+                                        (*j)->character->isHoldingSpecialUp = false;
+                                        (*j)->character->isHoldingSpecialDown = false;
+                                        (*j)->character->isHoldingSpecialOpen = false;
+                                    }
+                                }
+                            break;
                         }
                     }
                 }

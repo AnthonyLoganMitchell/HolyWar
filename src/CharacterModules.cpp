@@ -14,11 +14,11 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
         CharacterObject* p = (*i)->character;
 
         //IDLE
-        if(!p->isJumping && !p->isFalling && !p->isMovingLeft  && !p->isMovingRight && !p->isAttackingReg) {
+        if(!p->isJumping && !p->isFalling && !p->isMovingLeft  && !p->isMovingRight && !p->isAttackingReg && !p->isSpecialAttackOpen) {
             CharacterModules::RunIdleModule(p,CharScale,Tick,renderer);
         }
         //Walk/Run
-        else if(!p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg) {
+        else if(!p->isJumping && !p->isFalling && (p->isMovingLeft || p->isMovingRight) && !p->isAttackingReg && !p->isSpecialAttackOpen) {
             if (p->isWalking) {
                 CharacterModules::RunMoveWalkModule(p,CharScale,Tick,renderer);
             } else if (p->isRunning) {
@@ -26,26 +26,26 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
             }
         }
         //Jump
-        else if((p->isJumping && !p->isFalling) && !p->isAttackingReg) {
+        else if((p->isJumping && !p->isFalling) && !p->isAttackingReg && !p->isSpecialAttackOpen) {
             CharacterModules::RunJumpingModule(p,CharScale,Tick,renderer);
         }
         //FallTransition
-        else if((p->isJumping && p->isFalling) && !p->isAttackingReg) {
+        else if((p->isJumping && p->isFalling) && !p->isAttackingReg && !p->isSpecialAttackOpen) {
             CharacterModules::RunJumpFallTransitionModule(p,CharScale,Tick,renderer);
         }
         //Fall
-        else if((!p->isJumping && p->isFalling) && !p->isAttackingReg) {
+        else if((!p->isJumping && p->isFalling) && !p->isAttackingReg && !p->isSpecialAttackOpen) {
             CharacterModules::RunFallingModule(p,CharScale,Tick,renderer);
         }
         //(up/down/left/right) Stationary/Jumping/Falling/Running Regular Attacks.
-        else if(p->isAttackingReg) {
+        else if(p->isAttackingReg && !p->isSpecialAttackOpen) {
             CharacterModules::RunRegularAttackModule(p,CharScale,Tick,renderer);
         }
         //TODO:// Add Strong attack animation section here.
 
         //TODO:// Special attacks animations
         else if (p->isSpecialAttackOpen) {
-            //TODO:Actually call RunSpecialOpenAttack
+
             CharacterModules::RunSpecialOpenAttack(p,CharScale,Tick,renderer);
         }
 
@@ -56,17 +56,38 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
 }
 
 void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, SDL_Renderer* renderer) {
-    if(!p->isFalling && !p->isJumping) {
-        if(p->char_textures->GetFrameCount() > p->char_textures->GetSpecialOpenAttackClipCount() && !p->isHoldingSpecialOpen) {
-            p->char_textures->SetFrameCount(0);
-        }
-        
-
-
-
-    } else {
-        //We might allow jumping/falling special attacks one day...
+    if(p->moveInitialRun) {
+        p->char_textures->SetFrameCount(0);
     }
+    if (!p->isHoldingSpecialOpen && p->char_textures->GetFrameCount() >= p->char_textures->GetSpecialOpenAttackClipCount()) {
+        p->char_textures->SetFrameCount(0);
+        p->isSpecialAttackOpen = false;
+    }
+    if(p->isHoldingSpecialOpen) {
+        if(p->char_textures->GetFrameCount() >= p->specialOpenPauseFrame) { 
+            p->char_textures->SetFrameCount(p->specialOpenPauseFrame); 
+            p->moveIsCharged = true;
+        } 
+    } else {
+        if(p->moveIsCharged) {
+            //TODO will activate move animation here. will most likely have decision between projectile/melee here somewhere.
+            p->LaunchSpecialOpen(p->name);
+            p->moveIsCharged =false;
+        }
+    }    
+
+    if (p->lastDirection == "LEFT") {
+        p->char_textures->render(renderer,p->posX, \
+                p->posY,CharScale,0,0,&p->char_textures->attackSpecialOpenClips[p->char_textures->GetFrameCount()],"SAO",SDL_FLIP_NONE);
+    } else if (p->lastDirection == "RIGHT") {
+        p->char_textures->render(renderer,p->posX, \
+                p->posY,CharScale,0,0,&p->char_textures->attackSpecialOpenClips[p->char_textures->GetFrameCount()],"SAO",SDL_FLIP_HORIZONTAL);
+    }
+
+    if(Tick % p->char_textures->attackSpecialOpenMod == 0) {
+        p->char_textures->TickFrameCount();
+    }
+    p->moveInitialRun = false;
 }
 
 

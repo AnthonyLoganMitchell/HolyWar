@@ -1,2 +1,8 @@
 src/bin/Release/HolyWar.exe
 src/obj/**
+src/obj/Release/CharacterModules.o
+src/obj/Release/CharacterObject.o
+src/obj/Release/CharacterTexture.o
+src/obj/Release/Collision.o
+src/obj/Release/Core.o
+src/obj/Release/Event.o

@@ -17,6 +17,7 @@ CharacterTexture::CharacterTexture(int totalIdleClips,int totalJumpingClips,int 
     this->fallingTexture = NULL;
     this->attackStrongTexture = NULL;
     this->attackRegularJumpingTexture = NULL;
+    this->attackSpecialOpenTexture = NULL;
     this->name        = n;
     this->frameCount  = 0;
     this->xposition   = 0;

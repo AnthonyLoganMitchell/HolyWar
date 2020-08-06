@@ -11,8 +11,12 @@
 #include "ProjectileTexture.h"
 //TODO LoadMedia for Projectiles.
 ProjectileTexture::ProjectileTexture(int clip_count,std::string n,SDL_Renderer* renderer){
+    //TODO:// We need to add conditions here for the possiblity of multidimensional textures
+    // that are broken up by their width, height, columns, and rows
+    // These will be nxm matricies will break 
     this->texture = NULL;
     this->name = n ;
+    this->isMultiDimTexture = false;
     this->clipCount = clip_count-1;
     this->clips = new SDL_Rect[clip_count];
     
@@ -27,7 +31,8 @@ bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
              printf( "ProjectileTexture::loadProjectileMedia - Failed to load sprite sheet texture! horus_special_open.png\n" );
              return false;
         } else {
-            
+            //TODO: Start here with sectioning of the multidimensional texture for hours beam.
+            //nxm matrix.
             int width = 15;
             int height = 15;
             int x_pos = 1;

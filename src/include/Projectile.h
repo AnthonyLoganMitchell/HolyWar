@@ -14,15 +14,18 @@
 class Projectile {
     public:
         Projectile(std::string, std::string);
+        ProjectileTexture* base_texture;
         ProjectileTexture* moving_texture;
         ProjectileTexture* hit_texture;
         void Move(int);
-        bool InitializeProjectile();
+        void CalculateGravity();
+        bool InitializeProjectile(std::string);
         std::string owner_name;
         std::string projectile_name;
         bool isGravity;
         bool isHeadLink;
         bool hasLinks;
+        bool isColliding;
         int chargeTime;
         int projMod;
         int posX, fluct_velx;

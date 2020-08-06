@@ -15,6 +15,7 @@
 #include <SDL_image.h>
 #include <string.h>
 #include <iostream>
+#include <vector>
     class ProjectileTexture : public Texture {
         
         public: 
@@ -36,8 +37,9 @@
 
             SDL_Texture* texture;
             SDL_Rect* clips;
+            std::vector<SDL_Rect*>* multiClips;
             int ClipMod;
-            bool isMultiClip; //TODO: do things with this.
+            bool isMultiDimTexture; //TODO: do things with this.
 
             
         private:
@@ -48,5 +50,6 @@
             int yposition;
             int frameCount;
             int clipCount;
+            int parts;
     };
 #endif

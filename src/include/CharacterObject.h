@@ -12,6 +12,7 @@
 #include "CharacterTexture.h"
 #include <string>
 #include "Hitbox.h"
+#include "Projectile.h"
 class CharacterObject
 {
 public:
@@ -21,6 +22,7 @@ public:
     void Move(int);
     void CalculateGravity();
     void InitializeHitBoxes(int);
+    void LaunchSpecialOpen(std::string);
     const int moveVelX = 1;
     const int runMoveVelX = 2;
     const int moveVelY = 5;
@@ -49,30 +51,54 @@ public:
 
     bool isWalking;
     bool isRunning;
+
     bool isMovingLeft;
     bool isMovingRight;
+    bool isMovingUp;
+    bool isMovingDown;
 
     bool isColliding;
+    bool isBeingAttacked;
+
     bool isAttackingReg;
     bool isAttackingStrong;
     bool isSpecialAttackOpen;
 
-    bool isHoldingRegAttack;
-    bool isHoldingStrongAttack;
-    
-    bool isHoldingSpecialOpen;
+    bool isHoldingRegSmashUp;
+    bool isHoldingRegSmashDown;
+    bool isHoldingRegSmashLeft;
+    bool isHoldingRegSmashRight;
+    bool isHoldingRegSmashOpen;
+
+    bool isHoldingStrongSmashUp;    
+    bool isHoldingStrongSmashDown;
+    bool isHoldingStrongSmashLeft;
+    bool isHoldingStrongSmashRight;
+    bool isHoldingStrongSmashOpen;
+
     bool isHoldingSpecialLeft;
     bool isHoldingSpecialRight;
     bool isHoldingSpecialUp;
     bool isHoldingSpecialDown;
+    bool isHoldingSpecialOpen;
 
-    bool isHoldingDPadLeft;
-    bool isHoldingDPadRight;
-    bool isHoldingDPadUp;
-    bool isHoldingDPadDown;
+    bool isSpecialOpenChargeUp;
+    bool isSpecialLeftChargeUp;
+    bool isSpecialRightChargeUp;
+    bool isSpecialUpChargeUp;
+    bool isSpecialDownChargeUp;
+
+    bool moveIsCharged;
+    bool moveInitialRun;
 
     bool wasRunningWhenJump;
 
+    int  specialOpenPauseFrame;
+    int  specialLeftPauseFrame;
+    int  specialRightPauseFrame;
+    int  specialUpPauseFrame;
+    int  specialDownPauseFrame;
+    
     int  regAttackCount;
     int  StrongAttackCount;
     int  jumpBlock;
