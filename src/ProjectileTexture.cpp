@@ -19,36 +19,42 @@ ProjectileTexture::ProjectileTexture(int clip_count,std::string n,SDL_Renderer* 
     this->isMultiDimTexture = false;
     this->clipCount = clip_count-1;
     this->clips = new SDL_Rect[clip_count];
-    
+    multiClips = new (std::vector<SDL_Rect*>);
     //This has to be at least 1
     this->ClipMod = 1;
-
     this->loadProjectileMedia(renderer);
+    
+}
+ProjectileTexture::~ProjectileTexture() {
+    
 }
 bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
     if (this->name == "horus_beam") {
-        if(!this->loadProjectileFromFile("../../rec/animations/character/horus/horus_special_open.png",renderer)) {
-             printf( "ProjectileTexture::loadProjectileMedia - Failed to load sprite sheet texture! horus_special_open.png\n" );
+        if(!this->loadProjectileFromFile("../../rec/animations/characters/horus/horus_beam.png",renderer)) {
+             printf( "ProjectileTexture::loadProjectileMedia - Failed to load sprite sheet texture! horus_beam.png\n" );
              return false;
         } else {
             //TODO: Start here with sectioning of the multidimensional texture for hours beam.
             //nxm matrix.
-            int width = 15;
-            int height = 15;
-            int x_pos = 1;
-            int y_pos = 1;
-            for (int i = 0; i<28; i++ ) {
-                this->clips[i].x = x_pos;
-                this->clips[i].y = y_pos;
-                this->clips[i].w = width;
-                this->clips[i].h = height;
-                x_pos = x_pos + width;
-                if(i%4 == 0) {
-                    x_pos = 1;
-                    y_pos = y_pos + height;
+            int columns = 4;
+            int rows = 7;
+            int width = 16;
+            int height = 16;
+            int x_pos = 0;
+            int y_pos = 0;
+            for (int i=0; i<columns; i++) {
+                SDL_Rect* clipsBox = new SDL_Rect;
+                for (int j=0; j<rows; j++) {
+                    clipsBox[j].h = height;
+                    clipsBox[j].w = width;
+                    clipsBox[j].x = x_pos;
+                    clipsBox[j].y = y_pos;
+                    y_pos += height+1;
                 }
+                multiClips->push_back(clipsBox);
+                y_pos = 0;
+                x_pos += width +1;
             }
-            
         }
         return true;
     }
@@ -101,7 +107,9 @@ int ProjectileTexture::GetWidth() {
 int ProjectileTexture::GetHeight() {
     return this->height;
 }
-
+int ProjectileTexture::GetMaxClipCount() {
+    return this->clipCount;
+}
 void ProjectileTexture::SetWidth(int w) {
  this->width = w;
 }

@@ -9,6 +9,7 @@
 #include "Core.h"
 #include "MainMenuOptions.h"
 #include "CharacterModules.h"
+#include "ProjectileModules.h"
 #include "Collision.h"
 #include "Level.h"
 #include <string>
@@ -25,6 +26,7 @@ Core::Core() {
     this->data= new(ThreadData);
     this->data->interact = new(std::vector<Interaction*>);
     this->players = new(std::vector<PlayerObject*>);
+    this->Projectiles = new(std::vector<Projectile*>);
 }
 
 bool Core::CoreInit() {
@@ -693,10 +695,11 @@ void Core::RunMatch(SDL_mutex* parse_mutex) {
         while (updateIterations > UPDATE_INTERVAL) {
             updateIterations -= UPDATE_INTERVAL;
             //This part controls the collision detection between characters and platform objects.
-            Collision::RunCollisionModule(CharScale,PlatformScale,this->SCREEN_WIDTH,stage,this->players);
+            Collision::RunCollisionModule(CharScale, PlatformScale, this->SCREEN_WIDTH, stage, this->players);
             //This part runs the entire physics and rendering systems for characters.
-            CharacterModules::RunCharacters(CharScale,PlatformScale,Tick,this->players,this->renderer);
+            CharacterModules::RunCharacters(CharScale, PlatformScale, Tick, this->players, this->Projectiles ,this->renderer);
             //TODO:// Will run movement for projectiles here in core.
+            ProjectileModules::RunProjectiles(Tick,this->Projectiles,this->renderer);
 
         }
         cyclesLeftOver = updateIterations;

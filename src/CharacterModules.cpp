@@ -9,7 +9,7 @@
 #include "CharacterModules.h"
 
 
-void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,std::vector<PlayerObject*>* players, SDL_Renderer* renderer) {
+void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,std::vector<PlayerObject*>* players, std::vector<Projectile*>* projectiles , SDL_Renderer* renderer) {
     for(std::vector<PlayerObject*>::iterator i = players->begin(); i!= players->end(); i++) {
         CharacterObject* p = (*i)->character;
 
@@ -46,7 +46,7 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
         //TODO:// Special attacks animations
         else if (p->isSpecialAttackOpen) {
 
-            CharacterModules::RunSpecialOpenAttack(p,CharScale,Tick,renderer);
+            CharacterModules::RunSpecialOpenAttack(p,CharScale,Tick,projectiles,renderer);
         }
 
         //TODO:// Damage taken animations
@@ -54,8 +54,9 @@ void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,st
         CharacterModules::PositionHitBoxes(p,renderer);
     }
 }
-
-void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, SDL_Renderer* renderer) {
+//TODO: RunSpecialOpenAttack is not finalized. As of now its slightly tailored to horus "charge up" case
+// Need 
+void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, int Tick, std::vector<Projectile*>* projectiles , SDL_Renderer* renderer) {
     if(p->moveInitialRun) {
         p->char_textures->SetFrameCount(0);
     }
@@ -71,7 +72,7 @@ void CharacterModules::RunSpecialOpenAttack(CharacterObject* p,int CharScale, in
     } else {
         if(p->moveIsCharged) {
             //TODO will activate move animation here. will most likely have decision between projectile/melee here somewhere.
-            p->LaunchSpecialOpen(p->name);
+            p->LaunchSpecialOpen(p->name, projectiles ,renderer);
             p->moveIsCharged =false;
         }
     }    

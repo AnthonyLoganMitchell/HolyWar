@@ -15,8 +15,8 @@
 class CharacterModules {
 
 public:
-    static void RunCharacters(int,int,int,std::vector<PlayerObject*>*,SDL_Renderer*);
-    static void RunSpecialOpenAttack(CharacterObject*, int, int, SDL_Renderer*);
+    static void RunCharacters(int,int,int,std::vector<PlayerObject*>*, std::vector<Projectile*>*, SDL_Renderer*);
+    static void RunSpecialOpenAttack(CharacterObject*, int, int,std::vector<Projectile*>*,SDL_Renderer*);
     static void RunSpecialOpenAttackModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunRegularAttackModule(CharacterObject*,int,int,SDL_Renderer*);
     static void RunIdleModule(CharacterObject*,int,int,SDL_Renderer*);

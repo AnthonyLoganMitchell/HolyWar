@@ -20,6 +20,7 @@
         
         public: 
             ProjectileTexture(int,std::string,SDL_Renderer*);
+            ~ProjectileTexture();
             void Free_Texture();
             int  GetWidth();
             int  GetHeight();
@@ -29,6 +30,7 @@
             int  GetFrameCount();
             int  GetXPos();
             int  GetYPos();
+            int  GetMaxClipCount();
             void SetXPos(int);
             void SetYPos(int);
             bool loadProjectileFromFile(std::string,SDL_Renderer*);

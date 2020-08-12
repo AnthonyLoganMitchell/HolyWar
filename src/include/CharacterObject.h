@@ -22,7 +22,7 @@ public:
     void Move(int);
     void CalculateGravity();
     void InitializeHitBoxes(int);
-    void LaunchSpecialOpen(std::string);
+    void LaunchSpecialOpen(std::string,std::vector<Projectile*>*,SDL_Renderer*);
     const int moveVelX = 1;
     const int runMoveVelX = 2;
     const int moveVelY = 5;

@@ -174,16 +174,16 @@ void CharacterObject::InitializeCharacter(std::string Name,SDL_Renderer* rendere
         this->specialOpenPauseFrame = 3;
 
         /////////////////////////////////////////////
-        char_ptr->SetWidth(90);
-        char_ptr->SetHeight(90);
+        //char_ptr->SetWidth(90);
+        //char_ptr->SetHeight(90);
         char_ptr = NULL;
         delete(char_ptr);
     }
 }
-void CharacterObject::LaunchSpecialOpen(std::string name) {
+void CharacterObject::LaunchSpecialOpen(std::string name, std::vector<Projectile*>* projectiles ,SDL_Renderer* renderer) {
     if (name == "Horus") {
-        Projectile* proj = new Projectile(name,"horus_beam");
-
+        Projectile* proj = new Projectile(name, "horus_beam", this->lastDirection, this->posX, this->posY, renderer);
+        projectiles->push_back(proj);
     }
 }
 void CharacterObject::Move(int Tick) {

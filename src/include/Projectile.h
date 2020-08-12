@@ -11,25 +11,29 @@
 #include "Hitbox.h"
 #include "ProjectileTexture.h"
 #include <iostream>
+#include "ProjectileLinks.h"
+#include <vector>
 class Projectile {
     public:
-        Projectile(std::string, std::string);
+        Projectile(std::string, std::string, std::string,int,int,SDL_Renderer*);
         ProjectileTexture* base_texture;
-        ProjectileTexture* moving_texture;
         ProjectileTexture* hit_texture;
         void Move(int);
         void CalculateGravity();
-        bool InitializeProjectile(std::string);
+        bool InitializeProjectile(std::string,SDL_Renderer*);
         std::string owner_name;
         std::string projectile_name;
+        std::string direction;
+        std::vector<ProjectileLinks*>* links;
         bool isGravity;
-        bool isHeadLink;
         bool hasLinks;
         bool isColliding;
+        bool isInitialRun;
         int chargeTime;
-        int projMod;
         int posX, fluct_velx;
         int posY,fluct_vely;
+        int char_offset_x;
+        int char_offset_y;
         int right_x_offset;
         int left_x_offset;      
         Hitbox* attackBox;
