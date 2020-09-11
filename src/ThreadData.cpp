@@ -7,6 +7,8 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "ThreadData.h"
+#include "Interaction.h"
+#include "SDL.h"
 
 ThreadData::~ThreadData() {
     SDL_DestroyMutex(this->parse_mutex);

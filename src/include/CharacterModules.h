@@ -8,10 +8,12 @@
 *///
 #ifndef   CHARACTERMODULES_H
 #define   CHARACTERMODULES_H
-#include "CharacterObject.h"
-#include "Level.h"
 #include <vector>
-#include "PlayerObject.h"
+class Projectile;
+class SDL_Renderer;
+class CharacterObject;
+class Level;
+class PlayerObject;
 class CharacterModules {
 
 public:

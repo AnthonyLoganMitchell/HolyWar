@@ -7,6 +7,7 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "PlayerCursor.h"
+#include "GeneralTexture.h"
 
 
 PlayerCursor::PlayerCursor(int x,int y,SDL_Renderer* renderer) {

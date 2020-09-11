@@ -8,10 +8,13 @@
 */
 #ifndef PLAYEROBJECT_H
 #define PLAYEROBJECT_H
-#include "PlayerCursor.h"
+#include <string>
 #include "SDL.h"
-#include "CharacterTexture.h"
-#include "CharacterObject.h"
+class PlayerCursor;
+class CharacterTexture;
+class CharacterObject;
+class SDL_Renderer;
+
 class PlayerObject
 {
     public:

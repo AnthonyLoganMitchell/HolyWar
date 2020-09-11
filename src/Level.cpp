@@ -7,7 +7,8 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "Level.h"
-
+#include "GeneralTexture.h"
+#include "SDL.h"
 
 Level::Level(std::string name,SDL_Renderer* renderer) {
     this->textures = new std::vector<GeneralTexture*>;

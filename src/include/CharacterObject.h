@@ -9,10 +9,13 @@
 
 #ifndef CHARACTEROBJECT_H
 #define CHARACTEROBJECT_H
-#include "CharacterTexture.h"
 #include <string>
-#include "Hitbox.h"
-#include "Projectile.h"
+#include <vector>
+
+class Projectile;
+class Hitbox;
+class CharacterTexture;
+class SDL_Renderer;
 class CharacterObject
 {
 public:
@@ -106,13 +109,13 @@ public:
 
     //Timing variables
     ///////////////////////////////
-    Uint32 regAttackLastPress;    //
-    Uint32 strongAttackLastPress; //
-    Uint32 specialAttackLastPress;//
-    Uint32 leftLastPress;         //
-    Uint32 rightLastPress;        //
-    Uint32 upLastPress;           //
-    Uint32 downLastPress;         //
+    uint32_t regAttackLastPress;    //
+    uint32_t strongAttackLastPress; //
+    uint32_t specialAttackLastPress;//
+    uint32_t leftLastPress;         //
+    uint32_t rightLastPress;        //
+    uint32_t upLastPress;           //
+    uint32_t downLastPress;         //
     ///////////////////////////////
     std::string lastDirection;
 

@@ -7,6 +7,7 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "CharacterPortrait.h"
+#include "GeneralTexture.h"
 
 CharacterPortrait::CharacterPortrait(int clip_no,std::string id_name,std::string char_name,SDL_Renderer* renderer) {
     //ctor

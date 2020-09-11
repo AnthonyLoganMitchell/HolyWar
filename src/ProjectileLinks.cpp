@@ -14,3 +14,6 @@ ProjectileLinks::ProjectileLinks(int x, int y, int index, int Tick) {
     this->rectIndex = index;
     this->linkTick = Tick;
 }
+ProjectileLinks::~ProjectileLinks() {
+    delete(this);
+}

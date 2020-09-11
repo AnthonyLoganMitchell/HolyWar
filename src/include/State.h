@@ -8,9 +8,8 @@
 */
 #ifndef STATE_H
 #define STATE_H
-#include "MainMenuOptions.h"
-
-
+#include <string>
+class MainMenuOptions;
 class State
 {
 public:

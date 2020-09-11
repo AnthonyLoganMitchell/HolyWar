@@ -10,12 +10,16 @@
 
 #ifndef PROJECTILETEXTURE_H
 #define PROJECTILETEXTURE_H
-#include "Texture.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <string.h>
-#include <iostream>
+
+#include <string>
 #include <vector>
+#include "Texture.h"
+#include "SDL_image.h"
+
+class SDL_Rect;
+class SDL_Texture;
+class SDL_Renderer;
+
     class ProjectileTexture : public Texture {
         
         public: 

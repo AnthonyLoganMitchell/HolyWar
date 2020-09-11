@@ -8,8 +8,9 @@
 */
 #ifndef PROJECTILEMODULES_H
 #define PROJECTILEMODULES_H
-#include "Projectile.h"
 #include <vector>
+class Projectile;
+class SDL_Renderer;
 class ProjectileModules {
     public:
     static void RunProjectiles(int,std::vector<Projectile*>*,SDL_Renderer*);

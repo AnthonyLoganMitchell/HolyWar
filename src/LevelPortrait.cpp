@@ -7,6 +7,8 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "LevelPortrait.h"
+#include "SDL.h"
+#include "GeneralTexture.h"
 
 LevelPortrait::LevelPortrait(std::string small,std::string big, std::string level_name,SDL_Renderer* renderer) {
     this->level_avatar_small = new GeneralTexture(1,small,renderer);

@@ -7,6 +7,9 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "MainMenuOptions.h"
+#include "GeneralTexture.h"
+#include "MenuButton.h"
+#include "SDL_image.h"
 
 MainMenuOptions::MainMenuOptions(SDL_Renderer* renderer) {
     this->menuBackground = new GeneralTexture(1,"SplashBackground",renderer);

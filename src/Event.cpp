@@ -7,6 +7,17 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 *///
 #include "Event.h"
+#include "ThreadData.h"
+#include "State.h"
+#include "PlayerObject.h"
+#include "SDL.h"
+#include "MainMenuOptions.h"
+#include "MenuButton.h"
+#include "CharacterObject.h"
+#include "CharacterTexture.h"
+#include "PlayerCursor.h"
+#include "Interaction.h"
+#include <iostream>
 
 void Event::ParseEvents(ThreadData* data,SDL_mutex* parse_mutex,State* state,std::vector<PlayerObject*>* players) {
     if (SDL_LockMutex(parse_mutex) == 0 && data->interact->size() > 0) {

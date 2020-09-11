@@ -1,8 +1,7 @@
 #ifndef HITBOX_H
 #define HITBOX_H
-#include "SDL.h"
 #include <string>
-
+class SDL_Rect;
 class Hitbox
 {
     public:

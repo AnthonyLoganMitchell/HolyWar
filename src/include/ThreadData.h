@@ -8,9 +8,10 @@
 */
 #ifndef THREADDATA_H
 #define THREADDATA_H
-#include "SDL.h"
-#include "vector"
-#include "Interaction.h"
+
+#include <vector>
+class SDL_mutex;
+class Interaction;
 class ThreadData
 {
 public:

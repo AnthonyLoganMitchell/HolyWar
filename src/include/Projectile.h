@@ -8,14 +8,15 @@
 */
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
-#include "Hitbox.h"
-#include "ProjectileTexture.h"
-#include <iostream>
-#include "ProjectileLinks.h"
 #include <vector>
+#include <string>
+class Hitbox;
+class ProjectileTexture;
+class ProjectileLinks;
+class SDL_Renderer;
 class Projectile {
     public:
-        Projectile(std::string, std::string, std::string,int,int,SDL_Renderer*);
+        Projectile(std::string, std::string, std::string, int, int, SDL_Renderer*);
         ProjectileTexture* base_texture;
         ProjectileTexture* hit_texture;
         void Move(int);
@@ -29,13 +30,17 @@ class Projectile {
         bool hasLinks;
         bool isColliding;
         bool isInitialRun;
+        bool isActive;
         int chargeTime;
         int posX, fluct_velx;
         int posY,fluct_vely;
         int char_offset_x;
         int char_offset_y;
-        int right_x_offset;
-        int left_x_offset;      
+        int rightXOffset;
+        int leftXOffset;     
+        int upYOffset;
+        int downYOffset; 
+        int linkRate;
         Hitbox* attackBox;
     private:
 };

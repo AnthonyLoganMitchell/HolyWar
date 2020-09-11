@@ -8,12 +8,12 @@
 */
 #ifndef LEVEL_H
 #define LEVEL_H
-#include "vector"
-#include "GeneralTexture.h"
-#include "string"
-#include "SDL.h"
-class Level
-{
+#include <vector>
+#include <string>
+class SDL_Renderer;
+class GeneralTexture;
+
+class Level {
 public:
     Level(std::string,SDL_Renderer*);
     virtual ~Level();

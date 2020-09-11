@@ -6,13 +6,32 @@
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
+#include <SDL_thread.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include "Core.h"
 #include "MainMenuOptions.h"
 #include "CharacterModules.h"
+#include "CharacterObject.h"
 #include "ProjectileModules.h"
+#include "Projectile.h"
 #include "Collision.h"
 #include "Level.h"
 #include <string>
+#include "ThreadData.h"
+#include "State.h"
+#include <iostream>
+#include <stdlib.h>
+#include "PlayerObject.h"
+#include "CharacterPortrait.h"
+#include "LevelPortrait.h"
+#include "Projectile.h"
+#include <iostream>
+#include "Event.h"
+#include "Hitbox.h"
+#include "MenuButton.h"
+#include "GeneralTexture.h"
+#include "PlayerCursor.h"
 
 Core::Core() {
     this->window = NULL;

@@ -8,9 +8,9 @@
 */
 #ifndef PLAYERCURSOR_H
 #define PLAYERCURSOR_H
-#include "GeneralTexture.h"
 
-
+class GeneralTexture;
+class SDL_Renderer;
 class PlayerCursor
 {
     public:

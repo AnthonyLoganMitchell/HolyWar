@@ -8,9 +8,9 @@
 */
 #ifndef MENUBUTTON_H
 #define MENUBUTTON_H
-#include "GeneralTexture.h"
-
-
+#include <string>
+class SDL_Renderer;
+class GeneralTexture;
 class MenuButton
 {
     public:

@@ -8,6 +8,9 @@
 */
 #include "GeneralTexture.h"
 #include <string>
+#include <iostream>
+#include <SDL.h>
+
 //Fix this constructor.
 GeneralTexture::GeneralTexture(int totalClips, std::string texName,SDL_Renderer* rend) {
     this->textureClipCount = totalClips -1;

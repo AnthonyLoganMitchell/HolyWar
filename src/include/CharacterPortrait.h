@@ -8,10 +8,10 @@
 */
 #ifndef CHARACTERPORTRAIT_H
 #define CHARACTERPORTRAIT_H
-#include "GeneralTexture.h"
-#include "string"
+#include <string>
 #include <vector>
-
+class GeneralTexture;
+class SDL_Renderer;
 class CharacterPortrait
 {
     public:

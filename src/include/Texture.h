@@ -8,12 +8,8 @@
 */
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
-#include <SDL.h>
-#include <SDL_image.h>
-class Texture
-{
+class Texture {
 public:
-    Texture();
     virtual ~Texture(){};
     virtual void Free_Texture()=0;
     virtual int  GetWidth()=0;

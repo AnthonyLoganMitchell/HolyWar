@@ -9,11 +9,12 @@
 #ifndef LEVELPORTRAIT_H
 #define LEVELPORTRAIT_H
 #include <string>
-#include "SDL.h"
-#include "GeneralTexture.h"
 #include <vector>
-class LevelPortrait
-{
+
+class GeneralTexture;
+class SDL_Renderer;
+
+class LevelPortrait {
     public:
         LevelPortrait(std::string,std::string, std::string, SDL_Renderer*);
         static std::vector<LevelPortrait*>* InitLevelPortraits(SDL_Renderer*);

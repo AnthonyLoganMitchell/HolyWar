@@ -10,7 +10,6 @@
 #define INTERACTION_H
 #include <SDL.h>
 
-
 class Interaction
 {
     public:

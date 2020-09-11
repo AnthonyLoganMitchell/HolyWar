@@ -9,12 +9,14 @@
 
 #ifndef COLLISION_H
 #define COLLISION_H
-#include "Level.h"
 #include "vector"
-#include "PlayerObject.h"
-#include "GeneralTexture.h"
-#include "CharacterObject.h"
-#include "PlayerCursor.h"
+
+class Level;
+class PlayerObject;
+class GeneralTexture;
+class CharacterObject;
+class PlayerCursor;
+class SDL_Rect;
 class Collision
 {
 public:

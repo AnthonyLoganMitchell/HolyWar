@@ -8,6 +8,9 @@
 *///
 #include "CharacterObject.h"
 #include "CharacterTexture.h"
+#include "Hitbox.h"
+#include "Projectile.h"
+#include "Texture.h"
 
 CharacterObject::CharacterObject(std::string Name,int8_t Health,SDL_Renderer* renderer) {
     this->name=Name;

@@ -8,9 +8,11 @@
 *///
 #ifndef EVENT_H_
 #define EVENT_H_
-#include "ThreadData.h"
-#include "State.h"
-#include "PlayerObject.h"
+#include <vector>
+class ThreadData;
+class State;
+class PlayerObject;
+class SDL_mutex;
 class Event
 {
 public:

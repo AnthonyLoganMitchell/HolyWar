@@ -7,6 +7,7 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "MenuButton.h"
+#include "GeneralTexture.h"
 
 MenuButton::MenuButton() {
 }

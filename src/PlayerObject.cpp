@@ -8,6 +8,9 @@
 */
 #include "PlayerObject.h"
 #include "CharacterObject.h"
+#include "PlayerCursor.h"
+#include "CharacterTexture.h"
+#include "CharacterObject.h"
 
 PlayerObject::PlayerObject(int id,int x,int y, SDL_Renderer* renderer) {
 

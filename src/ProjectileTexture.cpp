@@ -9,6 +9,9 @@
 
 
 #include "ProjectileTexture.h"
+#include "Texture.h"
+#include <SDL.h>
+#include <iostream>
 //TODO LoadMedia for Projectiles.
 ProjectileTexture::ProjectileTexture(int clip_count,std::string n,SDL_Renderer* renderer){
     //TODO:// We need to add conditions here for the possiblity of multidimensional textures
@@ -17,16 +20,17 @@ ProjectileTexture::ProjectileTexture(int clip_count,std::string n,SDL_Renderer* 
     this->texture = NULL;
     this->name = n ;
     this->isMultiDimTexture = false;
-    this->clipCount = clip_count-1;
+    this->clipCount = clip_count -1;
     this->clips = new SDL_Rect[clip_count];
-    multiClips = new (std::vector<SDL_Rect*>);
+    this->multiClips = new (std::vector<SDL_Rect*>);
     //This has to be at least 1
     this->ClipMod = 1;
     this->loadProjectileMedia(renderer);
     
 }
 ProjectileTexture::~ProjectileTexture() {
-    
+    delete(this->clips);
+    delete(this->multiClips);
 }
 bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
     if (this->name == "horus_beam") {
@@ -43,7 +47,7 @@ bool ProjectileTexture::loadProjectileMedia(SDL_Renderer* renderer) {
             int x_pos = 0;
             int y_pos = 0;
             for (int i=0; i<columns; i++) {
-                SDL_Rect* clipsBox = new SDL_Rect;
+                SDL_Rect* clipsBox = new SDL_Rect[rows];
                 for (int j=0; j<rows; j++) {
                     clipsBox[j].h = height;
                     clipsBox[j].w = width;

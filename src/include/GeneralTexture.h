@@ -8,12 +8,13 @@
 */
 #ifndef   GENERALTEXTURE_H_
 #define   GENERALTEXTURE_H_
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <SDL.h>
-#include <SDL_image.h>
 #include "Texture.h"
+#include <string>
+#include <SDL_image.h>
+class SDL_Renderer;
+class SDL_Rect;
+class SDL_Texture;
+
 class GeneralTexture : public Texture
 {
 public:
@@ -37,7 +38,7 @@ public:
     int  GetYPos();
     void SetXPos(int);
     void SetYPos(int);
-    void SetBlendMode( SDL_BlendMode blending );
+    void SetBlendMode(SDL_BlendMode blending);
     void SetAlpha(Uint8 alpha);
     void SetFrameCount(int);
     void TickFrameCount();

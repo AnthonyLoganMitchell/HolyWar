@@ -7,6 +7,13 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */////
 #include "Core.h"
+#include "SDL.h"
+#include "SDL_thread.h"
+#include "iostream"
+#include "Event.h"
+#include "ThreadData.h"
+#include "State.h"
+
 SDL_mutex* parse_mutex;
 
 int main( int argc, char* args[] ) {

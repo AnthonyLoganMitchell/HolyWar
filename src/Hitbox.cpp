@@ -1,4 +1,5 @@
 #include "Hitbox.h"
+#include "SDL.h"
 //TODO:// Start here on hitboxes
 Hitbox::Hitbox(int x,int y,int W,int H) {
     //ctor

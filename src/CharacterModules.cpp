@@ -7,6 +7,12 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 *///
 #include "CharacterModules.h"
+#include "CharacterObject.h"
+#include "CharacterTexture.h"
+#include "Level.h"
+#include "PlayerObject.h"
+#include "Hitbox.h"
+#include "GeneralTexture.h"
 
 
 void CharacterModules::RunCharacters(int CharScale,int PlatformScale,int Tick,std::vector<PlayerObject*>* players, std::vector<Projectile*>* projectiles , SDL_Renderer* renderer) {

@@ -9,21 +9,16 @@
 #ifndef CORE_H
 #define CORE_H
 #define  SDL_MAIN_HANDLED
-#include <SDL_thread.h>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <iostream>
 #include <vector>
-#include <stdlib.h>
-#include "Event.h"
-#include "ThreadData.h"
-#include "State.h"
-#include "PlayerObject.h"
-#include "CharacterPortrait.h"
-#include "LevelPortrait.h"
-#include "Projectile.h"
-//
+class ThreadData;
+class State;
+class SDL_mutex;
+class SDL_Window;
+class SDL_Renderer;
+class Projectile;
+class PlayerObject;
 class Core
+
 {
 public:
     Core();

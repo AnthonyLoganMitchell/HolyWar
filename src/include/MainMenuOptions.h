@@ -8,9 +8,10 @@
 */
 #ifndef MAINMENUOPTIONS_H
 #define MAINMENUOPTIONS_H
-#include "GeneralTexture.h"
-#include "MenuButton.h"
 
+class GeneralTexture;
+class MenuButton;
+class SDL_Renderer;
 class MainMenuOptions
 {
     public:

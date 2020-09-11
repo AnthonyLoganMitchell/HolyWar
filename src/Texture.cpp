@@ -7,7 +7,3 @@
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
 #include "Texture.h"
-
-Texture::Texture() {
-
-}

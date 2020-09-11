@@ -8,6 +8,13 @@
 *///
 
 #include "Collision.h"
+#include "Level.h"
+#include "PlayerObject.h"
+#include "GeneralTexture.h"
+#include "CharacterObject.h"
+#include "PlayerCursor.h"
+#include "CharacterTexture.h"
+
 void Collision::RunCollisionModule(int CharScale,int PlatformScale, int SCREEN_WIDTH, Level* stage,std::vector<PlayerObject*>* players) {
     for(std::vector<GeneralTexture*>::iterator i = stage->platforms->begin(); i!= stage->platforms->end(); i++) {
         for(std::vector<PlayerObject*>::iterator j = players->begin(); j!= players->end(); j++) {

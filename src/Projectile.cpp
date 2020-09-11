@@ -6,8 +6,10 @@
    *Proprietary and confidential
    *Written by Logan Mitchell <loganmitchell2011@gmail.com>
 */
+#include "Hitbox.h"
 #include "Projectile.h"
 #include "ProjectileTexture.h"
+#include "ProjectileLinks.h"
 #include <string.h>
 Projectile::Projectile(std::string owner, std::string proj_name, std::string owner_direction, int owner_pos_x, int owner_pos_y,SDL_Renderer* renderer) {
     this->owner_name = owner;
@@ -20,14 +22,18 @@ Projectile::Projectile(std::string owner, std::string proj_name, std::string own
     this->hasLinks = false;
     this->isColliding = false;
     this->isInitialRun = false;
+    this->isActive = false;
     this->chargeTime = 0;
     this->direction = owner_direction;
     this->fluct_velx = 0;
     this->fluct_vely = 0;
     this->posY = owner_pos_y;
     this->posX = owner_pos_x;
-    this->right_x_offset= 0;
-    this->left_x_offset = 0;    
+    this->rightXOffset= 0;
+    this->leftXOffset = 0;   
+    this->upYOffset =0;
+    this->downYOffset = 0; 
+    this->linkRate=0;
     this->InitializeProjectile(this->projectile_name,renderer);
 }
 
@@ -35,14 +41,13 @@ bool Projectile::InitializeProjectile(std::string name,SDL_Renderer* renderer) {
     if (name == "horus_beam") {
         this->links = new (std::vector<ProjectileLinks*>);
         this->hasLinks = true;
+        this->isActive = true;
+        this->linkRate = 25;
         //Horus has multidimensional texture. Each rect in Core::Projectiles has 7 clips.
         ProjectileTexture* proj_ptr = new ProjectileTexture(7,name,renderer);
-        proj_ptr->ClipMod = 20;
+        proj_ptr->ClipMod = 60;
         proj_ptr->isMultiDimTexture = true;
         this->base_texture = proj_ptr;
-        //NOTE: Holy shit for future development. These Projectile pointers have to be made NULL before delete is called on them.
-        proj_ptr=NULL;
-        delete(proj_ptr);
     }
 return true;
 }
